@@ -1,0 +1,11 @@
+{
+	"amazon": {
+        "raw_file": "/Users/meghdad/Code/data/amazon_reviews_us_Camera_v1_00.tsv",
+        "preped_file": "/Users/meghdad/Code/snlp/tmp-amazon/amazon_reviews_tok_clean.tsv",
+        "mwe_rep_file": "/Users/meghdad/Code/snlp/tmp-amazon//amazon_review_tok_clean_repl.tsv",
+        "text_column": "review_body", 
+        "count_dir":"/Users/meghdad/Code/snlp/tmp-amazon/", 
+        "test_test_dir": "/Users/meghdad/Code/snlp/tmp-amazon/",
+        "analysis_dir": "/Users/meghdad/Code/snlp/tmp-amazon/analysis-report/"
+	}
+}

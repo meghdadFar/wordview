@@ -1,0 +1,6 @@
+{
+	"imdb": {
+        "out_dir": "/Users/meghdad/Code/snlp/tmp/",
+        "filtering_method": "automatic"
+	}
+}

@@ -1,0 +1,1 @@
+from wordview.text_analysis.core_text_analysis import do_analysis
