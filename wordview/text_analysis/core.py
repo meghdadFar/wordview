@@ -384,26 +384,19 @@ def label_plot(df: pandas.DataFrame, label_col: str, label_type: str) -> plotly.
     return trace
 
 
-def do_analysis(
+def do_txt_analysis(
     df: pandas.DataFrame,
-    out_dir: str,
     text_col: str,
-    label_cols: List = [],
     language: str = "english",
     skip_stopwords_punc: bool = True,
-    save_report: bool = False,
 ) -> None:
     """Generate analysis report and eitherr renders the report via Plotly show api or saves it offline to html.
 
     Args:
         df (pandas.DataFrame): DataFrame that contains text and labels.
-        out_dir (str): Dir where the report is saved. Required only when save_report option is True.
         text_col (str): Name of the column that contains a tokenized text content.
-        label_cols (list): list of tuples in the form of [('label_1', 'categorical/numerical'),
-                           ('label_2', 'categorical/numerical'), ...]
         language (str): Language of the text in df[text_col]
         skip_stopwords_punc (bool): Whether or not skip stopwords and punctuations in the analysis. Default: True
-        save_report (bool): Whether or not save the report as an html file. Default: False
 
     Returns:
         None
@@ -443,9 +436,6 @@ def do_analysis(
             if pt[1].startswith(goal_pos):
                 res.append(pt[0])
         return res
-
-    if len(label_cols) > 4:
-        raise ValueError("Maximum of 4 labels can be specified for analysis.")
 
     stop_words = set(stopwords.words(language))
     punctuations = set(string.punctuation)
@@ -502,21 +492,8 @@ def do_analysis(
     x = np.log(freq_df["position"].values)
     y_emperical = np.log(freq_df['count'])
     y_theoritical = np.log(freq_df['predicted_proportion'] * n_tokens)
-
-
-    # fig_main = create_adjust_subplots(label_cols)
-    # logger.info("Generating distplots and word cloud for input text")
-    # generate_text_plots(fig_main, doc_lengths, word_frequencies, NNs, JJs, Vs)
-    # logger.info("Generating plots for labels")
-    # generate_label_plots(fig_main, df, label_cols)
-    # logger.info("Rendering plots")
-    # fig_main.update_layout(height=3100, showlegend=False)
-    # if save_report:
-    #     plotly.offline.plot(fig_main, filename=os.path.join(out_dir, "report.html"))
-    # else:
-    #     fig_main.show()
     
-    return TextAnalysisResult(doc_lengths=doc_lengths,
+    return TxtAnalysisFields(doc_lengths=doc_lengths,
                             zipf_x=x,
                             zipf_y_emp=y_emperical,
                             zipf_y_theory=y_theoritical,
@@ -530,7 +507,7 @@ def do_analysis(
                             vs=Vs)
 
 
-class TextAnalysisResult():
+class TxtAnalysisFields():
    def __init__(self, doc_lengths, zipf_x, zipf_y_emp, zipf_y_theory, languages, type_count, token_count, doc_count, median_doc_len, nns, jjs, vs):
         self.doc_lengths = doc_lengths
         self.zipf_x = zipf_x
