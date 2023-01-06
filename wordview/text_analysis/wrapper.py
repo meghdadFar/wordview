@@ -89,13 +89,13 @@ class TextStatsPlots:
     
     def show_stats(self):
         table  = tabulate([['Language/s', ", ".join(self.languages)],
-                           ['Unique Words', self.type_count],
-                           ['All Words', self.token_count],
-                           ['Documents', self.num_docs],
+                           ['Unique Words', f'{self.type_count:,d}'],
+                           ['All Words', f'{self.token_count:,d}'],
+                           ['Documents', f'{self.num_docs:,d}'],
                            ['Median Doc Length', self.median_doc_len],
-                           ['Nouns', self.num_nns],
-                           ['Adjectives', self.num_jjs],
-                           ['Verbs', self.num_vbs],
+                           ['Nouns', f'{self.num_nns:,d}'],
+                           ['Adjectives', f'{self.num_jjs:,d}'],
+                           ['Verbs', f'{self.num_vbs:,d}'],
                            ], tablefmt="simple_grid")
         print(table)
 
