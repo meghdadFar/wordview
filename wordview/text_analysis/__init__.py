@@ -1,1 +1,1 @@
-from wordview.text_analysis.wrapper import TextStatsPlots
+from wordview.text_analysis.wrapper import TextStatsPlots, LabelStatsPlots

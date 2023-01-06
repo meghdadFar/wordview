@@ -316,31 +316,32 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
     """
     
     if len(label_cols) == 1:
-        figure = make_subplots(rows=1, cols=1,subplot_titles=("Plot 1"))
+        # with titles
+        # figure = make_subplots(rows=1, cols=1,subplot_titles=("Plot 1"))
+        # w/o titles
+        figure = make_subplots(rows=1, cols=1)
         lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
         figure.append_trace(lab_trace1, 1, 1)
         figure.update_yaxes(title_text="Count", row=2, col=2)
     elif len(label_cols) == 2:
-        figure = make_subplots(rows=1, cols=2,subplot_titles=("Plot 1", "Plot 2"))
+        # with titles
+        # figure = make_subplots(rows=1, cols=2,subplot_titles=("Plot 1", "Plot 2"))
+        # w/o titles
+        figure = make_subplots(rows=1, cols=2)
         lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
         lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
-        # figure.update_yaxes(title_text="Count", row=2, col=2)
-        # figure.update_yaxes(title_text="Count", row=4, col=2)
     elif len(label_cols) == 3:
-        figure = make_subplots(rows=1, cols=3,subplot_titles=("Plot 1", "Plot 2", "Plot 3"))
+        figure = make_subplots(rows=1, cols=3)
         lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
         lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
         lab_trace3 = label_plot(df, label_col=label_cols[2][0], label_type=label_cols[2][1])
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 1, 3)
-        # figure.update_yaxes(title_text="Count", row=2, col=2)
-        # figure.update_yaxes(title_text="Count", row=4, col=2)
-        # figure.update_yaxes(title_text="Count", row=6, col=2)
     elif len(label_cols) == 4:
-        figure = make_subplots(rows=2, cols=2,subplot_titles=("Plot 1", "Plot 2", "Plot 3", "Plot 4"))
+        figure = make_subplots(rows=2, cols=2)
         lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
         lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
         lab_trace3 = label_plot(df, label_col=label_cols[2][0], label_type=label_cols[2][1])
@@ -349,10 +350,6 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 2, 1)
         figure.append_trace(lab_trace4, 2, 2)
-        # figure.update_yaxes(title_text="Count", row=2, col=2)
-        # figure.update_yaxes(title_text="Count", row=4, col=2)
-        # figure.update_yaxes(title_text="Count", row=6, col=2)
-        # figure.update_yaxes(title_text="Count", row=8, col=2)
     return figure
 
 
@@ -378,7 +375,9 @@ def label_plot(df: pandas.DataFrame, label_col: str, label_type: str) -> plotly.
             y.append(counts[v])
         trace = go.Bar(x=x, y=y, name=label_col)
     elif label_type == "numerical":
-        trace = go.Histogram(x=df[label_col], name=label_col)
+        trace = go.Histogram(x=df[label_col],
+                             name=label_col,
+                             marker=dict(line=dict(width=0.5,color="white")))
     else:
         raise ValueError('label_col input argument must be set to either "categorical" or "numerical".')
     return trace

@@ -1,5 +1,5 @@
-from typing import Set
-from wordview.text_analysis.core import do_txt_analysis, plotly_wordcloud
+from typing import Set, List, Tuple
+from wordview.text_analysis.core import do_txt_analysis, plotly_wordcloud, generate_label_plots
 import pandas
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
@@ -124,3 +124,16 @@ class TextStatsPlots:
     def show_insights():
         "show topics, MWEs, clusters,"
         raise NotImplementedError
+
+
+class LabelStatsPlots:
+    def __init__(self,
+        df: pandas.DataFrame,
+        label_columns: List[Tuple],
+        ) -> None:
+        self.df = df
+        self.labels_fig = generate_label_plots(self.df, label_cols=label_columns)
+
+    def show_label_plots(self):
+        self.labels_fig.show()
+        
