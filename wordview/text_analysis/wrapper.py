@@ -3,6 +3,7 @@ from wordview.text_analysis.core import do_txt_analysis, plotly_wordcloud
 import pandas
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
+from tabulate import tabulate
 
 
 class TextStatsPlots:
@@ -13,8 +14,7 @@ class TextStatsPlots:
         pos_tags: Set=['NN', 'VB', 'JJ']
         ) -> None:
         self.df = df
-        self.analysis = do_txt_analysis(df=self.df,
-                               text_col=text_column)
+        self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
         self.distributions = distributions
         self.dist_plots = self.create_dist_plots()
         self.pos_tags = pos_tags
@@ -73,3 +73,33 @@ class TextStatsPlots:
             fig.update_layout(word_cloud_setup)
         
         return res
+
+    def show_distplot(self, plot: str):
+        self.dist_plots[plot].show()
+    
+    def show_word_clouds(self, type: str):
+        if type == 'all':
+            raise ValueError('Type "all" is not supported. Consider changing it to: NN, JJ, or VB.')
+        if type == 'NN':
+            self.pos_plots['noun_cloud'].show()
+        if type == 'JJ':
+            self.pos_plots['adj_cloud'].show()
+        if type == 'VB':
+            self.pos_plots['verb_cloud'].show()
+    
+    def show_stats(self):
+        table  = tabulate([['Language/s', ", ".join(self.languages)],
+                           ['Unique Words', self.type_count],
+                           ['All Words', self.token_count],
+                           ['Documents', self.num_docs],
+                           ['Median Doc Length', self.median_doc_len],
+                           ['Nouns', self.num_nns],
+                           ['Adjectives', self.num_jjs],
+                           ['Verbs', self.num_vbs],
+                           ], tablefmt="simple_grid")
+        print(table)
+
+    
+    def show_insights():
+        "show topics, MWEs, clusters,"
+        raise NotImplementedError
