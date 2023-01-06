@@ -30,9 +30,6 @@ class TextStatsPlots:
 
     def create_dist_plots(self):
         """Creates distribution plots for items in `self.distributions`."""
-        dist_plot_setup = {
-                    'paper_bgcolor': '#007A78',
-                    }
         res = {}
         if 'doc_len' in self.distributions:
             fig_doc_len_dist = ff.create_distplot([self.analysis.doc_lengths], group_labels=["distplot"], colors=["blue"])
@@ -40,18 +37,42 @@ class TextStatsPlots:
 
         if 'word_frequency_zipf' in self.distributions:
             fig_w_freq = go.Figure()
-            fig_w_freq.add_trace(go.Scattergl(x=self.analysis.zipf_x, y=self.analysis.zipf_y_emp, mode='markers'))
-            fig_w_freq.add_trace(go.Scattergl(x=self.analysis.zipf_x, y=self.analysis.zipf_y_theory, mode='markers'))
+            # Alternative nice color scales that go together:
+            # Plotly3 
+            # icr
+            fig_w_freq.add_trace(go.Scattergl(x=self.analysis.zipf_x,
+                                                        y=self.analysis.zipf_y_emp,
+                                                        mode='markers',
+                                                        marker=dict(
+                                                                color=self.analysis.zipf_x,
+                                                                colorscale='Tealgrn',
+                                                                )
+                                                        )
+                                            )
+            fig_w_freq.add_trace(go.Scattergl(x=self.analysis.zipf_x,
+                                            y=self.analysis.zipf_y_theory,
+                                            mode='markers',
+                                            marker=dict(color=self.analysis.zipf_x,
+                                                        colorscale='Reds'
+                                                        )
+                                            )
+                                )
+
             res['word_frequency_zipf'] = fig_w_freq
         
+        dist_plot_setup = {
+            # 'paper_bgcolor': '#007A78',
+            'showlegend' : False
+            }
         for _, fig in res.items():
             fig.update_layout(dist_plot_setup)
 
         return res
 
     def create_pos_plots(self):
-        word_cloud_setup = {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-                            'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        word_cloud_setup = {#'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+                            #'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+                            'showlegend' : False,
                             'xaxis_showgrid':False,
                             'yaxis_showgrid':False,
                             'xaxis_zeroline':False,
