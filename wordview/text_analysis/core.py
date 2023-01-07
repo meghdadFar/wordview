@@ -19,7 +19,7 @@ from nltk.corpus import stopwords
 from plotly.subplots import make_subplots
 
 here = os.path.dirname(os.path.abspath(__file__))
-ftmodel = fasttext.load_model(os.path.join(here, 'lid.176.ftz'))
+ftmodel = fasttext.load_model(os.path.join(here, "lid.176.ftz"))
 
 
 def plotly_wordcloud(token_count_dic: dict) -> plotly.graph_objects.Scattergl:
@@ -57,8 +57,10 @@ def plotly_wordcloud(token_count_dic: dict) -> plotly.graph_objects.Scattergl:
     # get the relative occurrence frequencies
     new_freq_list = []
     for i in rel_freq_list:
-        i_tmp = round(i*100, 4)
-        i_tmp = i_tmp if i_tmp > 1 else 1 # Plotly textfont.size in go.Scatter throws exception for values below 1.
+        i_tmp = round(i * 100, 4)
+        i_tmp = (
+            i_tmp if i_tmp > 1 else 1
+        )  # Plotly textfont.size in go.Scatter throws exception for values below 1.
         new_freq_list.append(i_tmp)
     try:
         trace = go.Scattergl(
@@ -72,8 +74,10 @@ def plotly_wordcloud(token_count_dic: dict) -> plotly.graph_objects.Scattergl:
         )
         return trace
     except Exception as E:
-        logger.error(f'While creating the word cloud, plotly.go returned the following error \
-         \n{E}\nfor relative frequencies: {rel_freq_list}\nthat were mapped to {new_freq_list}')
+        logger.error(
+            f"While creating the word cloud, plotly.go returned the following error \
+         \n{E}\nfor relative frequencies: {rel_freq_list}\nthat were mapped to {new_freq_list}"
+        )
 
 
 def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
@@ -88,13 +92,15 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
     Returns:
         None
     """
-    
+
     if len(label_cols) == 1:
         # with titles
         # figure = make_subplots(rows=1, cols=1,subplot_titles=("Plot 1"))
         # w/o titles
         figure = make_subplots(rows=1, cols=1)
-        lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
+        lab_trace1 = label_plot(
+            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+        )
         figure.append_trace(lab_trace1, 1, 1)
         figure.update_yaxes(title_text="Count", row=2, col=2)
     elif len(label_cols) == 2:
@@ -102,24 +108,42 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
         # figure = make_subplots(rows=1, cols=2,subplot_titles=("Plot 1", "Plot 2"))
         # w/o titles
         figure = make_subplots(rows=1, cols=2)
-        lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
-        lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
+        lab_trace1 = label_plot(
+            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+        )
+        lab_trace2 = label_plot(
+            df, label_col=label_cols[1][0], label_type=label_cols[1][1]
+        )
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
     elif len(label_cols) == 3:
         figure = make_subplots(rows=1, cols=3)
-        lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
-        lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
-        lab_trace3 = label_plot(df, label_col=label_cols[2][0], label_type=label_cols[2][1])
+        lab_trace1 = label_plot(
+            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+        )
+        lab_trace2 = label_plot(
+            df, label_col=label_cols[1][0], label_type=label_cols[1][1]
+        )
+        lab_trace3 = label_plot(
+            df, label_col=label_cols[2][0], label_type=label_cols[2][1]
+        )
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 1, 3)
     elif len(label_cols) == 4:
         figure = make_subplots(rows=2, cols=2)
-        lab_trace1 = label_plot(df, label_col=label_cols[0][0], label_type=label_cols[0][1])
-        lab_trace2 = label_plot(df, label_col=label_cols[1][0], label_type=label_cols[1][1])
-        lab_trace3 = label_plot(df, label_col=label_cols[2][0], label_type=label_cols[2][1])
-        lab_trace4 = label_plot(df, label_col=label_cols[3][0], label_type=label_cols[3][1])
+        lab_trace1 = label_plot(
+            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+        )
+        lab_trace2 = label_plot(
+            df, label_col=label_cols[1][0], label_type=label_cols[1][1]
+        )
+        lab_trace3 = label_plot(
+            df, label_col=label_cols[2][0], label_type=label_cols[2][1]
+        )
+        lab_trace4 = label_plot(
+            df, label_col=label_cols[3][0], label_type=label_cols[3][1]
+        )
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 2, 1)
@@ -127,7 +151,9 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
     return figure
 
 
-def label_plot(df: pandas.DataFrame, label_col: str, label_type: str) -> plotly.graph_objects.Histogram:
+def label_plot(
+    df: pandas.DataFrame, label_col: str, label_type: str
+) -> plotly.graph_objects.Histogram:
     """Create a plot for label_col in df, wrt to label_type.
 
     Args:
@@ -149,11 +175,15 @@ def label_plot(df: pandas.DataFrame, label_col: str, label_type: str) -> plotly.
             y.append(counts[v])
         trace = go.Bar(x=x, y=y, name=label_col)
     elif label_type == "numerical":
-        trace = go.Histogram(x=df[label_col],
-                             name=label_col,
-                             marker=dict(line=dict(width=0.5,color="white")))
+        trace = go.Histogram(
+            x=df[label_col],
+            name=label_col,
+            marker=dict(line=dict(width=0.5, color="white")),
+        )
     else:
-        raise ValueError('label_col input argument must be set to either "categorical" or "numerical".')
+        raise ValueError(
+            'label_col input argument must be set to either "categorical" or "numerical".'
+        )
     return trace
 
 
@@ -222,17 +252,21 @@ def do_txt_analysis(
 
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
     for text in tqdm(df[text_col]):
-        ls = ftmodel.predict(text)[0][0].replace('__label__', '').upper()
+        ls = ftmodel.predict(text)[0][0].replace("__label__", "").upper()
         languages.update([ls])
         try:
             tokens = text.lower().split(" ")
             doc_lengths.append(len(tokens))
             if skip_stopwords_punc:
-                tokens = [t for t in tokens if t not in stop_words and t not in punctuations]
+                tokens = [
+                    t for t in tokens if t not in stop_words and t not in punctuations
+                ]
                 update_count(token_to_count, tokens)
 
         except Exception as e:
-            logger.warning("Processing entry --- %s --- lead to exception: %s" % (text, e.args[0]))
+            logger.warning(
+                "Processing entry --- %s --- lead to exception: %s" % (text, e.args[0])
+            )
             continue
 
         postag_tokens = nltk.pos_tag(tokens)
@@ -242,46 +276,66 @@ def do_txt_analysis(
         update_count(Vs, verbs)
         adjectives = get_pos(postag_tokens, "JJ")
         update_count(JJs, adjectives)
-    
-    freq_df = pd.DataFrame({'tokens': token_to_count.keys(), 'count':token_to_count.values()})
-    freq_df['proportion'] = freq_df['count']/freq_df['count'].sum()
+
+    freq_df = pd.DataFrame(
+        {"tokens": token_to_count.keys(), "count": token_to_count.values()}
+    )
+    freq_df["proportion"] = freq_df["count"] / freq_df["count"].sum()
     vocab_size = freq_df.shape[0]
-    n_tokens = freq_df['count'].sum()
+    n_tokens = freq_df["count"].sum()
     s = 1
-    denom = np.sum(1/(np.arange(1, n_tokens+1)**s))
+    denom = np.sum(1 / (np.arange(1, n_tokens + 1) ** s))
 
     def classic_zipf(k, s=s, denom=denom):
-        num = 1/k**s
-        res = num/denom
-        return res 
+        num = 1 / k**s
+        res = num / denom
+        return res
 
     logger.info("Calculating Empirical and Theoretical Zipf values...")
-    freq_df["position"] = freq_df.index+1
+    freq_df["position"] = freq_df.index + 1
     start = time.time()
-    freq_df['predicted_proportion'] = freq_df["position"].apply(classic_zipf)
+    freq_df["predicted_proportion"] = freq_df["position"].apply(classic_zipf)
     end = time.time()
-    logger.info(f'Time to measure predicted proportion for {freq_df.shape[0]} rows: {end - start}')
+    logger.info(
+        f"Time to measure predicted proportion for {freq_df.shape[0]} rows: {end - start}"
+    )
 
     x = np.log(freq_df["position"].values)
-    y_emperical = np.log(freq_df['count'])
-    y_theoritical = np.log(freq_df['predicted_proportion'] * n_tokens)
-    
-    return TxtAnalysisFields(doc_lengths=doc_lengths,
-                            zipf_x=x,
-                            zipf_y_emp=y_emperical,
-                            zipf_y_theory=y_theoritical,
-                            languages=languages,
-                            type_count=vocab_size,
-                            token_count=n_tokens,
-                            doc_count=len(doc_lengths),
-                            median_doc_len=median(doc_lengths),
-                            nns=NNs,
-                            jjs=JJs,
-                            vs=Vs)
+    y_emperical = np.log(freq_df["count"])
+    y_theoritical = np.log(freq_df["predicted_proportion"] * n_tokens)
+
+    return TxtAnalysisFields(
+        doc_lengths=doc_lengths,
+        zipf_x=x,
+        zipf_y_emp=y_emperical,
+        zipf_y_theory=y_theoritical,
+        languages=languages,
+        type_count=vocab_size,
+        token_count=n_tokens,
+        doc_count=len(doc_lengths),
+        median_doc_len=median(doc_lengths),
+        nns=NNs,
+        jjs=JJs,
+        vs=Vs,
+    )
 
 
-class TxtAnalysisFields():
-   def __init__(self, doc_lengths, zipf_x, zipf_y_emp, zipf_y_theory, languages, type_count, token_count, doc_count, median_doc_len, nns, jjs, vs):
+class TxtAnalysisFields:
+    def __init__(
+        self,
+        doc_lengths,
+        zipf_x,
+        zipf_y_emp,
+        zipf_y_theory,
+        languages,
+        type_count,
+        token_count,
+        doc_count,
+        median_doc_len,
+        nns,
+        jjs,
+        vs,
+    ):
         self.doc_lengths = doc_lengths
         self.zipf_x = zipf_x
         self.zipf_y_emp = zipf_y_emp
@@ -289,7 +343,7 @@ class TxtAnalysisFields():
         self.languages = languages
         self.type_count = type_count
         self.token_count = token_count
-        self.doc_count = doc_count 
+        self.doc_count = doc_count
         self.median_doc_len = median_doc_len
         self.nns = nns
         self.jjs = jjs
