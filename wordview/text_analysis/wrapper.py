@@ -46,7 +46,7 @@ class TextStatsPlots:
             fig_w_freq = go.Figure()
             # Alternative nice color scales that go together:
             # Plotly3
-            # icr
+            # ice
             fig_w_freq.add_trace(
                 go.Scattergl(
                     x=self.analysis.zipf_x,
