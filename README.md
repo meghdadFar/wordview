@@ -89,11 +89,16 @@ ta.show_distplot(plot='word_frequency_zipf')
 
 You can moreover, see different part of speech tags in corresponding word clouds: 
 ```python
+# To see verbs
 ta.show_word_clouds(type="VB")
+# To see nouns
 ta.show_word_clouds(type="NN")
-ta.show_word_clouds(type="VB")
-
+# To see adjectives
+ta.show_word_clouds(type="JJ")
 ```
+![annotation1](/figs/verbs.png)
+![annotation1](/figs/nouns.png)
+![annotation1](/figs/adjectives.png)
 
 ## **Extraction of Multiword Expressions**
 
