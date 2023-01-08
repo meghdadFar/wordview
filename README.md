@@ -29,7 +29,7 @@ Install the package:
 
 `pip install wordview`
 
-Let's load a test dataset.
+To demo different functionalities, let's first load a test dataset.
 
 ```python
 import pandas as pd
@@ -47,26 +47,53 @@ imdb_train.head()
 
 ## **Text Analysis**
 
+To analyze the text, you can use `TextStatsPlots` class. 
 
 ```python
-import numpy as np
-import random
-from wordview.text_analysis import do_analysis
+from wordview.text_analysis import TextStatsPlots
+ta = TextStatsPlots(df=imdb_train, text_column='text')
+```
+Use the `show_stats` method to see an overview of different statistics.
 
+```python
+ta.show_stats()
+┌───────────────────┬─────────┐
+│ Language/s        │ EN      │
+├───────────────────┼─────────┤
+│ Unique Words      │ 48,791  │
+├───────────────────┼─────────┤
+│ All Words         │ 666,898 │
+├───────────────────┼─────────┤
+│ Documents         │ 5,000   │
+├───────────────────┼─────────┤
+│ Median Doc Length │ 211.0   │
+├───────────────────┼─────────┤
+│ Nouns             │ 28,482  │
+├───────────────────┼─────────┤
+│ Adjectives        │ 19,519  │
+├───────────────────┼─────────┤
+│ Verbs             │ 15,241  │
+└───────────────────┴─────────┘
+```
+You can also look into different distributions using `show_distplot` method.
+For instance, the distribution of document lengths:
+```python
+ta.show_distplot(plot='doc_len')
+```
+![annotation1](/figs/doclen.png)
+Or, the distribution of words:
+```python
+ta.show_distplot(plot='word_frequency_zipf')
+```
+![annotation1](/figs/wordszipf.png)
+
+You can moreover, see different part of speech tags in corresponding word clouds: 
+```python
+ta.show_word_clouds(type="VB")
+ta.show_word_clouds(type="NN")
+ta.show_word_clouds(type="VB")
 
 ```
-
-The above yields a report in HTML, with interactive `plotly` plots as can be seen in example screenshots below. 
-
-![annotation1](/figs/annotation1.png)
-
- You can easily zoom in any part of the plot to a have a closer look:
-
-![zoom](/figs/zoom.png)
-
-You can get word clouds for different part of speech tags, as can be seen in the below example where word clouds for nouns, adjectives and verbs are rendered:
-
-![wc](/figs/wc.png)
 
 ## **Extraction of Multiword Expressions**
 
