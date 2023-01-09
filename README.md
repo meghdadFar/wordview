@@ -102,18 +102,15 @@ ta.show_word_clouds(type="JJ")
 
 ## **Extraction of Multiword Expressions**
 
-Multiword Expressions (also known as collocations of fixed expressions) are phrases that function as a single semantic unit E.g. *swimming pool* and *climate change*. Multiword Expressions have application in a wide range of NLP tasks ranging from sentiment analysis to topic models and key-phrase extraction. 
-
-You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. To do so, first create an instance of `MWE` class:
-
+Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. To do so, first create an instance of `MWE` class:
 
 ```python
 from wordview.mwes import MWE
-my_mwe_types = ["NC", "JNC"]
-mwe = MWE(df=imdb_train, mwe_types=my_mwe_types, text_column='text')
+mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column='text')
 ```
+Then run `build_count()` method. Since creating counts is a time consuming procedure, it's implemented independently from `extract_mwes()` (method that works on top of the output of `build_count()`), so that you can explore different types of AMs that can be specified as .
 
-If the text in `text_column` is un-tokenized or poorly tokenized, `MWE` recognizes this issue at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`. Next you need to run the method `build_count()`. Since creating counts is a time consuming procedure, it was implemented independently from `extract_mwes()` method that works on top of the output of `build_count()`. This way, you can get the counts which is a time consuming process once, and then run `extract_mwes()` several times with different parameters.
+**Note** If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`.
 
 ```python
 mwe.build_counts()
