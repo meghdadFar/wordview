@@ -19,30 +19,36 @@ class MWE(object):
         output_dir: str = "tmp",
         tokenize=False,
     ) -> None:
-        """Provide functionalities around MWEs, for unsupervised extraction of MWEs from text and replacing
-        them in the corpus.
+        """Provide functionalities for unsupervised extraction of MWEs through association measures.
 
         Args:
             df: DataFrame with a text_column that contains the corpus.
-            text_col: Specifies the column of DataFrame that contains the corpus. 'text_column' must contain tokenized text.
-            mwe_types: Types of MWEs. Can be a list containing any of ['NC', 'JNC'].
-            output_dir: Output directory where counts, MWEs and corpus with replaced MWEs are stored.
+            text_column: Specifies the column of DataFrame where text data resides.
+            mwe_types: Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
+            output_dir: Output directory where counts and MWEs are stored.
             count_dir: Directory where count_file is sotred.
             count_file: File in which counts are sotred.
             mwe_dir: Directory where mwe_file is sotred.
             mwe_file: File in which MWEs are sotred.
-            tokenize: Tokenize the content of 'text_column'.
+            tokenize: Tokenize the content of `text_column`.
+            #TODO
+            Remove all dir stuff and replace them with the following params:
+            When `build_counts()` receives an input arg filename, it stores the counts.
+            When `extract_mwes()` receives an input arg: count filename, it reads the counts there, 
+            otherwise it runs `build_counts()`. When `extract_mwes()` receives a MWE filename argument,
+            it stores MWEs there as json. Otherwise, it returns the corresponding dictionary. 
+
+
 
         Returns:
             None
         """
         self.df = df
-        self.text_col = text_column
+        self.text_column = text_column
         for mt in mwe_types:
             if mt not in ["NC", "JNC"]:
                 raise ValueError(f"{mt} type is not recognized.")
         self.mwe_types = mwe_types
-
         self.output_dir = output_dir
         self.count_dir = os.path.join(self.output_dir, "counts")
         self.count_file = os.path.join(self.count_dir, "count_data.json")
@@ -63,7 +69,7 @@ class MWE(object):
         """Helper function to tokenize and join the results with a space.
 
         Args:
-            None
+            x:
 
         Returns:
             None
@@ -79,10 +85,10 @@ class MWE(object):
         Returns:
             None
         """
-        if self.df[self.text_col].shape[0] > 200:
-            tests = self.df[self.text_col].sample(n=200).tolist()
+        if self.df[self.text_column].shape[0] > 200:
+            tests = self.df[self.text_column].sample(n=200).tolist()
         else:
-            tests = self.df[self.text_col].sample(frac=0.8).tolist()
+            tests = self.df[self.text_column].sample(frac=0.8).tolist()
         num_pass = 0
         for t in tests:
             try:
@@ -93,7 +99,7 @@ class MWE(object):
 
         if float(num_pass) / float(len(tests)) < 0.8:
             logger.warning(
-                f"It seems that the content of {self.text_col} in the input data frame is not (fully) tokenized.\nThis can lead to poor results. Consider re-instantiating your MWE instance with 'tokenize' flag set to True.\nNote that this might lead to a slower instantiation."
+                f"It seems that the content of {self.text_column} in the input data frame is not (fully) tokenized.\nThis can lead to poor results. Consider re-instantiating your MWE instance with 'tokenize' flag set to True.\nNote that this might lead to a slower instantiation."
             )
 
     def build_counts(self, file_name: str = None) -> None:
@@ -108,7 +114,7 @@ class MWE(object):
         """
         logger.info("Creating counts...")
         res = get_counts(
-            df=self.df, text_column=self.text_col, mwe_types=self.mwe_types
+            df=self.df, text_column=self.text_column, mwe_types=self.mwe_types
         )
         # Directory
         try:
