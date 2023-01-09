@@ -108,7 +108,7 @@ Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E
 from wordview.mwes import MWE
 mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column='text')
 ```
-Then run `build_count()` method. Since creating counts is a time consuming procedure, it's implemented independently from `extract_mwes()` (method that works on top of the output of `build_count()`), so that you can explore different types of AMs that can be specified as .
+Then run `build_count()` method. Since creating counts is a time consuming procedure, it's implemented independently from `extract_mwes()` (method that works on top of the output of `build_count()`), so that you can explore different types of AMs that can be specified as a parameter of `extract_mwes()`.
 
 **Note** If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`.
 
