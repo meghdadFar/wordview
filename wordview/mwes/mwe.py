@@ -48,11 +48,13 @@ class MWE(object):
         self.count_file = os.path.join(self.count_dir, "count_data.json")
         self.mwe_dir = os.path.join(self.output_dir, "mwes")
         self.mwe_file = os.path.join(self.mwe_dir, "mwe_data.json")
-        
+
         Path(self.output_dir).mkdir(exist_ok=True)
 
         if tokenize:
-            logger.info('"tokenize" flag set to True. This might lead to a slow instantiation.')
+            logger.info(
+                '"tokenize" flag set to True. This might lead to a slow instantiation.'
+            )
             self.df[text_column] = self.df[text_column].apply(self._tokenize)
         else:
             self._check_tokenized()
@@ -87,15 +89,15 @@ class MWE(object):
                 if " ".join(word_tokenize(t)) == t:
                     num_pass += 1
             except Exception as E:
-                logger.error(f'Could not tokenize and join tokens in {t}: \n {E} ')
+                logger.error(f"Could not tokenize and join tokens in {t}: \n {E} ")
 
         if float(num_pass) / float(len(tests)) < 0.8:
             logger.warning(
                 f"It seems that the content of {self.text_col} in the input data frame is not (fully) tokenized.\nThis can lead to poor results. Consider re-instantiating your MWE instance with 'tokenize' flag set to True.\nNote that this might lead to a slower instantiation."
             )
 
-    def build_counts(self, file_name: str=None) -> None:
-        """Create various count files to be used by downstream methods 
+    def build_counts(self, file_name: str = None) -> None:
+        """Create various count files to be used by downstream methods
         by calling snlp.mwes.counter.get_counts.
 
         Args:
@@ -105,7 +107,9 @@ class MWE(object):
             None
         """
         logger.info("Creating counts...")
-        res = get_counts(df=self.df, text_column=self.text_col, mwe_types=self.mwe_types)
+        res = get_counts(
+            df=self.df, text_column=self.text_col, mwe_types=self.mwe_types
+        )
         # Directory
         try:
             Path(self.count_dir).mkdir(exist_ok=True)
@@ -121,7 +125,7 @@ class MWE(object):
                 logger.error(e)
                 raise e
         else:
-            try:            
+            try:
                 with open(file_name, "w") as file:
                     json.dump(res, file)
             except Exception as e:
@@ -129,7 +133,7 @@ class MWE(object):
                 raise e
             self.count_file = file_name
 
-    def extract_mwes(self, am: str = "pmi", file_name: str=None) -> None:
+    def extract_mwes(self, am: str = "pmi", file_name: str = None) -> None:
         """
         Args:
             mwe_types: Types of MWEs. Can be any of [NC, JNC]
@@ -141,7 +145,9 @@ class MWE(object):
         with open(self.count_file, "r") as file:
             count_data = json.load(file)
         logger.info(f"Extracting {self.mwe_types} based on {am}")
-        mwe_am_dict = calculate_am(count_data=count_data, am=am, mwe_types=self.mwe_types)
+        mwe_am_dict = calculate_am(
+            count_data=count_data, am=am, mwe_types=self.mwe_types
+        )
         # Dir
         try:
             Path(self.mwe_dir).mkdir(exist_ok=True)
@@ -169,11 +175,16 @@ if __name__ == "__main__":
     import pandas as pd
     from wordview.mwes.mwe_utils import replace_mwes
 
-    imdb_train = pd.read_csv("data/imdb_train_sample.tsv", sep="\t", names=["label", "text"])
+    imdb_train = pd.read_csv(
+        "data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
+    )
     mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column="text", tokenize=True)
     mwe.build_counts()
     mwe.extract_mwes(am="npmi")
     new_df = replace_mwes(
-        path_to_mwes="tmp/mwes/mwe_data.json", mwe_types=["NC", "JNC"], df=imdb_train, text_column="text"
+        path_to_mwes="tmp/mwes/mwe_data.json",
+        mwe_types=["NC", "JNC"],
+        df=imdb_train,
+        text_column="text",
     )
     new_df.to_csv("tmp/new_df.csv", sep="\t")

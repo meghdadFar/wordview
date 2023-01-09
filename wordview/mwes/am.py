@@ -3,7 +3,11 @@ import math
 
 
 def calculate_pmi(
-    compound_dict: dict, word_dic: dict, num_compound: int, num_words: int, normalize: bool = False
+    compound_dict: dict,
+    word_dic: dict,
+    num_compound: int,
+    num_words: int,
+    normalize: bool = False,
 ) -> Dict[str, float]:
     """Calculate Pointwise Mutual Information between the two words of every word pair in nn_dict.
 
@@ -33,7 +37,9 @@ def calculate_pmi(
                 tmp_compound_dict[compound] = round(npmi, 2)
         else:
             tmp_compound_dict[compound] = 0.0
-    sorted_compound_dict = dict(sorted(tmp_compound_dict.items(), key=lambda e: e[1], reverse=True))
+    sorted_compound_dict = dict(
+        sorted(tmp_compound_dict.items(), key=lambda e: e[1], reverse=True)
+    )
     return sorted_compound_dict
 
 

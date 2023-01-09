@@ -40,9 +40,11 @@ def replace_mwes(
         raise e
     good_mwes = set()
     for t in mwe_types:
-        logger.info(f'Replacing MWEs of type {t} in the corpus.')
+        logger.info(f"Replacing MWEs of type {t} in the corpus.")
         if t not in mwe_type_mwe_am:
-            logger.error(f'MWEs of type {t} do not exist. Make sure the file containing MWEs in {path_to_mwes} includes type {t}')
+            logger.error(
+                f"MWEs of type {t} do not exist. Make sure the file containing MWEs in {path_to_mwes} includes type {t}"
+            )
             sys.exit(1)
         pmi_sorted_dict = mwe_type_mwe_am[t]
         logger.info(f"Number of all MWEs of type {t}: {len(pmi_sorted_dict)}")
@@ -51,7 +53,10 @@ def replace_mwes(
                 good_mwes.add(k)
             else:
                 break
-        logger.info("Number of MWEs to be replaced in corpus based on the association threshold: %d" % len(good_mwes))
+        logger.info(
+            "Number of MWEs to be replaced in corpus based on the association threshold: %d"
+            % len(good_mwes)
+        )
 
     logger.info("Replacing compounds in text")
     new_text = []
@@ -89,7 +94,9 @@ def get_ngrams(sentence: str, n: int) -> List:
         tokens = sentence.split(" ")
     except Exception as E:
         logger.error(E)
-        logger.error(f'Input "{sentence}" cannot be spilitted around space. No n-gram is extracted.')
+        logger.error(
+            f'Input "{sentence}" cannot be spilitted around space. No n-gram is extracted.'
+        )
         return ngrams
     for i in range(len(tokens) - n + 1):
         ngrams.append(" ".join(tokens[i : i + n]))
@@ -164,7 +171,9 @@ def extract_mwes_from_sent(tokens: List[str], mwe_type: str) -> Dict:
             continue
         else:
             w2 = postag_tokens[i + 1]
-            if not re.match("[a-zA-Z0-9]{2,}", w1[0]) or not re.match("[a-zA-Z0-9]{2,}", w2[0]):
+            if not re.match("[a-zA-Z0-9]{2,}", w1[0]) or not re.match(
+                "[a-zA-Z0-9]{2,}", w2[0]
+            ):
                 continue
             if w2[1] in w2_pos_tags:
                 if i + 2 < len(postag_tokens):
