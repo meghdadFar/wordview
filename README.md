@@ -145,14 +145,12 @@ facial expressions
 global warming
 ```
 
-An practical use of extracting MWEs is to treat them as a single unit. Research shows that when fixed expressions are treated as a single token, they can improve the performance of downstream applications such as classification and NER. Using the `replace_mwes` function, you can replace the extracted expressions in the corpus with their hyphenated version (global warming --> global-warming) so that they are considered a single token by downstream applications. A worked example can be seen below:
+A practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they can improve the performance of downstream applications such as classification and NER. Using `replace_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. A worked example can be seen below:
 
 ```python
-from wordview.mwes import replace_mwes
-new_df = replace_mwes(path_to_mwes='tmp/mwes/mwe_data.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
-new_df.to_csv('tmp/new_df.csv', sep='\t')
+from wordview.mwes import hyphenate_mwes
+new_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
 ```
-
 
 ## **Identification of Statistically Redundant Words**
 

@@ -9,7 +9,7 @@ import nltk
 from collections import Counter
 
 
-def replace_mwes(
+def hyphenate_mwes(
     path_to_mwes: str,
     mwe_types: List[str],
     df: pandas.DataFrame,
