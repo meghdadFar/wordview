@@ -149,7 +149,7 @@ A practical use of extracting MWEs is to treat them as a single unit. Research s
 
 ```python
 from wordview.mwes import hyphenate_mwes
-new_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
+mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
 ```
 
 ## **Identification of Statistically Redundant Words**
