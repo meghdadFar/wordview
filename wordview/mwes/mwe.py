@@ -14,7 +14,6 @@ class MWE(object):
         df: pandas.DataFrame,
         text_column: str,
         mwe_types: List[str] = ["NC"],
-        output_dir: str = "tmp",
         tokenize=False,
     ) -> None:
         """Provide functionalities for unsupervised extraction of MWEs through association measures.
