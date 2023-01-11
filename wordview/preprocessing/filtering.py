@@ -1,15 +1,14 @@
 import pandas as pd
 import plotly.express as px
 from scipy.stats import zscore
-from wordview import logger
 from wordview import gaussianize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from typing import Set, Dict
 
 
-class RedunWords(object):
+class RedunTerms(object):
     def __init__(self, documents, method="idf"):
-        """ "Class to identify and represent a set of redundant words.
+        """ Class to identify redundant terms.
 
         Args:
             documents: An iterable which yields str.
@@ -145,9 +144,6 @@ class RedunWords(object):
         """
         token_score_dict = self._get_scores()
         scores = [v for k, v in token_score_dict.items()]
-        # l = len(scores)
-        # print(l)
-        # print(scores[l-100:l])
         score_name = f"{self.method} scores"
         scores_df = pd.DataFrame(scores, columns=[score_name])
         fig = px.histogram(
@@ -155,52 +151,3 @@ class RedunWords(object):
         )
         fig.show()
 
-
-if __name__ == "__main__":
-    imdb_train = pd.read_csv(
-        "resources/data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
-    )
-    rw = RedunWords(imdb_train["text"])
-    rw.show_plot()
-    red_words = rw.get_redundant_terms()
-    print(red_words)
-
-
-# def filter_text(text, filter_set):
-#     """
-#     Args:
-#         text (list): tokenized text
-#         filterset (set): Set of filter words
-#     """
-#     if not isinstance(text, list):
-#         raise TypeError("Input must be a list.")
-#     if len(text) == 0:
-#         raise ValueError("Input must be a non empty list.")
-#     res = " ".join([t for t in text if t not in filter_set])
-#     return res
-
-
-# def save_filterset_tofile(filter_set, path):
-#     with open(path, "w") as f:
-#         for word in filter_set:
-#             f.write(word + "\n")
-#     f.close()
-
-
-# def create_filterset_map(p2_raw_train_df, output_dir, zs=[3]):
-#     original_df = pd.read_csv(p2_raw_train_df, sep="\t", names=["label", "text"])
-#     wf = RedunWords()
-#     z_map = {}
-#     for z in zs:
-#         filter_words = wf.get_redundant_terms(original_df.text, method="automatic", z=z)
-#         save_filterset_tofile(filter_words, os.path.join(output_dir, "z" + str(z) + "_filterset.txt"))
-#         z_map[z] = filter_words
-#     return z_map
-
-
-# def create_filterset(p2_raw_train_df, output_dir):
-#     original_df = pd.read_csv(p2_raw_train_df, sep="\t", names=["label", "text"])
-#     wf = RedunWords()
-#     filter_words = wf.get_redundant_terms(original_df.text, method="manual", z=None)
-#     save_filterset_tofile(filter_words, os.path.join(output_dir, "manual_filterset.txt"))
-#     return filter_words
