@@ -9,7 +9,7 @@ from typing import Set, Dict
 
 class RedunWords(object):
     def __init__(self, documents, method="idf"):
-        """"Class to identify and represent a set of redundant words.
+        """ "Class to identify and represent a set of redundant words.
 
         Args:
             documents: An iterable which yields str.
@@ -20,9 +20,9 @@ class RedunWords(object):
         """
         self.documents = documents
         self.method = method
-    
+
     def _get_scores(self) -> Dict:
-        """Helper method to generate statistical scores using the technique specified by self.method arg. 
+        """Helper method to generate statistical scores using the technique specified by self.method arg.
 
         Args:
             None
@@ -31,23 +31,30 @@ class RedunWords(object):
             token_score_dict: Dictionary of tokens to their score
         """
         token_score_dict = {}
-        if self.method == 'idf':
+        if self.method == "idf":
             vectorizer = TfidfVectorizer(min_df=1)
             X = vectorizer.fit_transform(self.documents)
             idf = vectorizer.idf_
             token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
         else:
-            raise ValueError(f'Currently, the only available method is idf but you have specified {self.method}')
+            raise ValueError(
+                f"Currently, the only available method is idf but you have specified {self.method}"
+            )
         return token_score_dict
 
-    def get_redundant_terms(self, z=3, manual=False, manual_thresholds: dict={'lower_threshold':-1, 'upper_threshold': -1}):
+    def get_redundant_terms(
+        self,
+        z=3,
+        manual=False,
+        manual_thresholds: dict = {"lower_threshold": -1, "upper_threshold": -1},
+    ):
         """Create a filter set by identifying words with anomalous statistics.
 
         Args:
             documents: An iterable which yields either str, unicode or file objects.
             manual: Whether or not select redundant words using manual thresholds.
             z: Words with a Z-score above this value are considered redundant. Default is 3.
-            l_idf: Lower cut-off threshold for IDF (inclusive). Used only when 
+            l_idf: Lower cut-off threshold for IDF (inclusive). Used only when
             u_idf: Upper cut-off threshold for IDF (inclusive).
 
         Returns:
@@ -55,16 +62,22 @@ class RedunWords(object):
         """
         token_score_dict = self._get_scores()
         if not manual:
-            redundant_word_set = self._redundant_terms_zscore(token_score_dict=token_score_dict, z_value=z)
+            redundant_word_set = self._redundant_terms_zscore(
+                token_score_dict=token_score_dict, z_value=z
+            )
         else:
-            redundant_word_set = self._redundant_terms(token_score_dict=token_score_dict,
-                                            lower_threshold=manual_thresholds['lower_threshold'],
-                                            upper_threshold=manual_thresholds['upper_threshold'])
+            redundant_word_set = self._redundant_terms(
+                token_score_dict=token_score_dict,
+                lower_threshold=manual_thresholds["lower_threshold"],
+                upper_threshold=manual_thresholds["upper_threshold"],
+            )
         return redundant_word_set
 
-    def _redundant_terms(self, token_score_dict, lower_threshold, upper_threshold) -> Set[str]:
-        """Identify redundant terms by looking at manual thresholds i.e. lower_threshold, upper_threshold. 
-        
+    def _redundant_terms(
+        self, token_score_dict, lower_threshold, upper_threshold
+    ) -> Set[str]:
+        """Identify redundant terms by looking at manual thresholds i.e. lower_threshold, upper_threshold.
+
         Args:
             token_metric_dict: Dictionary of tokens to their metric.
             lower_threshold: Lower cut-off threshold (inclusive).
@@ -78,13 +91,13 @@ class RedunWords(object):
         largest_idf = sl[len(sl) - 1][1]
         if lower_threshold < smallest_idf:
             raise ValueError(
-                f'Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
-                or consider switching the manual flag back to False.'
+                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
+                or consider switching the manual flag back to False."
             )
         if upper_threshold > largest_idf:
             raise ValueError(
-                f'Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
-                or consider switching the manual flag back to False.'
+                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
+                or consider switching the manual flag back to False."
             )
         redundant_terms = set()
         for i in range(len(sl)):
@@ -115,31 +128,38 @@ class RedunWords(object):
         idf_df["zscore"] = z
         redundant_terms = set()
         for i in range(len(idf_df)):
-            if idf_df.iloc[i]["zscore"] <= -z_value or idf_df.iloc[i]["zscore"] >= z_value:
+            if (
+                idf_df.iloc[i]["zscore"] <= -z_value
+                or idf_df.iloc[i]["zscore"] >= z_value
+            ):
                 redundant_terms.add(idf_df.iloc[i]["token"])
         return redundant_terms
 
     def show_plot(self) -> None:
-        """ Create a histogram for the scores to help identify the cut-off threshold.
+        """Create a histogram for the scores to help identify the cut-off threshold.
 
         Args:
-            scores: 
+            scores:
         Returns:
             None
         """
         token_score_dict = self._get_scores()
-        scores = [v for k,v in token_score_dict.items()]
+        scores = [v for k, v in token_score_dict.items()]
         # l = len(scores)
         # print(l)
         # print(scores[l-100:l])
-        score_name = f'{self.method} scores'
+        score_name = f"{self.method} scores"
         scores_df = pd.DataFrame(scores, columns=[score_name])
-        fig = px.histogram(scores_df, x=score_name, marginal='rug', color_discrete_sequence=['magenta'])
+        fig = px.histogram(
+            scores_df, x=score_name, marginal="rug", color_discrete_sequence=["magenta"]
+        )
         fig.show()
 
 
 if __name__ == "__main__":
-    imdb_train = pd.read_csv('resources/data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
+    imdb_train = pd.read_csv(
+        "resources/data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
+    )
     rw = RedunWords(imdb_train["text"])
     rw.show_plot()
     red_words = rw.get_redundant_terms()
@@ -158,7 +178,6 @@ if __name__ == "__main__":
 #         raise ValueError("Input must be a non empty list.")
 #     res = " ".join([t for t in text if t not in filter_set])
 #     return res
-
 
 
 # def save_filterset_tofile(filter_set, path):
