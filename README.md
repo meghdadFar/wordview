@@ -102,25 +102,32 @@ ta.show_word_clouds(type="JJ")
 
 ## **Extraction of Multiword Expressions**
 
-Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. To do so, first create an instance of `MWE` class:
+Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. See a worked example below.
 
 ```python
 from wordview.mwes import MWE
 mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column='text')
-```
-Then run `build_count()` method. Since creating counts is a time consuming procedure, it's implemented independently from `extract_mwes()` (method that works on top of the output of `build_count()`), so that you can explore different types of AMs that can be specified as a parameter of `extract_mwes()`.
 
-**Note** If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`.
+# Creating counts is a time consuming procedure
+# Hence, you can run it once and store the counts, by providing counts_filename argument.
+mwe.build_counts(counts_filename='tmp/counts.json')
 
-```python
-mwe.build_counts()
-mwe.extract_mwes()
-```
-
-Running the above results in a json file, containing dictionary of mwe types defined in the `mwe_types` argument of `MWE`, to their association score (specified by `am` argument of `extract_mwes()`). Note that the MWEs in this json file are sorted with respect to their `am` score. All MWEs and their counts are stored in respective directories inside the `output_dir` argument of `MWE`. The default value is `tmp`. 
+# One counts are created, extraction of MWEs is fast and can be carried out with different parameters
+# Use the optional `mwes_filename` parameter to store the extracted MWEs.
+mwe.extract_mwes(counts_filename='tmp/counts.json', mwes_filename='tmp/mwes.json')
 
 ```
-NOUN-NOUN COMPOUNDS
+
+
+**Notes**
+- If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`. 
+- `mwes.json` contains dictionary of mwe types e.g. (*NC, JNC*) and their association scores (e.g. *PMI*).
+- The MWEs in this json file are sorted with respect to their `am` score.
+
+Top 5 examples from imdb review corpus:
+
+```
+NOUN-NOUN COMPOUNDS (NC)
 -------------------
 jet li
 clint eastwood
@@ -129,7 +136,7 @@ kung fu
 blade runner
 
 
-ADJECTIVE-NOUN COMPOUNDS
+ADJECTIVE-NOUN COMPOUNDS (JNC)
 ------------------------
 spinal tap
 martial arts
@@ -138,14 +145,12 @@ facial expressions
 global warming
 ```
 
-An important use of extracting MWEs is to treat them as a single token. Research shows that when fixed expressions are treated as a single token rather than the sum of their components, they can improve the performance of downstream applications such as classification and NER. Using the `replace_mwes` function, you can replace the extracted expressions in the corpus with their hyphenated version (global warming --> global-warming) so that they are considered a single token by downstream applications. A worked example can be seen below:
+A practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they can improve the performance of downstream applications such as classification and NER. Using `replace_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. A worked example can be seen below:
 
 ```python
-from wordview.mwes import replace_mwes
-new_df = replace_mwes(path_to_mwes='tmp/mwes/mwe_data.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
-new_df.to_csv('tmp/new_df.csv', sep='\t')
+from wordview.mwes import hyphenate_mwes
+mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
 ```
-
 
 ## **Identification of Statistically Redundant Words**
 

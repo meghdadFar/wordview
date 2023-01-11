@@ -14,7 +14,6 @@ class MWE(object):
         df: pandas.DataFrame,
         text_column: str,
         mwe_types: List[str] = ["NC"],
-        output_dir: str = "tmp",
         tokenize=False,
     ) -> None:
         """Provide functionalities for unsupervised extraction of MWEs through association measures.
@@ -87,7 +86,7 @@ class MWE(object):
 
         Returns:
             None (when no counts_filename is provided) otherwise res: Dictionary of counts.
-            
+
         """
         logger.info("Creating counts...")
         res = get_counts(
@@ -103,7 +102,13 @@ class MWE(object):
                 logger.error(e)
                 raise e
 
-    def extract_mwes(self, am: str = "pmi", mwes_filename: str = None, counts_filename: str = None, counts: Dict = None) -> None:
+    def extract_mwes(
+        self,
+        am: str = "pmi",
+        mwes_filename: str = None,
+        counts_filename: str = None,
+        counts: Dict = None,
+    ) -> None:
         """
         Args:
             mwe_types: Types of MWEs. Can be any of [NC, JNC]
@@ -122,9 +127,11 @@ class MWE(object):
                     count_data = json.load(file)
             except Exception as e:
                 logger.error(e)
-                logger.error("Counts must be provided either via input argument `counts` or `counts_filename`. Argument `counts` is not specified and it seems like there was an error reading the counts from `counts_filename`.")
-                raise e        
-        
+                logger.error(
+                    "Counts must be provided either via input argument `counts` or `counts_filename`. Argument `counts` is not specified and it seems like there was an error reading the counts from `counts_filename`."
+                )
+                raise e
+
         logger.info(f"Extracting {self.mwe_types} based on {am}")
         mwe_am_dict = calculate_am(
             count_data=count_data, am=am, mwe_types=self.mwe_types
@@ -138,4 +145,3 @@ class MWE(object):
                 raise e
         else:
             return mwe_am_dict
-

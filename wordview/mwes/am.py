@@ -5,7 +5,6 @@ import math
 def calculate_pmi(
     compound_dict: dict,
     word_dic: dict,
-    num_compound: int,
     num_words: int,
     normalize: bool = False,
 ) -> Dict[str, float]:
@@ -14,7 +13,6 @@ def calculate_pmi(
     Args:
         compound_dict: Dictionary of compounds and their count.
         word_dic: Dictionary of words and their count.
-        num_compound: Number of compounds.
         num_words: Number of words.
         normalize: Whether or not normalize the pmi score. Normalized pmi is referred to as npmi.
 
