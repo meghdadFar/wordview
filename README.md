@@ -145,7 +145,7 @@ facial expressions
 global warming
 ```
 
-A practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they can improve the performance of downstream applications such as classification and NER. Using `replace_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. A worked example can be seen below:
+A practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
 
 ```python
 from wordview.mwes import hyphenate_mwes
@@ -154,40 +154,23 @@ mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC'
 
 ## **Identification of Statistically Redundant Words**
 
-Redundant words carry little value and can exacerbate the results of many NLP tasks. To solve this issue, traditionally, a pre-defined list of words, called stop words was defined and removed from the data. However, creating such a list is not optimal because in addition to being a rule-based and manual approach which does not generalize well, one has to assume that there is a universal list of stop words that represents highly low entropy words for all corpora, which is a very strong assumption and not necessarily a true assumption in many cases.
-
-To solve this issue, one can use a purely statistical solution which is completely automatic and does not make any universal assumption. It focuses only on the corpus at hand. Words can be represented with various statistics. For instance, they can be represented by their term frequency (tf) or inverse document frequency (idf). It can be then interpreted that terms with anomalous (very high or very low) statistics carry little value and can be discarded.
-WORDVIEW enables you to identify such terms in an automatic fashion. The solution might seem complex behind the scene, as it firsts needs calculate certain statistics, gaussanize the distribution of the specified statistics (i.e. tf or ifd), and then identify the terms with anomalous values on the gaussanized distribution by looking at their z-score. However, the API is easy and convenient to use. The example below shows how you can use this API:
+Redundant words carry little value and can exacerbate the results of many NLP tasks. To solve this issue, one common approach is to filter out a pre-defined set of words, called stop words. Stop words however, are usually universal static sets. They mostly vary only across languages. `wordview` provides a more dynamic solution that is specific to each individual data set, by employing purely statistical methods to identify redundant words with little value. The solution might seem complex behind the scene, as it first calculates certain statistics, gaussanize the distribution of those specified statistics (i.e. tf or ifd), and then identify the terms with anomalous values on the gaussanized distribution by looking at their z-score. However, the API is easy and convenient to use. The example below shows how you can use this API:
 
 ```python
-from wordview.preprocessing import RedunWords
+from wordview.preprocessing import RedunTerms
+rt = RedunTerms(imdb_train["text"], method='idf')
 
-rw = RedunWords(imdb_train["text"], method='idf')
+# Let the method automatically identify a set of redundant terms
+redundant_terms = rt.get_redundant_terms()
+
+#  Manually set cut-off threshold for the specified score
+redundant_terms_manual = rt.get_redundant_terms(manual=True, manual_thresholds: dict={'lower_threshold':1, 'upper_threshold': 8})
 ```
 
-Let the program automatically identify a set of redundant words:
+When choosing the manual approach, to get a better understanding of the distribution of the scores before setting the thresholds, you can run `show_plot()` method from `RedunTerms` class to see this distribution:
 
 ```python
-red_words = rw.get_redundant_terms()
-```
-
-
-Alternatively, you can manually set cut-off threshold for the specified score, by setting the manual Flag to True and specifying lower and upper cut-off thresholds. 
-```python
-red_words = rw.get_redundant_terms(manual=True, manual_thresholds: dict={'lower_threshold':1, 'upper_threshold': 8})
-```
-
-In order to get a better understanding of the distribution of the scores before setting the thresholds, you can run `show_plot()` method from `RedunWords` class to see this distribution:
-
-```python
-rw.show_plot()
-```
-
-When red_words is ready, you can filter the corpus:
-
-```python
-# text must be a list of words
-res = " ".join([t for t in text if t not in redundant_terms])
+rt.show_plot()
 ```
 
 ## **Text Cleaning**
