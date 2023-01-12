@@ -144,8 +144,10 @@ citizen kane
 facial expressions
 global warming
 ```
+Notice how actor names, movie names, and other multi-word concepts were captured, without the need of a supervised model such as an NER model.
 
-A practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
+
+One practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
 
 ```python
 from wordview.mwes import hyphenate_mwes
