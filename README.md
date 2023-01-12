@@ -175,16 +175,11 @@ rt.show_plot()
 
 ## **Text Cleaning**
 
-*wordview* implements an easy to use and powerful function for cleaning up the text (`clean_text`). 
-Using, `clean_text`, you can choose what pattern to accept via `keep_pattern` argument, 
-what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. You can also specify the maximum length of tokens. 
-Let's use [Stanford's IMDB Sentiment Dataset](https://ai.stanford.edu/~amaas/data/sentiment/) as an example. A sample of this data can be found in `resources/data/imdb_train_sample.tsv`.
+Cleaning up the text can be a tedious task, but for most NLP applications we almost always need some degree of text cleaning. *WORDVIEW* offers easy to use functionalities for cleaning up the text (`clean_text`). For instance, you can choose what pattern to accept via `keep_pattern` argument, what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. Or you can specify the max length of allowed tokens to filter out very long sequences that are often noise. See the docs to learn more about other parameters of `clean_text`. Here is a worked example:
 
 
 ```python
 from wordview.preprocessing import clean_text
-
-imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
 
 # Let's only keep alphanumeric tokens as well as important punctuation marks:
 keep_pattern='^[a-zA-Z0-9!.,?\';:$/_-]+$'
@@ -202,7 +197,7 @@ maxlen=15
 imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_pattern, replace=replace, maxlen=maxlen)
 ```
 
-Note that `clean_text` returns tokenized text. 
+**Note** `clean_text` returns tokenized text. 
 
 
 # Contributions
