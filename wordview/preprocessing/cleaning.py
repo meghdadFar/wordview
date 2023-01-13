@@ -8,6 +8,7 @@ def clean_text(
     keep_pattern: str = "[a-zA-Z0-9!.,?]",
     drop_patterns: Set[str] = set([]),
     replace: Dict = {},
+    remove_emojis = False,
     maxlen: int = 15,
     lower=False,
 ) -> str:
@@ -30,6 +31,9 @@ def clean_text(
     if len(text) == 0:
         raise ValueError("Input must be a non empty string.")
 
+    if remove_emojis:
+        text = remove_emojis(text)
+
     # Drop unwanted tokens: Replace them with space, then replace resulting \s{2, } with one space
     for d in drop_patterns:  # d = e.g. <br/>
         if re.search(d, text):
@@ -50,3 +54,37 @@ def clean_text(
     if lower:
         out_text = out_text.lower()
     return out_text
+
+def remove_emojis(text: str) -> str:
+    """Remove Emojis from `text`.
+
+    Args:
+        text: Input text to remove emojis from.
+
+    Returns:
+        text with emojis removed.
+    """
+    emoj = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map symbols
+        "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+        "\U00002500-\U00002BEF"  # chinese char
+        "\U00002702-\U000027B0"
+        "\U00002702-\U000027B0"
+        "\U000024C2-\U0001F251"
+        "\U0001f926-\U0001f937"
+        "\U00010000-\U0010ffff"
+        "\u2640-\u2642"
+        "\u2600-\u2B55"
+        "\u200d"
+        "\u23cf"
+        "\u23e9"
+        "\u231a"
+        "\ufe0f"  # dingbats
+        "\u3030"
+        "]+",
+        re.UNICODE,
+    )
+    return re.sub(emoj, "", text)
