@@ -5,19 +5,22 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 
-WORDVIEW is a Python package for primarily text analysis. It, moreover, provides a number of unsupervised models for Information Extraction and Preprocessing. See section [Features](#Features) for different functionalities.
+WORDVIEW is a Python package primarily for text analysis. It, moreover, provides a number of unsupervised models for Information Extraction and Preprocessing. See section [Features](#Features) for different functionalities.
 
 WORDVIEW is open-source and free. We, however, developed a Dashboard version of WORDVIEW based on Plotly, for non-developers. See WORDVIEW-DASH page here.
 
 
 # Features
 - [Text Analysis](#text-analysis)
+  - [Overview](#overview)
+  - [Distributions](#distributions)
+  - [Part of Speech Tags (POS)](#part-of-speech-tags)
 - Information Extraction
   - [Extraction of Multiword Expressions (statistically idiomatic aka collocations)](#extraction-of-multiword-expressions)
-  - Extraction of Non-compositional Multiword Expressions (semantically idiomatic e.g. *red tape* and *brain drain*)
-  - Anomalies
+  - Extraction of Non-compositional Multiword Expressions (semantically idiomatic e.g. *red tape* and *brain drain*). (Planned)
+  - Anomalies (Planned)
 - General
-  - Entropy Calculation for Natural Language Entropy has a wide range of applications in NLP. See how it can be used to improve the quality of conversational AI [[1]](#1) and text summarization [[2]](#2).
+  - Entropy Calculation for Natural Language Entropy has a wide range of applications in NLP. See how it can be used to improve the quality of conversational AI [[1]](#1) and text summarization [[2]](#2). (Planned)
 - [Text Cleaning](#text-cleaning)
   - [Identification and filtering of Statistically Redundant Words](#identification-of-statistically-redundant-words)
   - [Auto Text Cleaning](#auto-text-cleaning)
@@ -53,6 +56,7 @@ To analyze the text, you can use `TextStatsPlots` class.
 from wordview.text_analysis import TextStatsPlots
 ta = TextStatsPlots(df=imdb_train, text_column='text')
 ```
+### Overview
 Use the `show_stats` method to see an overview of different statistics.
 
 ```python
@@ -75,7 +79,9 @@ ta.show_stats()
 │ Verbs             │ 15,241  │
 └───────────────────┴─────────┘
 ```
-You can also look into different distributions using `show_distplot` method.
+
+### Distributions
+You can look into different distributions using `show_distplot` method.
 For instance, the distribution of document lengths:
 ```python
 ta.show_distplot(plot='doc_len')
@@ -87,6 +93,7 @@ ta.show_distplot(plot='word_frequency_zipf')
 ```
 ![annotation1](/figs/wordszipf.png)
 
+### Part of Speech Tags
 You can moreover, see different part of speech tags in corresponding word clouds: 
 ```python
 # To see verbs
@@ -204,21 +211,42 @@ imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_p
 
 # Contributions
 
+You can contribute to WORDVIEW using GitHub's pull requests.
+To begin with, please first make sure you are on `main` branch and then take the following steps:
+
 ```bash
-# Create and activate a virtual env
-python -m venv VENV
-source VENV/bin/activate
-# Install dependencies
-pip install -r requirements.txt
-# Run app
-python wordview/dashapp/index.py
+# Get the latest updates
+git pull
+
+# Create a new branch
+git checkout -b BRANCH_NAME
 ```
+Please try to name your branch so that the name clarifies the purpose of your branch, to some extent. We commonly use hyphenated branch names. For instance, if you are developing an anomaly detection functionality based on a normal distribution, a good branch name can be `normal-dist-anomaly-detection`.
 
+### Environment Setup
 
-## References
-<a id="1">[1]</a> R. Csaky et al. - Improving Neural Conversational Models with Entropy-Based Data Filtering - In Proceedings of ACL 2019 - Florence, Italy.
+We use [`Poetry`](https://pypi.org/project/poetry/) to manage dependencies and packaging. Follow these steps to set up your dev environment:
 
-<a id="2">[2]</a> Maxime Peyrard - A Simple Theoretical Model of Importance for Summarization - In Proceedings of ACL 2019 - Florence, Italy.
+```bash
+python -m venv venv
 
-## **Auto Text Cleaning**
-One of the first obstacles that any NLP practitioner faces is the tedious, demotivating, and confusing task of cleaning up the text. Unlike images that come in a perfect-for-ml vector format which is the same across the globe and input sources, text comes in all forms, formats, styles, languages, and structures. Before being able to get value out of it, any NLP expert has gone through the painful and tedious task of text cleaning. Even worse, there is no universal recipe for this. That is to say, should I lowercase this text? Shall I replace numbers with a place holder or should remove them altogether? How about stop words?... Each person can carry out a subset of the mentioned example steps, and arrive at a different cleaned text. How can we compare models then? A slight change in the often overlooked cleaning step can lead to inconsistency in our experiments. 
+source venv/bin/activate
+
+pip install poetry
+
+# Disable Poetry's environment creation, since we already have created one
+poetry config virtualenvs.create false
+```
+Use Poetry to install dependencies:
+
+```bash
+poetry install
+```
+By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
+
+### Quality Checks
+
+### Testing and Coverage
+### PR Reviews
+
+### Merge
