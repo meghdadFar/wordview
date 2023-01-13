@@ -9,6 +9,7 @@ def clean_text(
     drop_patterns: Set[str] = set([]),
     replace: Dict = {},
     remove_emojis = False,
+    remove_blanks = False,
     maxlen: int = 15,
     lower=False,
 ) -> str:
@@ -19,6 +20,8 @@ def clean_text(
         keep_pattern (str): Allowed patterns e.g. [a-zA-Z]. Defaults to "[a-zA-Z0-9!.,?]".
         drop_patterns (set): Set of patterns that should be dropeed from text.
         replace (dict): Dictionary of to_be_replaced_pattern: replaced_with. E.g. {[0-9]+: NUM}
+        remove_emojis:‌ Whether or not to remove emojis. Defaults to False.
+        remove_blanks: Relevant for text scraped from Web or HTML tags. Remove excessive blank lines and whitespaces. Defaults to False.
         maxlen (int): Maximum length of a token. Defaults to 15.
         lower (bool): Whether or nor lowercase the text at the end.
 
@@ -33,6 +36,10 @@ def clean_text(
 
     if remove_emojis:
         text = remove_emojis(text)
+    
+    if remove_blanks:
+        text = re.sub(" {2,}", " ", text)
+        text = re.sub("\n{2,}", "\n", text)
 
     # Drop unwanted tokens: Replace them with space, then replace resulting \s{2, } with one space
     for d in drop_patterns:  # d = e.g. <br/>
