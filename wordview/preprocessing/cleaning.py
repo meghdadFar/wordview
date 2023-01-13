@@ -8,8 +8,8 @@ def clean_text(
     keep_pattern: str = "[a-zA-Z0-9!.,?]",
     drop_patterns: Set[str] = set([]),
     replace: Dict = {},
-    remove_emojis = False,
-    remove_blanks = False,
+    remove_emojis=False,
+    remove_blanks=False,
     maxlen: int = 15,
     lower=False,
 ) -> str:
@@ -25,7 +25,6 @@ def clean_text(
         maxlen (int): Maximum length of a token. Defaults to 15.
         lower (bool): Whether or nor lowercase the text at the end.
 
-
     Returns:
         out_text (string): Tokenized and cleaned up text with respect to all above criteria.
     """
@@ -36,7 +35,7 @@ def clean_text(
 
     if remove_emojis:
         text = remove_emojis(text)
-    
+
     if remove_blanks:
         text = re.sub(" {2,}", " ", text)
         text = re.sub("\n{2,}", "\n", text)
@@ -61,6 +60,7 @@ def clean_text(
     if lower:
         out_text = out_text.lower()
     return out_text
+
 
 def remove_emojis(text: str) -> str:
     """Remove Emojis from `text`.
