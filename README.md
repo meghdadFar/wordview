@@ -259,6 +259,12 @@ By default, dependencies across all non-optional groups are install. See [Poetry
 ## Quality Checks
 
 ## Testing and Coverage
-## PR Reviews
-Once your work is complete, you can create a Pull Request.
-## Merge
+
+## Pull Request (PR)
+Once your work is complete, you can make a pull request. Remember to link your pull request to an issue by using a supported keyword in the pull request's description or in a commit message. E.g. "closes #issue_number", "resolves #issue_number", or "fixes #issue_number". See [this page](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) for more details.
+
+Once your PR is submitted, a maintainer will review your PR. They may ask questions or suggest changes either using [suggested changes](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/incorporating-feedback-in-your-pull-request) or pull request comments.
+
+Once all the comments and changes are resolved, your PR will be merged. 🥳🥳
+
+Thank you for your contribution! We are really excited to have your work integrated in wordview!
