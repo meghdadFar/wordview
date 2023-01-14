@@ -211,7 +211,7 @@ imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_p
 
 # Contributions
 
-Thank you for contributing to our project! We and the users of this repo appreciate your efforts!
+Thank you for contributing to wordview! We and the users of this repo appreciate your efforts!
 
 ## Issues
 You can see the list of existing open and closed issues [here](https://github.com/meghdadFar/wordview/issues).
