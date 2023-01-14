@@ -211,19 +211,31 @@ imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_p
 
 # Contributions
 
-You can contribute to WORDVIEW using GitHub's pull requests.
-To begin with, please first make sure you are on `main` branch and then take the following steps:
+Thank you for contributing to our project! We and the users of this repo appreciate your efforts!
+
+## Issues
+You can see the list of existing open and closed issues [here](https://github.com/meghdadFar/wordview/issues).
+### Create a New Issue
+If you spot a problem or if you want to add a feature, search the issues for related issues. If a related issue does not exist, you can open a new issue.
+
+### Address an Issue
+If you come across an issue that you would like to work on, feel free to open a PR for it.
+To begin with, clone the repository and make sure you are on `main` branch. Then create your own branch.
 
 ```bash
-# Get the latest updates
+# Clone the repo
+git clone git@github.com:meghdadFar/wordview.git
+
+# Get the latest updates, if you have previously cloned wordview.
 git pull
 
 # Create a new branch
 git checkout -b BRANCH_NAME
 ```
-Please try to name your branch so that the name clarifies the purpose of your branch, to some extent. We commonly use hyphenated branch names. For instance, if you are developing an anomaly detection functionality based on a normal distribution, a good branch name can be `normal-dist-anomaly-detection`.
 
-### Environment Setup
+Please try to name your branch such that the name clarifies the purpose of your branch, to some extent. We commonly use hyphenated branch names. For instance, if you are developing an anomaly detection functionality based on a normal distribution, a good branch name can be `normal-dist-anomaly-detection`.
+
+## Environment Setup
 
 We use [`Poetry`](https://pypi.org/project/poetry/) to manage dependencies and packaging. Follow these steps to set up your dev environment:
 
@@ -244,9 +256,9 @@ poetry install
 ```
 By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
 
-### Quality Checks
+## Quality Checks
 
-### Testing and Coverage
-### PR Reviews
-
-### Merge
+## Testing and Coverage
+## PR Reviews
+Once your work is complete, you can create a Pull Request.
+## Merge
