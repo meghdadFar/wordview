@@ -5,9 +5,9 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 
-WORDVIEW is a Python package primarily for text analysis. It, moreover, provides a number of unsupervised models for Information Extraction and Preprocessing. See section [Features](#Features) for different functionalities.
+WORDVIEW is a Python package primarily for text analysis. It, moreover, provides a number of unsupervised models for Information Extraction and Preprocessing. See section [Features](#Features) for more details.
 
-WORDVIEW is open-source and free. We, however, developed a Dashboard version of WORDVIEW based on Plotly, for non-developers. See WORDVIEW-DASH page here.
+WORDVIEW is open-source and free. We, however, developed a Dashboard version of WORDVIEW based on Plotly, for non-developers. See WORDVIEW-DASH page for more details.
 
 
 # Features
@@ -257,6 +257,20 @@ poetry install
 By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
 
 ## Quality Checks
+
+To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `black`, `flake8`, `mypy` and `isort`. These tools are part of dev dependencies and hence they are installed when you [set up your dev environment](#environment-setup). To use them, change directory to project home where corresponding configuration files (`mypy.ini`, `.flake8`) live and then simply run them as follows.
+
+```bash
+
+black <PATH_TO_NEW/CHANGED_CODE>
+
+mypy <PATH_TO_NEW/CHANGED_CODE>
+
+flake8 <PATH_TO_NEW/CHANGED_CODE>
+
+isort <PATH_TO_NEW/CHANGED_CODE>
+```
+Commit the changes and push to remote. We run all the above in GitHub checks. So if you don't take these steps, GitHub checks will fail preventing you from [merging your PR](#pull-request-pr).
 
 ## Testing and Coverage
 
