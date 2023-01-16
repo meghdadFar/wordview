@@ -211,14 +211,8 @@ imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_p
 
 # Contributions
 
-Thank you for contributing to wordview! We and the users of this repo appreciate your efforts!
+Thank you for contributing to wordview! We and the users of this repo appreciate your efforts! If spot a problem or you have a feature request or you wanted to suggest an improvement, please create an issue. Please first search the existing open and closed issues [here](https://github.com/meghdadFar/wordview/issues). If a related issue already exists, you can add your comment and avoid creating duplicate or very similar issues.
 
-## Issues
-You can see the list of existing open and closed issues [here](https://github.com/meghdadFar/wordview/issues).
-### Create a New Issue
-If you spot a problem or if you want to add a feature, search the issues for related issues. If a related issue does not exist, you can open a new issue.
-
-### Address an Issue
 If you come across an issue that you would like to work on, feel free to open a PR for it.
 To begin with, clone the repository and make sure you are on `main` branch. Then create your own branch.
 
