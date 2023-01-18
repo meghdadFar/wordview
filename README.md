@@ -18,7 +18,7 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
 - Information Extraction
   - [Extraction of Multiword Expressions (statistically idiomatic aka collocations)](#extraction-of-multiword-expressions)
   - Extraction of Non-compositional Multiword Expressions (semantically idiomatic e.g. *red tape* and *brain drain*). (Planned)
-  - Anomalies (Planned)
+  - [Anomalies](#anomalies) (Planned)
 - General
   - Entropy Calculation for Natural Language Entropy has a wide range of applications in NLP. See how it can be used to improve the quality of conversational AI [[1]](#1) and text summarization [[2]](#2). (Planned)
 - [Text Cleaning](#text-cleaning)
