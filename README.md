@@ -17,7 +17,7 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
   - [Part of Speech Tags (POS)](#part-of-speech-tags)
 - Information Extraction
   - [Extraction of Multiword Expressions (statistically idiomatic aka collocations)](#extraction-of-multiword-expressions)
-  - Extraction of Non-compositional Multiword Expressions (semantically idiomatic e.g. *red tape* and *brain drain*). (Planned)
+  - [Extraction of Non-compositional Multiword Expressions](#extraction-of-non-compositional-multiword-expressions). (Planned)
   - [Anomalies](#anomalies) (Planned)
 - General
   - Entropy Calculation for Natural Language Entropy has a wide range of applications in NLP. See how it can be used to improve the quality of conversational AI [[1]](#1) and text summarization [[2]](#2). (Planned)
@@ -107,7 +107,7 @@ ta.show_word_clouds(type="JJ")
 ![annotation1](/figs/nouns.png)
 ![annotation1](/figs/adjectives.png)
 
-## **Extraction of Multiword Expressions**
+## Extraction of Multiword Expressions
 
 Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. See a worked example below.
 
@@ -160,6 +160,9 @@ One practical use of extracting MWEs is to treat them as a single unit. Research
 from wordview.mwes import hyphenate_mwes
 mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
 ```
+
+## Extraction of Non-compositional Multiword Expressions
+Non-compositional or semantically idiomatic Multiword Expressions are those whose meaning cannot be interpreted from the meaning of their constituents. For instance, *red tape* and *brain drain*.
 
 ## Anomalies
 Sometimes, anomalies find their way into the data and tamper with the quality of the downstream ML model. For instance, a classifier that is trained to classify input documents into N known classes, does not know what to do with an anomalous document, hence, it places it into one of those classes that can be completely wrong. Anomaly detection, in this example, allows us to identify and discard anomalies before running the classifier. On the other hand, sometimes anomalies the most interesting part of our data and those are the ones that we are looking for.
