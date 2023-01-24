@@ -15,6 +15,7 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
   - [Overview](#overview)
   - [Distributions](#distributions)
   - [Part of Speech Tags (POS)](#part-of-speech-tags)
+  - [Labels]()
 - Information Extraction
   - [Multiword Expressions](#extraction-of-multiword-expressions)
   - [Statistically Redundant Words](#identification-of-statistically-redundant-words)
