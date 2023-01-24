@@ -59,7 +59,6 @@ def calculate_am(count_data: dict, am: str, mwe_types: List[str]) -> Dict[str, D
             compound_dict_tmp = calculate_pmi(
                 compound_dict=count_data[mt],
                 word_dic=count_data["WORDS"],
-                num_compound=sum(count_data[mt].values()),
                 num_words=num_words,
                 normalize=False,
             )
@@ -69,7 +68,6 @@ def calculate_am(count_data: dict, am: str, mwe_types: List[str]) -> Dict[str, D
             compound_dict_tmp = calculate_pmi(
                 compound_dict=count_data[mt],
                 word_dic=count_data["WORDS"],
-                num_compound=sum(count_data[mt].values()),
                 num_words=num_words,
                 normalize=True,
             )
