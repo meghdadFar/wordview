@@ -122,36 +122,42 @@ mwe.extract_mwes(counts_filename='tmp/counts.json', mwes_filename='tmp/mwes.json
 
 ```
 
-
 **Notes**
 - If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`. 
 - `mwes.json` contains dictionary of mwe types e.g. (*NC, JNC*) and their association scores (e.g. *PMI*).
 - The MWEs in this json file are sorted with respect to their `am` score.
 
-Top 5 examples from imdb review corpus:
+See the following worked example, to see how you can access and use MWEs.
 
+```python
+from tabulate import tabulate
+import json
+
+with open('tmp/mwes.json') as json_file:
+    mwes_dict = json.load(json_file)
+
+nc_association = {k: v for k, v in mwes_dict['NC'].items()}
+top_nc_association_table = [[k, v] for k,v in nc_association.items()][:10]
+print(tabulate(top_nc_table, tablefmt="simple_grid"))
+
+╔══════════════════╦═══════╗
+║ busby berkeley   ║ 11.2  ║
+║ burgess meredith ║ 11.13 ║
+║ bruno mattei     ║ 10.92 ║
+║ monty python     ║ 10.69 ║
+║ ki aag           ║ 10.65 ║
+║ denise richards  ║ 10.63 ║
+║ guinea pig       ║ 10.52 ║
+║ blade runner     ║ 10.48 ║
+║ domino principle ║ 10.44 ║
+║ quantum physics  ║ 10.38 ║
+╚══════════════════╩═══════╝
 ```
-NOUN-NOUN COMPOUNDS (NC)
--------------------
-jet li
-clint eastwood
-monty python
-kung fu
-blade runner
+
+Notice how actor names, show names such as `busby berkeley`, `burgess meredith`, and `monty python` and other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model which can add value by saving much costs and speed things up, in certain situations.
 
 
-ADJECTIVE-NOUN COMPOUNDS (JNC)
-------------------------
-spinal tap
-martial arts
-citizen kane
-facial expressions
-global warming
-```
-Notice how actor names, movie names, and other multi-word concepts were captured, without the need of a supervised model such as an NER model.
-
-
-One practical use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
+One common use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
 
 ```python
 from wordview.mwes import hyphenate_mwes
