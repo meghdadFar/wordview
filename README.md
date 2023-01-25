@@ -105,6 +105,29 @@ ta.show_word_clouds(type="JJ")
 ![annotation1](/figs/nouns.png)
 ![annotation1](/figs/adjectives.png)
 
+### Labels
+*wordview* provides basic statistics and analysis for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots` which supports up to 4 independent labels that can be either categorical or numerical.
+
+```python
+from wordview.text_analysis import LabelStatsPlots
+
+# In addition to the original label which is located in the column `label`, of the dataframe, 
+# for illustration purpose, let's create two random labels:
+imdb_train['numerical_label'] = np.random.randint(1, 500, imdb_train.shape[0])
+imdb_train['new_label'] = random.choices(['a', 'b', 'c', 'd'], [0.2, 0.5, 0.8, 0.9], k=imdb_train.shape[0])
+imdb_train['numerical_labe2'] = np.random.randint(1, 500, imdb_train.shape[0])
+
+lsp = LabelStatsPlots(df=imdb_train, label_columns=[('label', 'categorical'),
+                                                    ('label2', 'categorical'),
+                                                    ('numerical_label', 'numerical'),
+                                                    ('numerical_label2', 'numerical')
+                                                   ])
+
+lsp.show_label_plots()
+```
+![annotation1](/figs/labels.png)
+
+
 ## Extraction of Multiword Expressions
 
 Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. See a worked example below.
