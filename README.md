@@ -128,7 +128,7 @@ lsp.show_label_plots()
 ![labels](/figs/labels.png)
 
 
-## Extraction of Multiword Expressions
+## Multiword Expressions
 
 Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. See a worked example below.
 
