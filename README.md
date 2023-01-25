@@ -13,8 +13,10 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
 # Features
 - [Text Analysis](#text-analysis)
   - [Overview](#overview)
-  - [Distributions](#distributions)
+  - [Word Distributions](#distributions)
   - [Part of Speech Tags (POS)](#part-of-speech-tags)
+  - [Topics]()
+  - [Clusters]()
   - [Labels]()
 - Information Extraction
   - [Multiword Expressions](#extraction-of-multiword-expressions)
@@ -78,18 +80,22 @@ ta.show_stats()
 └───────────────────┴─────────┘
 ```
 
-### Distributions
+### Word Distributions
 You can look into different distributions using `show_distplot` method.
 For instance, the distribution of document lengths:
 ```python
 ta.show_distplot(plot='doc_len')
 ```
-![annotation1](/figs/doclen.png)
-Or, the distribution of words:
+![doclen](/figs/doclen.png)
+
+Or, the Zipf distribution of words:
+
 ```python
 ta.show_distplot(plot='word_frequency_zipf')
 ```
-![annotation1](/figs/wordszipf.png)
+![zipf](/figs/wordszipf.png)
+
+See [this excellent article](https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-models-4c3d66e6d2f6) to learn how you can use Zipf’s law to Improve NLP models.
 
 ### Part of Speech Tags
 You can moreover, see different part of speech tags in corresponding word clouds: 
