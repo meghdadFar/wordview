@@ -155,7 +155,7 @@ print(tabulate(top_nc_table, tablefmt="simple_grid"))
 ╚══════════════════╩═══════╝
 ```
 
-Notice how actor names, show names such as `busby berkeley`, `burgess meredith`, and `monty python` and other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model which can add value by saving much costs and speed things up, in certain situations.
+Notice how the name of actors and shows such as `busby berkeley`, `burgess meredith`, and `monty python` as well other other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model which can add value by saving much costs and speed things up, in certain situations.
 
 
 One common use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
