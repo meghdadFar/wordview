@@ -191,7 +191,7 @@ mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC'
 ## Anomalies
 Sometimes, anomalies find their way into the data and tamper with the quality of the downstream ML model. For instance, a classifier that is trained to classify input documents into N known classes, does not know what to do with an anomalous document, hence, it places it into one of those classes that can be completely wrong. Anomaly detection, in this example, allows us to identify and discard anomalies before running the classifier. On the other hand, sometimes anomalies the most interesting part of our data and those are the ones that we are looking for.
 
-## **Identification of Statistically Redundant Words**
+## **Statistically Redundant Words**
 
 Redundant words carry little value and can exacerbate the results of many NLP tasks. To solve this issue, one common approach is to filter out a pre-defined set of words, called stop words. Stop words however, are usually universal static sets. They mostly vary only across languages. `wordview` provides a more dynamic solution that is specific to each individual data set, by employing purely statistical methods to identify redundant words with little value. The solution might seem complex behind the scene, as it first calculates certain statistics, gaussanize the distribution of those specified statistics (i.e. tf or ifd), and then identify the terms with anomalous values on the gaussanized distribution by looking at their z-score. However, the API is easy and convenient to use. The example below shows how you can use this API:
 
