@@ -14,15 +14,18 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
 - [Text Analysis](#text-analysis)
   - [Overview](#overview)
   - [Word Distributions](#distributions)
-  - [Part of Speech Tags (POS)](#part-of-speech-tags)
-  - [Topics]()
-  - [Clusters]()
+  - [Part of Speech (POS) Tags](#part-of-speech-tags)
+  - [Topics]() (planned)
+  - [Clusters]() (planned)
+  - [Arguments]() (planned)
   - [Labels]()
+    - [Document-level Labels](#document-level-labels)
+    - [Sequence-level Labels](#sequence-level-labels) (planned)
 - Information Extraction
   - [Multiword Expressions](#extraction-of-multiword-expressions)
   - [Statistically Redundant Words](#identification-of-statistically-redundant-words)
-  - [Anomalies](#anomalies) (Planned)
-- [Text Cleaning](#text-cleaning)
+  - [Anomalies](#anomalies) (planned)
+- [Filtering](#text-cleaning)
   - [Auto Text Cleaning](#auto-text-cleaning)
 
 
@@ -112,7 +115,10 @@ ta.show_word_clouds(type="JJ")
 ![adjs](/figs/adjectives.png)
 
 ### Labels
-*wordview* provides basic statistics and analysis for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots` which supports up to 4 independent labels that can be either categorical or numerical.
+*wordview* provides several statistics for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots`.
+
+### Document-level Labels
+For document-level labels *wordview* supports up to 4 independent labels that can be either categorical or numerical. These labels should be provided in a one-label-per-document fashion. See the following example where such labels are provided in a Pandas dataframe. 
 
 ```python
 from wordview.text_analysis import LabelStatsPlots
@@ -133,6 +139,8 @@ lsp.show_label_plots()
 ```
 ![labels](/figs/labels.png)
 
+### Sequence-level Labels
+After document-level labels, one of the most widely used type of labels in NLP are sequence-level labels. For instance, it can sometimes be very useful to see the overal and document-level distribution of sequence labels e.g. ORG or PERSON.
 
 ## Multiword Expressions
 
@@ -218,9 +226,9 @@ When choosing the manual approach, to get a better understanding of the distribu
 rt.show_plot()
 ```
 
-## **Text Cleaning**
+## **Filtering**
 
-Cleaning up the text can be a tedious task, but for most NLP applications we almost always need some degree of text cleaning. *WORDVIEW* offers easy to use functionalities for cleaning up the text (`clean_text`). For instance, you can choose what pattern to accept via `keep_pattern` argument, what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. Or you can specify the max length of allowed tokens to filter out very long sequences that are often noise. See the docs to learn more about other parameters of `clean_text`. Here is a worked example:
+Filtering noise and cleaning up the text can be a tedious task, but for most NLP applications we almost always need some degree of it. *WORDVIEW* offers easy to use functionalities for filtering noise, customized definition of noise, and cleaning up the text from it. For instance, you can choose what pattern to accept via `keep_pattern` argument, what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. Or you can specify the max length of allowed tokens to filter out very long sequences that are often noise. See the docs to learn more about other parameters of `clean_text`. Here is a worked example:
 
 
 ```python
@@ -249,7 +257,7 @@ imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_p
 
 Thank you for contributing to wordview! We and the users of this repo appreciate your efforts! If spot a problem or you have a feature request or you wanted to suggest an improvement, please create an issue. Please first search the existing open and closed issues [here](https://github.com/meghdadFar/wordview/issues). If a related issue already exists, you can add your comment and avoid creating duplicate or very similar issues. If you come across an issue that you would like to work on, feel free to [open a PR](#pull-request-pr) for it.
 
-## Branches
+### Branches
 To begin contributing, clone the repository and make sure you are on `main` branch. Then create your own branch.
 
 ```bash
@@ -265,7 +273,7 @@ git checkout -b BRANCH_NAME
 
 Please try to name your branch such that the name clarifies the purpose of your branch, to some extent. We commonly use hyphenated branch names. For instance, if you are developing an anomaly detection functionality based on a normal distribution, a good branch name can be `normal-dist-anomaly-detection`.
 
-## Environment Setup
+### Environment Setup
 
 We use [`Poetry`](https://pypi.org/project/poetry/) to manage dependencies and packaging. Follow these steps to set up your dev environment:
 
@@ -286,7 +294,7 @@ poetry install
 ```
 By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
 
-## Quality Checks
+### Quality Checks
 
 To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `black`, `flake8`, `mypy` and `isort`. These tools are part of dev dependencies and hence they are installed when you [set up your dev environment](#environment-setup). To use them, change directory to project home where corresponding configuration files (`mypy.ini`, `.flake8`) live and then simply run them as follows.
 
@@ -302,11 +310,11 @@ isort <PATH_TO_NEW/CHANGED_CODE>
 ```
 Commit the changes and push to remote. We run all the above in GitHub checks. So if you don't take these steps, GitHub checks will fail preventing you from [merging your PR](#pull-request-pr).
 
-## Testing
+### Testing
 `wordview` primary testing is carried out via unittests. We use [Pytest](https://docs.pytest.org/). Please include your for any functionality that you provide inside the [test](./tests/) directory. See [this test module]() for a minimal example of unittesting with Pytest.
 
 
-## Pull Request (PR)
+### Pull Request (PR)
 Once your work is complete, you can make a pull request. Remember to link your pull request to an issue by using a supported keyword in the pull request's description or in a commit message. E.g. "closes #issue_number", "resolves #issue_number", or "fixes #issue_number". See [this page](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) for more details.
 
 Once your PR is submitted, a maintainer will review your PR. They may ask questions or suggest changes either using [suggested changes](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/incorporating-feedback-in-your-pull-request) or pull request comments.
