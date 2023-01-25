@@ -101,9 +101,9 @@ ta.show_word_clouds(type="NN")
 # To see adjectives
 ta.show_word_clouds(type="JJ")
 ```
-![annotation1](/figs/verbs.png)
-![annotation1](/figs/nouns.png)
-![annotation1](/figs/adjectives.png)
+![verbs](/figs/verbs.png)
+![nouns](/figs/nouns.png)
+![adjs](/figs/adjectives.png)
 
 ### Labels
 *wordview* provides basic statistics and analysis for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots` which supports up to 4 independent labels that can be either categorical or numerical.
@@ -125,7 +125,7 @@ lsp = LabelStatsPlots(df=imdb_train, label_columns=[('label', 'categorical'),
 
 lsp.show_label_plots()
 ```
-![annotation1](/figs/labels.png)
+![labels](/figs/labels.png)
 
 
 ## Extraction of Multiword Expressions
