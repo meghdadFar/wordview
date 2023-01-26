@@ -300,18 +300,18 @@ To ensure a high quality in terms of readability, complying with PEP standards, 
 
 ```bash
 
-black <PATH_TO_NEW/CHANGED_CODE>
+black <PATH_TO_CODE>
 
-mypy <PATH_TO_NEW/CHANGED_CODE>
+mypy <PATH_TO_CODE>
 
-flake8 <PATH_TO_NEW/CHANGED_CODE>
+flake8 <PATH_TO_CODE>
 
-isort <PATH_TO_NEW/CHANGED_CODE>
+isort <PATH_TO_CODE>
 ```
 Commit the changes and push to remote. We run all the above in GitHub checks. So if you don't take these steps, GitHub checks will fail preventing you from [merging your PR](#pull-request-pr).
 
 ### Testing
-`wordview` primary testing is carried out via unittests. We use [Pytest](https://docs.pytest.org/). Please include your for any functionality that you provide inside the [test](./tests/) directory. See [this test module]() for a minimal example of unittesting with Pytest.
+`wordview` primary testing is carried out via [Pytest](https://docs.pytest.org/) (the only existing tests are based on unittests and soon will be replaced). Please include tests for any piece of code that you create inside the [test](./tests/) directory. You can consult existing tests for examples.
 
 
 ### Pull Request (PR)
