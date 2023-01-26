@@ -297,7 +297,7 @@ By default, dependencies across all non-optional groups are install. See [Poetry
 ### Testing
 `wordview`'s primary testing is carried out via [Pytest](https://docs.pytest.org/) (the existing tests are based on `unittest` and soon will be replaced). Please include tests for any piece of code that you create inside the [test](./tests/) directory. You can consult existing tests for examples.
 
-### Quality Checks
+### Code Quality
 
 To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `black`, `flake8`, `mypy` and `isort`. These tools are part of dev dependencies and hence they are installed when you [set up your dev environment](#environment-setup). To use them, change directory to project home where corresponding configuration files (`mypy.ini`, `.flake8`) live and then simply run them as follows.
 
