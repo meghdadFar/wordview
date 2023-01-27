@@ -295,7 +295,7 @@ poetry install
 By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
 
 ### Testing
-Testing of `wordview`'s is carried out via [Pytest](https://docs.pytest.org/). Please include tests for any piece of code that you create inside the [test](./tests/) directory. You can consult the existing tests in this directory, to see examples.
+Testing of `wordview`'s is carried out via [Pytest](https://docs.pytest.org/). Please include tests for any piece of code that you create inside the [tests](./tests/) directory. To see examples, you can consult the existing tests in this directory.
 
 ### Code Quality
 
