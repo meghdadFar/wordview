@@ -89,6 +89,8 @@ def get_ngrams(sentence: str, n: int) -> List:
     Returns:
         ngrams: List of extracted n-grams.
     """
+    if not isinstance(sentence, str):
+        raise TypeError(f"Input argument 'sentence' must be of type str. You have provided an input of type: {type(sentence)}.")
     ngrams = []
     try:
         tokens = sentence.split(" ")
