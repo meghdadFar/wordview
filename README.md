@@ -5,15 +5,13 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 
-WORDVIEW is a Python package primarily for text analysis. It, moreover, provides a number of unsupervised models for Information Extraction and Preprocessing. See section [Features](#Features) for more details.
-
-WORDVIEW is open-source and free. We, however, developed a Dashboard version of WORDVIEW based on Plotly, for non-developers. See WORDVIEW-DASH page for more details.
+`wordview` is a Python package for text analysis. It, moreover, provides a number of functionalities for Information Extraction and Preprocessing. See section [Features](#Features) for more details. `wordview`'s Python API is open-source and available under the [MIT license](https://en.wikipedia.org/wiki/MIT_License). We, however, offer a web app under a commercial license. See [this page]() for more information about the web-app-based version of `wordview`.
 
 
 # Features
 - [Text Analysis](#text-analysis)
   - [Overview](#overview)
-  - [Word Distributions](#distributions)
+  - [Distributions](#distributions)
   - [Part of Speech (POS) Tags](#part-of-speech-tags)
   - [Topics]() (planned)
   - [Clusters]() (planned)
@@ -31,11 +29,11 @@ WORDVIEW is open-source and free. We, however, developed a Dashboard version of 
 
 # Usage
 
-Install the package:
+Install the package via `pip`:
 
 `pip install wordview`
 
-To demo different functionalities, let's first load a test dataset.
+To explore different features, let's first load a dataset. `wordview` accepts `pandas.DataFrame`. You can find a sample of size `5K` from the IMDb Movie Reviews dataset in the [data directory](./data/imdb_train_sample.tsv). The original dataset can be found [here](https://paperswithcode.com/dataset/imdb-movie-reviews).
 
 ```python
 import pandas as pd
@@ -49,18 +47,18 @@ imdb_train.head()
 3   pos  i did n't expect to like this film as much as ...
 4   pos  i could n't help but feel that this could have...
 ```
-
+Now that a dataset is loaded in a `pandas.DataFrame`, let's explore different features of `wordview` below.
 
 ## **Text Analysis**
 
-To analyze the text, you can use `TextStatsPlots` class. 
+To have overview of your data and see general stats and different distributions, you can use the `TextStatsPlots` class.
 
 ```python
 from wordview.text_analysis import TextStatsPlots
 ta = TextStatsPlots(df=imdb_train, text_column='text')
 ```
 ### Overview
-Use the `show_stats` method to see an overview of different statistics.
+Use the `show_stats` method to see an overview of your data in terms of different statistics.
 
 ```python
 ta.show_stats()
@@ -83,15 +81,14 @@ ta.show_stats()
 └───────────────────┴─────────┘
 ```
 
-### Word Distributions
-You can look into different distributions using `show_distplot` method.
-For instance, the distribution of document lengths:
+### Distributions
+You can look into different distributions using the `show_distplot` method. For instance, you can see the distribution of document lengths (to decide for the fixed sequence length in sequence models with a fixed input or when training using mini-batches).
 ```python
 ta.show_distplot(plot='doc_len')
 ```
 ![doclen](/figs/doclen.png)
 
-Or, the Zipf distribution of words:
+Or, you can see the Zipf distribution of words:
 
 ```python
 ta.show_distplot(plot='word_frequency_zipf')
@@ -101,7 +98,7 @@ ta.show_distplot(plot='word_frequency_zipf')
 See [this excellent article](https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-models-4c3d66e6d2f6) to learn how you can use Zipf’s law to Improve NLP models.
 
 ### Part of Speech Tags
-You can moreover, see different part of speech tags in corresponding word clouds: 
+To see different Part of Speech tags in word clouds, you can use the `show_word_clouds` method.
 ```python
 # To see verbs
 ta.show_word_clouds(type="VB")
@@ -115,10 +112,10 @@ ta.show_word_clouds(type="JJ")
 ![adjs](/figs/adjectives.png)
 
 ### Labels
-*wordview* provides several statistics for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots`.
+`wordview` provides several statistics for labels in labeled datasets. To use this feature, you can use `LabelStatsPlots`.
 
 ### Document-level Labels
-For document-level labels *wordview* supports up to 4 independent labels that can be either categorical or numerical. These labels should be provided in a one-label-per-document fashion. See the following example where such labels are provided in a Pandas dataframe. 
+For document-level labels `wordview` supports up to 4 independent categorical or numerical labels. These labels should be provided in a one-label-per-document fashion. See the following example where such labels are provided in a `pandas.dataframe`. 
 
 ```python
 from wordview.text_analysis import LabelStatsPlots
@@ -140,43 +137,32 @@ lsp.show_label_plots()
 ![labels](/figs/labels.png)
 
 ### Sequence-level Labels
-After document-level labels, one of the most widely used type of labels in NLP are sequence-level labels. For instance, it can sometimes be very useful to see the overal and document-level distribution of sequence labels e.g. ORG or PERSON.
+One of the most widely used types of labels in NLP are sequence-level labels (e.g. Named Entity tags such as PER, LOC). `wordview` offers  functions to see the overall and document-level distribution of sequence labels.
 
 ## Multiword Expressions
 
-Multiword Expressions (MWEs) are phrases that behave as a single semantic unit E.g. *swimming pool* and *climate change*. You can use `wordview` to identify different types of MWEs in your text leveraging statistical measures such as *PMI* and *NPMI*. See a worked example below.
+Multiword Expressions (MWEs) are phrases that can be treated as a single semantic unit. E.g. *swimming pool* and *climate change*. MWEs have application in different areas including: parsing, language models, language generation, terminology extraction, and topic models. `wordview` can extract different types of MWEs in your text.
 
 ```python
 from wordview.mwes import MWE
+
+# NC: NOUN-NOUN MWEs e.g. climate change
+# JNC: ADJECTIVE-NOUN MWEs e.g. big shot
 mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column='text')
 
-# Creating counts is a time consuming procedure
-# Hence, you can run it once and store the counts, by providing counts_filename argument.
+# build_counts() that creates word occurrence counts is time consuming.
+# Hence, you can run it once and store the counts, by the setting 
+# counts_filename argument.
 mwe.build_counts(counts_filename='tmp/counts.json')
 
-# One counts are created, extraction of MWEs is fast and can be carried out with different parameters
-# Use the optional `mwes_filename` parameter to store the extracted MWEs.
-mwe.extract_mwes(counts_filename='tmp/counts.json', mwes_filename='tmp/mwes.json')
-
-```
-
-**Notes**
-- If the text in `text_column` is partly tokenized or not tokenized at all, this issue is recognized at instantiation time and shows you a warning. If you already know that your text is not tokenized, you can run the same instantiation with flag `tokenize=True`. 
-- `mwes.json` contains dictionary of mwe types e.g. (*NC, JNC*) and their association scores (e.g. *PMI*).
-- The MWEs in this json file are sorted with respect to their `am` score.
-
-See the following worked example, to see how you can access and use MWEs.
-
-```python
-from tabulate import tabulate
-import json
-
-with open('tmp/mwes.json') as json_file:
-    mwes_dict = json.load(json_file)
-
-nc_association = {k: v for k, v in mwes_dict['NC'].items()}
-top_nc_association_table = [[k, v] for k,v in nc_association.items()][:10]
-print(tabulate(top_nc_table, tablefmt="simple_grid"))
+# One counts are created, extraction of MWEs is fast and can be carried
+# out with different parameters.
+# If the optional mwes_filename parameter is set, the extracted MWEs
+# will be stored in the corresponding file.
+mwes_dict = mwe.extract_mwes(counts_filename='../tmp/counts.json')
+mwes_nc = {k: v for k, v in mwes_dict['NC'].items()}
+top_mwes_nc = [[k, v] for k,v in mwes_nc.items()][:10]
+print(tabulate(top_mwes_nc, tablefmt="double_outline"))
 
 ╔══════════════════╦═══════╗
 ║ busby berkeley   ║ 11.2  ║
@@ -192,15 +178,7 @@ print(tabulate(top_nc_table, tablefmt="simple_grid"))
 ╚══════════════════╩═══════╝
 ```
 
-Notice how the name of actors and shows such as `busby berkeley`, `burgess meredith`, and `monty python` as well other other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model which can add value by saving much costs and speed things up, in certain situations.
-
-
-One common use of extracting MWEs is to treat them as a single unit. Research shows that when MWEs are treated as a single token, they performance of downstream applications such as classification and NER increases. Using `hyphenate_mwes` function, you can hyphenate the extracted MWEs in the corpus (global warming --> global-warming). This will force downstream tokenizers to treat them as a single token. Here is a worked example:
-
-```python
-from wordview.mwes import hyphenate_mwes
-mwe_hyphenated_df = hyphenate_mwes(path_to_mwes='tmp/mwes.json', mwe_types=['NC', 'JNC'], df=imdb_train, text_column='text')
-```
+Notice how show and actor names such as `busby berkeley`, `burgess meredith`, and `monty python` as well other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model. This can save much costs and speed things up, in certain situations.
 
 ## Anomalies
 Sometimes, anomalies find their way into the data and tamper with the quality of the downstream ML model. For instance, a classifier that is trained to classify input documents into N known classes, does not know what to do with an anomalous document, hence, it places it into one of those classes that can be completely wrong. Anomaly detection, in this example, allows us to identify and discard anomalies before running the classifier. On the other hand, sometimes anomalies the most interesting part of our data and those are the ones that we are looking for.
@@ -228,7 +206,7 @@ rt.show_plot()
 
 ## **Filtering**
 
-Filtering noise and cleaning up the text can be a tedious task, but for most NLP applications we almost always need some degree of it. *WORDVIEW* offers easy to use functionalities for filtering noise, customized definition of noise, and cleaning up the text from it. For instance, you can choose what pattern to accept via `keep_pattern` argument, what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. Or you can specify the max length of allowed tokens to filter out very long sequences that are often noise. See the docs to learn more about other parameters of `clean_text`. Here is a worked example:
+Filtering noise and cleaning up the text can be a tedious task, but for most NLP applications we almost always need some degree of it. *wordview* offers easy to use functionalities for filtering noise, customized definition of noise, and cleaning up the text from it. For instance, you can choose what pattern to accept via `keep_pattern` argument, what pattern to drop via `drop_patterns` argument, and what pattern to replace via `replace` argument. Or you can specify the max length of allowed tokens to filter out very long sequences that are often noise. See the docs to learn more about other parameters of `clean_text`. Here is a worked example:
 
 
 ```python
@@ -295,7 +273,12 @@ poetry install
 By default, dependencies across all non-optional groups are install. See [Poetry documentation](https://python-poetry.org/docs/managing-dependencies/) for more details and for instructions on how to define optional dependency groups.
 
 ### Testing
-Testing of `wordview`'s is carried out via [Pytest](https://docs.pytest.org/). Please include tests for any piece of code that you create inside the [tests](./tests/) directory. To see examples, you can consult the existing tests in this directory.
+Testing of `wordview`'s is carried out via [Pytest](https://docs.pytest.org/). Please include tests for any piece of code that you create inside the [tests](./tests/) directory. To see examples, you can consult the existing tests in this directory. Once you have provided the tests, simply run in the command line.
+
+```bash
+pytest
+```
+If all tests pass, you can continue with the next steps.
 
 ### Code Quality
 
