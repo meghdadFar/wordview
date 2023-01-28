@@ -108,7 +108,7 @@ class MWE(object):
         mwes_filename: str = None,
         counts_filename: str = None,
         counts: Dict = None,
-    ) -> None:
+    ) -> Dict:
         """
         Args:
             mwe_types: Types of MWEs. Can be any of [NC, JNC]
@@ -117,7 +117,7 @@ class MWE(object):
             counts_filename: File to read counts from.
 
         Returns:
-            None (when no mwes_filename is provided) otherwise mwe_am_dict: Dictionary of MWEs.
+            Dictionary of MWEs.
         """
         if counts:
             count_data = counts
@@ -143,5 +143,7 @@ class MWE(object):
             except Exception as e:
                 logger.error(e)
                 raise e
+            finally:
+                return mwe_am_dict
         else:
             return mwe_am_dict
