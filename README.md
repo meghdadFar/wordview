@@ -16,7 +16,7 @@
   - [Topics]() (planned)
   - [Clusters]() (planned)
   - [Arguments]() (planned)
-  - [Labels]()
+  - [Labels](#labels)
     - [Document-level Labels](#document-level-labels)
     - [Sequence-level Labels](#sequence-level-labels) (planned)
 - Information Extraction
