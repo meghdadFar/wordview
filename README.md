@@ -20,11 +20,10 @@
     - [Document-level Labels](#document-level-labels)
     - [Sequence-level Labels](#sequence-level-labels) (planned)
 - Information Extraction
-  - [Multiword Expressions](#extraction-of-multiword-expressions)
-  - [Statistically Redundant Words](#identification-of-statistically-redundant-words)
+  - [Multiword Expressions](#multiword-expressions)
+  - [Statistically Redundant Words](#statistically-redundant-words)
   - [Anomalies](#anomalies) (planned)
-- [Filtering](#text-cleaning)
-  - [Auto Text Cleaning](#auto-text-cleaning)
+- [Filtering](#filtering)
 
 
 # Usage
