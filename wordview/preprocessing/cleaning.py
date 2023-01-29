@@ -14,7 +14,8 @@ def clean_text(
     maxlen: int = 15,
     lower=False,
 ) -> str:
-    """Tokenize and clean text, by matching it against keep_pattern and droping and replacing provided patterns.
+    """Tokenize and clean text, based on keep_pattern, drop_patterns, replace patterns,
+    and other input arguments.
 
     Args:
         text (str): Input text.
