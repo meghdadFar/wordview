@@ -5,12 +5,12 @@ This code written by Greg Ver Steeg, 2015.
 """
 
 import numpy as np
-from scipy.special import lambertw
-from scipy.stats import kurtosis, norm, rankdata, boxcox
-from scipy.optimize import fmin  # TODO: Explore efficacy of other opt. methods
 import sklearn
+from scipy.optimize import fmin  # TODO: Explore efficacy of other opt. methods
+from scipy.special import lambertw
+from scipy.stats import boxcox, kurtosis, norm, rankdata
 
-np.seterr(all='warn')
+np.seterr(all="warn")
 
 
 class Gaussianize(sklearn.base.TransformerMixin):
@@ -49,7 +49,7 @@ class Gaussianize(sklearn.base.TransformerMixin):
     [3] Box cox transformation and references: https://en.wikipedia.org/wiki/Power_transform
     """
 
-    def __init__(self, tol=1.22e-4, max_iter=100, verbose=False, strategy='lambert'):
+    def __init__(self, tol=1.22e-4, max_iter=100, verbose=False, strategy="lambert"):
         self.tol = tol
         self.max_iter = max_iter
         self.strategy = strategy
@@ -62,17 +62,21 @@ class Gaussianize(sklearn.base.TransformerMixin):
         if len(x.shape) == 1:
             x = x[:, np.newaxis]
         elif len(x.shape) != 2:
-            print("Data should be a 1-d list of samples to transform or a 2d array with samples as rows.")
+            print(
+                "Data should be a 1-d list of samples to transform or a 2d array with samples as rows."
+            )
 
-        if self.strategy == 'lambert':
+        if self.strategy == "lambert":
             if self.verbose:
                 print("Gaussianizing with Lambert method")
             for x_i in x.T:
                 self.coefs_.append(igmm(x_i, tol=self.tol, max_iter=self.max_iter))
-        elif self.strategy == 'brute':
+        elif self.strategy == "brute":
             for x_i in x.T:
-                self.coefs_.append(None)  # TODO: In principle, we could store parameters to do a quasi-invert
-        elif self.strategy == 'boxcox':
+                self.coefs_.append(
+                    None
+                )  # TODO: In principle, we could store parameters to do a quasi-invert
+        elif self.strategy == "boxcox":
             for x_i in x.T:
                 self.coefs_.append(boxcox(x_i)[1])
         else:
@@ -85,42 +89,59 @@ class Gaussianize(sklearn.base.TransformerMixin):
         if len(x.shape) == 1:
             x = x[:, np.newaxis]
         elif len(x.shape) != 2:
-            print("Data should be a 1-d list of samples to transform or a 2d array with samples as rows.")
+            print(
+                "Data should be a 1-d list of samples to transform or a 2d array with samples as rows."
+            )
         if x.shape[1] != len(self.coefs_):
-            print("%d variables in test data, but %d variables were in training data." % (x.shape[1], len(self.coefs_)))
+            print(
+                "%d variables in test data, but %d variables were in training data."
+                % (x.shape[1], len(self.coefs_))
+            )
 
-        if self.strategy == 'lambert':
+        if self.strategy == "lambert":
             return np.array([w_t(x_i, tau_i) for x_i, tau_i in zip(x.T, self.coefs_)]).T
-        elif self.strategy == 'brute':
-            return np.array([norm.ppf((rankdata(x_i) - 0.5) / len(x_i)) for x_i in x.T]).T
-        elif self.strategy == 'boxcox':
-            return np.array([boxcox(x_i, lmbda=lmbda_i) for x_i, lmbda_i in zip(x.T, self.coefs_)]).T
+        elif self.strategy == "brute":
+            return np.array(
+                [norm.ppf((rankdata(x_i) - 0.5) / len(x_i)) for x_i in x.T]
+            ).T
+        elif self.strategy == "boxcox":
+            return np.array(
+                [boxcox(x_i, lmbda=lmbda_i) for x_i, lmbda_i in zip(x.T, self.coefs_)]
+            ).T
         else:
             raise NotImplementedError
 
     def inverse_transform(self, y):
         """Recover original data from Gaussianized data."""
-        if self.strategy == 'lambert':
-            return np.array([inverse(y_i, tau_i) for y_i, tau_i in zip(y.T, self.coefs_)]).T
-        elif self.strategy == 'boxcox':
-            return np.array([(1. + lmbda_i * y_i) ** (1./lmbda_i) for y_i, lmbda_i in zip(y.T, self.coefs_)]).T
+        if self.strategy == "lambert":
+            return np.array(
+                [inverse(y_i, tau_i) for y_i, tau_i in zip(y.T, self.coefs_)]
+            ).T
+        elif self.strategy == "boxcox":
+            return np.array(
+                [
+                    (1.0 + lmbda_i * y_i) ** (1.0 / lmbda_i)
+                    for y_i, lmbda_i in zip(y.T, self.coefs_)
+                ]
+            ).T
         else:
-            print('Inversion not supported for this gaussianization transform.')
+            print("Inversion not supported for this gaussianization transform.")
             raise NotImplementedError
 
-    def qqplot(self, x, prefix='qq'):
+    def qqplot(self, x, prefix="qq"):
         """Show qq plots compared to normal before and after the transform."""
         from matplotlib import pylab
         from scipy.stats import probplot
+
         y = self.transform(x)
 
         for i, (x_i, y_i) in enumerate(zip(x.T, y.T)):
             probplot(x_i, dist="norm", plot=pylab)
-            pylab.savefig(prefix + '_%d_before.png' % i)
+            pylab.savefig(prefix + "_%d_before.png" % i)
             pylab.clf()
 
             probplot(y_i, dist="norm", plot=pylab)
-            pylab.savefig(prefix + '_%d_after.png' % i)
+            pylab.savefig(prefix + "_%d_after.png" % i)
             pylab.clf()
 
 
@@ -128,7 +149,7 @@ def w_d(z, delta):
     # Eq. 9
     if delta < 1e-6:
         return z
-    return np.sign(z) * np.sqrt(np.real(lambertw(delta * z ** 2)) / delta)
+    return np.sign(z) * np.sqrt(np.real(lambertw(delta * z**2)) / delta)
 
 
 def w_t(y, tau):
@@ -147,7 +168,7 @@ def igmm(y, tol=1.22e-4, max_iter=100):
     if np.std(y) < 1e-4:
         return np.mean(y), np.std(y).clip(1e-4), 0
     delta0 = delta_init(y)
-    tau1 = (np.median(y), np.std(y) * (1. - 2. * delta0) ** 0.75, delta0)
+    tau1 = (np.median(y), np.std(y) * (1.0 - 2.0 * delta0) ** 0.75, delta0)
     for k in range(max_iter):
         tau0 = tau1
         z = (y - tau1[0]) / tau1[1]
@@ -160,7 +181,10 @@ def igmm(y, tol=1.22e-4, max_iter=100):
             break
         else:
             if k == max_iter - 1:
-                print("Warning: No convergence after %d iterations. Increase max_iter." % max_iter)
+                print(
+                    "Warning: No convergence after %d iterations. Increase max_iter."
+                    % max_iter
+                )
     return tau1
 
 
@@ -171,9 +195,9 @@ def delta_gmm(z):
     def func(q):
         u = w_d(z, np.exp(q))
         if not np.all(np.isfinite(u)):
-            return 0.
+            return 0.0
         else:
-            k = kurtosis(u, fisher=True, bias=False)**2
+            k = kurtosis(u, fisher=True, bias=False) ** 2
             if not np.isfinite(k) or k > 1e10:
                 return 1e10
             else:
@@ -185,53 +209,89 @@ def delta_gmm(z):
 
 def delta_init(z):
     gamma = kurtosis(z, fisher=False, bias=False)
-    with np.errstate(all='ignore'):
-        delta0 = np.clip(1. / 66 * (np.sqrt(66 * gamma - 162.) - 6.), 0.01, 0.48)
+    with np.errstate(all="ignore"):
+        delta0 = np.clip(1.0 / 66 * (np.sqrt(66 * gamma - 162.0) - 6.0), 0.01, 0.48)
     if not np.isfinite(delta0):
         delta0 = 0.01
     return delta0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Command line interface
     # Sample commands:
     # python gaussianize.py test_data.csv
     import csv
-    import sys, os
+    import os
+    import sys
     import traceback
-    from optparse import OptionParser, OptionGroup
+    from optparse import OptionGroup, OptionParser
 
-    parser = OptionParser(usage="usage: %prog [options] data_file.csv \n"
-                                "It is assumed that the first row and first column of the data CSV file are labels.\n"
-                                "Use options to indicate otherwise.")
+    parser = OptionParser(
+        usage="usage: %prog [options] data_file.csv \n"
+        "It is assumed that the first row and first column of the data CSV file are labels.\n"
+        "Use options to indicate otherwise."
+    )
     group = OptionGroup(parser, "Input Data Format Options")
-    group.add_option("-c", "--no_column_names",
-                     action="store_true", dest="nc", default=False,
-                     help="We assume the top row is variable names for each column. "
-                          "This flag says that data starts on the first row and gives a "
-                          "default numbering scheme to the variables (1,2,3...).")
-    group.add_option("-r", "--no_row_names",
-                     action="store_true", dest="nr", default=False,
-                     help="We assume the first column is a label or index for each sample. "
-                          "This flag says that data starts on the first column.")
-    group.add_option("-d", "--delimiter",
-                     action="store", dest="delimiter", type="string", default=",",
-                     help="Separator between entries in the data, default is ','.")
+    group.add_option(
+        "-c",
+        "--no_column_names",
+        action="store_true",
+        dest="nc",
+        default=False,
+        help="We assume the top row is variable names for each column. "
+        "This flag says that data starts on the first row and gives a "
+        "default numbering scheme to the variables (1,2,3...).",
+    )
+    group.add_option(
+        "-r",
+        "--no_row_names",
+        action="store_true",
+        dest="nr",
+        default=False,
+        help="We assume the first column is a label or index for each sample. "
+        "This flag says that data starts on the first column.",
+    )
+    group.add_option(
+        "-d",
+        "--delimiter",
+        action="store",
+        dest="delimiter",
+        type="string",
+        default=",",
+        help="Separator between entries in the data, default is ','.",
+    )
     parser.add_option_group(group)
 
     group = OptionGroup(parser, "Transform Options")
-    group.add_option("-s", "--strategy",
-                     action="store", dest="strategy", type="string", default="lambert",
-                     help="Strategy.")
+    group.add_option(
+        "-s",
+        "--strategy",
+        action="store",
+        dest="strategy",
+        type="string",
+        default="lambert",
+        help="Strategy.",
+    )
     parser.add_option_group(group)
 
     group = OptionGroup(parser, "Output Options")
-    group.add_option("-o", "--output",
-                     action="store", dest="output", type="string", default="gaussian_output.csv",
-                     help="Where to store gaussianized data.")
-    group.add_option("-q", "--qqplots",
-                     action="store_true", dest="q", default=False,
-                     help="Produce qq plots for each variable before and after transform.")
+    group.add_option(
+        "-o",
+        "--output",
+        action="store",
+        dest="output",
+        type="string",
+        default="gaussian_output.csv",
+        help="Where to store gaussianized data.",
+    )
+    group.add_option(
+        "-q",
+        "--qqplots",
+        action="store_true",
+        dest="q",
+        default=False,
+        help="Produce qq plots for each variable before and after transform.",
+    )
     parser.add_option_group(group)
 
     (options, args) = parser.parse_args()
@@ -239,32 +299,34 @@ if __name__ == '__main__':
         print("Run with '-h' option for usage help.")
         sys.exit()
 
-    #Load data from csv file
+    # Load data from csv file
     filename = args[0]
-    with open(filename, 'rU') as csvfile:
-        reader = csv.reader(csvfile, delimiter=" ")  #options.delimiter)
+    with open(filename, "rU") as csvfile:
+        reader = csv.reader(csvfile, delimiter=" ")  # options.delimiter)
         if options.nc:
             variable_names = None
         else:
-            variable_names = reader.next()[(1 - options.nr):]
-        sample_names = []
+            variable_names = reader.next()[(1 - options.nr) :]  # type: ignore
+        sample_names = []  # type: ignore
         data = []
         for row in reader:
             if options.nr:
-                sample_names = None
+                sample_names = None  # type: ignore
             else:
                 sample_names.append(row[0])
-            data.append(row[(1 - options.nr):])
+            data.append(row[(1 - options.nr) :])
 
     print(len(data), data[0])
     try:
         for i in range(len(data)):
-            data[i] = map(float, data[i])
+            data[i] = map(float, data[i])  # type: ignore
         X = np.array(data, dtype=float)  # Data matrix in numpy format
-    except:
-        print("Incorrect data format.\nCheck that you've correctly specified options " \
-              "such as continuous or not, \nand if there is a header row or column.\n" \
-              "Run 'python gaussianize.py -h' option for help with options.")
+    except Exception as E:
+        print(
+            f"{E}\nIncorrect data format.\nCheck that you've correctly specified options "
+            "such as continuous or not, \nand if there is a header row or column.\n"
+            "Run 'python gaussianize.py -h' option for help with options."
+        )
         traceback.print_exc(file=sys.stdout)
         sys.exit()
 
@@ -273,28 +335,29 @@ if __name__ == '__main__':
         ks.append(kurtosis(xi))
     print(np.mean(np.array(ks) > 1))
     from matplotlib import pylab
+
     pylab.hist(ks, bins=30)
-    pylab.xlabel('excess kurtosis')
-    pylab.savefig('excess_kurtoses_all.png')
+    pylab.xlabel("excess kurtosis")
+    pylab.savefig("excess_kurtoses_all.png")
     pylab.clf()
     pylab.hist([k for k in ks if k < 2], bins=30)
-    pylab.xlabel('excess kurtosis')
-    pylab.savefig('excess_kurtoses_near_zero.png')
+    pylab.xlabel("excess kurtosis")
+    pylab.savefig("excess_kurtoses_near_zero.png")
     print(np.argmax(ks))
-    pdict = {}
-    for k in np.argsort(- np.array(ks))[:50]:
+    pdict = {}  # type: ignore
+    for k in np.argsort(-np.array(ks))[:50]:
         pylab.clf()
         p = np.argmax(X[:, k])
         pdict[p] = pdict.get(p, 0) + 1
         pylab.hist(X[:, k], bins=30)
-        pylab.xlabel(variable_names[k])
-        pylab.ylabel('Histogram of patients')
-        pylab.savefig('high_kurtosis/'+variable_names[k] + '.png')
-    print(str(pdict)+"# 203, 140 appear three times.")
+        pylab.xlabel(variable_names[k])  # type: ignore
+        pylab.ylabel("Histogram of patients")
+        pylab.savefig("high_kurtosis/" + variable_names[k] + ".png")  # type: ignore
+    print(str(pdict) + "# 203, 140 appear three times.")
     sys.exit()
     out = Gaussianize(strategy=options.strategy)
     y = out.fit_transform(X)
-    with open(options.output, 'w') as csvfile:
+    with open(options.output, "w") as csvfile:
         writer = csv.writer(csvfile, delimiter=options.delimiter)
         if not options.nc:
             writer.writerow([""] * (1 - options.nr) + variable_names)
@@ -305,8 +368,8 @@ if __name__ == '__main__':
                 writer.writerow(row)
 
     if options.q:
-        print('Making qq plots')
-        prefix = options.output.split('.')[0]
-        if not os.path.exists(prefix+'_q'):
-            os.makedirs(prefix+'_q')
-        out.qqplot(X, prefix=prefix + '_q/q')
+        print("Making qq plots")
+        prefix = options.output.split(".")[0]
+        if not os.path.exists(prefix + "_q"):
+            os.makedirs(prefix + "_q")
+        out.qqplot(X, prefix=prefix + "_q/q")

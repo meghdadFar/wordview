@@ -1,6 +1,7 @@
 import re
+from typing import Dict, Set
+
 from nltk import word_tokenize
-from typing import Set, Dict
 
 
 def clean_text(
@@ -13,12 +14,13 @@ def clean_text(
     maxlen: int = 15,
     lower=False,
 ) -> str:
-    """Tokenize and clean text, by matching it against keep_pattern and droping and replacing provided patterns.
+    """Tokenize and clean text, based on keep_pattern, drop_patterns,
+    replace patterns, and other input arguments.
 
     Args:
         text (str): Input text.
         keep_pattern (str): Allowed patterns e.g. [a-zA-Z]. Defaults to "[a-zA-Z0-9!.,?]".
-        drop_patterns (set): Set of patterns that should be dropeed from text.
+        drop_patterns (set): Set of patterns that should be dropped from text.
         replace (dict): Dictionary of to_be_replaced_pattern: replaced_with. E.g. {[0-9]+: NUM}
         remove_emojis:‌ Whether or not to remove emojis. Defaults to False.
         remove_blanks: Relevant for text scraped from Web or HTML tags. Remove excessive blank lines and whitespaces. Defaults to False.
@@ -44,7 +46,7 @@ def clean_text(
     for d in drop_patterns:  # d = e.g. <br/>
         if re.search(d, text):
             text = re.sub(d, " ", text)
-    text = re.sub("\s{2,}", " ", text)
+    text = re.sub(" {2,}", " ", text)
 
     for k, v in replace.items():
         if re.search(k, text):

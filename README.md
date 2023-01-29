@@ -50,14 +50,14 @@ Now that a dataset is loaded in a `pandas.DataFrame`, let's explore different fe
 
 ## **Text Analysis**
 
-To have overview of your data and see general stats and different distributions, you can use the `TextStatsPlots` class.
+To have an overview of your data and see general stats and different distributions, you can use the `TextStatsPlots` class.
 
 ```python
 from wordview.text_analysis import TextStatsPlots
 ta = TextStatsPlots(df=imdb_train, text_column='text')
 ```
 ### Overview
-Use the `show_stats` method to see an overview of your data in terms of different statistics.
+Use the `show_stats` method to see a set of different statistics about of your dataset.
 
 ```python
 ta.show_stats()
@@ -81,7 +81,7 @@ ta.show_stats()
 ```
 
 ### Distributions
-You can look into different distributions using the `show_distplot` method. For instance, you can see the distribution of document lengths (to decide for the fixed sequence length in sequence models with a fixed input or when training using mini-batches).
+You can look into different distributions using the `show_distplot` method. For instance, you can see the distribution of document lengths to decide for a sequence length in sequence models with a fixed input or when you carry out mini-batch training.
 ```python
 ta.show_distplot(plot='doc_len')
 ```
@@ -94,10 +94,10 @@ ta.show_distplot(plot='word_frequency_zipf')
 ```
 ![zipf](/figs/wordszipf.png)
 
-See [this excellent article](https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-models-4c3d66e6d2f6) to learn how you can use Zipf’s law to Improve NLP models.
+See [this excellent article](https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-models-4c3d66e6d2f6) to learn how Zipf’s law can be used to improve some NLP models.
 
 ### Part of Speech Tags
-To see different Part of Speech tags in word clouds, you can use the `show_word_clouds` method.
+To see different Part of Speech tags in the form of word clouds, you can use the `show_word_clouds` method.
 ```python
 # To see verbs
 ta.show_word_clouds(type="VB")
@@ -149,16 +149,16 @@ from wordview.mwes import MWE
 # JNC: ADJECTIVE-NOUN MWEs e.g. big shot
 mwe = MWE(df=imdb_train, mwe_types=["NC", "JNC"], text_column='text')
 
-# build_counts() that creates word occurrence counts is time consuming.
-# Hence, you can run it once and store the counts, by the setting 
+# build_counts method --that creates word occurrence counts, is time consuming.
+# Hence, you can run it once and store the counts, by the setting the
 # counts_filename argument.
 mwe.build_counts(counts_filename='tmp/counts.json')
 
-# One counts are created, extraction of MWEs is fast and can be carried
-# out with different parameters.
+# Once the counts are created, extraction of MWEs is fast and can be carried out
+# with different parameters.
 # If the optional mwes_filename parameter is set, the extracted MWEs
 # will be stored in the corresponding file.
-mwes_dict = mwe.extract_mwes(counts_filename='../tmp/counts.json')
+mwes_dict = mwe.extract_mwes(counts_filename='tmp/counts.json')
 mwes_nc = {k: v for k, v in mwes_dict['NC'].items()}
 top_mwes_nc = [[k, v] for k,v in mwes_nc.items()][:10]
 print(tabulate(top_mwes_nc, tablefmt="double_outline"))
@@ -177,7 +177,7 @@ print(tabulate(top_mwes_nc, tablefmt="double_outline"))
 ╚══════════════════╩═══════╝
 ```
 
-Notice how show and actor names such as `busby berkeley`, `burgess meredith`, and `monty python` as well other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model. This can save much costs and speed things up, in certain situations.
+Notice how show and actor names such as `busby berkeley`, `burgess meredith`, and `monty python` as well other multi-word concepts such as `quantum physics` and `guinea pig` are captured, without the need for any labeled data and supervised model. This can speed things up and save much costs in certain situations.
 
 ## Anomalies
 Sometimes, anomalies find their way into the data and tamper with the quality of the downstream ML model. For instance, a classifier that is trained to classify input documents into N known classes, does not know what to do with an anomalous document, hence, it places it into one of those classes that can be completely wrong. Anomaly detection, in this example, allows us to identify and discard anomalies before running the classifier. On the other hand, sometimes anomalies the most interesting part of our data and those are the ones that we are looking for.
@@ -264,7 +264,7 @@ pip install poetry
 # Disable Poetry's environment creation, since we already have created one
 poetry config virtualenvs.create false
 ```
-Use Poetry to install dependencies:
+Use Poetry to install dev (and main) dependencies:
 
 ```bash
 poetry install
@@ -281,19 +281,9 @@ If all tests pass, you can continue with the next steps.
 
 ### Code Quality
 
-To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `black`, `flake8`, `mypy` and `isort`. These tools are part of dev dependencies and hence they are installed when you [set up your dev environment](#environment-setup). To use them, change directory to project home where corresponding configuration files (`mypy.ini`, `.flake8`) live and then simply run them as follows.
+To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `pre-commit` with `black`, `flake8`, `mypy` and `isort`. The configurations are in `.pre-commit-config.yaml`. Once you have install dev dependencies, following the above instructions, run `pre-commit install` so that the above tools are installed.
 
-```bash
-
-black <PATH_TO_CHANGED_CODE>
-
-mypy <PATH_TO_CHANGED_CODE>
-
-flake8 <PATH_TO_CHANGED_CODE>
-
-isort <PATH_TO_CHANGED_CODE>
-```
-Commit the changes and push to remote. We run all the above in GitHub checks. So if you don't take these steps, GitHub checks will fail preventing you from [merging your PR](#pull-request-pr).
+When `pre-commit` install its dependencies successfully, it runs `black`, `flake8`, `mypy` and `isort` each time you try to commit code. If one of these tools fail, fix the issue, run `git add <changed_file>` again, and then again `git commit -m <commit_message>`. Once you successfully committed your changes, you can push your branch to remote and create a PR, then follow the instructions to [merge your PR](#pull-request-pr).
 
 ### Pull Request (PR)
 Once your work is complete, you can make a pull request. Remember to link your pull request to an issue by using a supported keyword in the pull request's description or in a commit message. E.g. "closes #issue_number", "resolves #issue_number", or "fixes #issue_number". See [this page](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) for more details.
