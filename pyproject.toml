@@ -20,10 +20,6 @@ plotly = "5.5.0"
 tabulate = "0.9.0"
 
 [tool.poetry.group.dev.dependencies]
-flake8 = ">=4.0"
-black = ">=22.3"
-mypy = ">=0.961"
-isort = ">=5.10.1"
 pre-commit = ">=3.0.0"
 pytest = ">=7.1"
 pytest-cov = ">=3.0.0"
