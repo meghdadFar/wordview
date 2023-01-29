@@ -1,6 +1,49 @@
 import re
+from typing import Dict, Set
+
 from nltk import word_tokenize
-from typing import Set, Dict
+
+
+def random_function_to_test_precommit(ext: str, keep_pattern: str = "[a-zA-Z0-9!.,?]"):
+    """random_function_to_test_precommit random_function_to_test_precommit
+    random_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommit
+    random_function_to_test_precommitrandom_function_to_test_precommit
+    Return:
+        None
+    """
+    if ext:
+        print("hello world")
+    if keep_pattern:
+        print("hello world")
+    res = (
+        10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+        + 10
+        + 123
+    )
+    print(res)
+    tokens = word_tokenize("text")
+    out_tokens = []
+    for t in tokens:
+        if len(t) < 10:
+            if re.match(keep_pattern, t):
+                out_tokens.append(t)
+    out_text = " ".join(out_tokens)
+    if True:
+        out_text = out_text.lower()
+    return out_text
 
 
 def clean_text(
@@ -44,7 +87,7 @@ def clean_text(
     for d in drop_patterns:  # d = e.g. <br/>
         if re.search(d, text):
             text = re.sub(d, " ", text)
-    text = re.sub("\s{2,}", " ", text)
+    text = re.sub(" {2,}", " ", text)
 
     for k, v in replace.items():
         if re.search(k, text):
