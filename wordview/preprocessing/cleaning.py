@@ -19,7 +19,7 @@ def clean_text(
     Args:
         text (str): Input text.
         keep_pattern (str): Allowed patterns e.g. [a-zA-Z]. Defaults to "[a-zA-Z0-9!.,?]".
-        drop_patterns (set): Set of patterns that should be dropeed from text.
+        drop_patterns (set): Set of patterns that should be dropped from text.
         replace (dict): Dictionary of to_be_replaced_pattern: replaced_with. E.g. {[0-9]+: NUM}
         remove_emojis:‌ Whether or not to remove emojis. Defaults to False.
         remove_blanks: Relevant for text scraped from Web or HTML tags. Remove excessive blank lines and whitespaces. Defaults to False.
