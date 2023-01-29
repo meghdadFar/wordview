@@ -4,48 +4,6 @@ from typing import Dict, Set
 from nltk import word_tokenize
 
 
-def random_function_to_test_precommit(ext: str, keep_pattern: str = "[a-zA-Z0-9!.,?]"):
-    """random_function_to_test_precommit random_function_to_test_precommit
-    random_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommitrandom_function_to_test_precommit
-    random_function_to_test_precommitrandom_function_to_test_precommit
-    Return:
-        None
-    """
-    if ext:
-        print("hello world")
-    if keep_pattern:
-        print("hello world")
-    res = (
-        10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-        + 10
-        + 123
-    )
-    print(res)
-    tokens = word_tokenize("text")
-    out_tokens = []
-    for t in tokens:
-        if len(t) < 10:
-            if re.match(keep_pattern, t):
-                out_tokens.append(t)
-    out_text = " ".join(out_tokens)
-    if True:
-        out_text = out_text.lower()
-    return out_text
-
-
 def clean_text(
     text: str,
     keep_pattern: str = "[a-zA-Z0-9!.,?]",
