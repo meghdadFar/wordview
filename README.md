@@ -264,7 +264,7 @@ pip install poetry
 # Disable Poetry's environment creation, since we already have created one
 poetry config virtualenvs.create false
 ```
-Use Poetry to install dependencies:
+Use Poetry to install dev (and main) dependencies:
 
 ```bash
 poetry install
@@ -281,19 +281,9 @@ If all tests pass, you can continue with the next steps.
 
 ### Code Quality
 
-To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `black`, `flake8`, `mypy` and `isort`. These tools are part of dev dependencies and hence they are installed when you [set up your dev environment](#environment-setup). To use them, change directory to project home where corresponding configuration files (`mypy.ini`, `.flake8`) live and then simply run them as follows.
+To ensure a high quality in terms of readability, complying with PEP standards, and static type checking, we use `pre-commit` with `black`, `flake8`, `mypy` and `isort`. The configurations are in `.pre-commit-config.yaml`. Once you have install dev dependencies, following the above instructions, run `pre-commit install` so that the above tools are installed.
 
-```bash
-
-black <PATH_TO_CHANGED_CODE>
-
-mypy <PATH_TO_CHANGED_CODE>
-
-flake8 <PATH_TO_CHANGED_CODE>
-
-isort <PATH_TO_CHANGED_CODE>
-```
-Commit the changes and push to remote. We run all the above in GitHub checks. So if you don't take these steps, GitHub checks will fail preventing you from [merging your PR](#pull-request-pr).
+When `pre-commit` install its dependencies successfully, it runs `black`, `flake8`, `mypy` and `isort` each time you try to commit code. If one of these tools fail, fix the issue, run `git add <changed_file>` again, and then again `git commit -m <commit_message>`. Once you successfully committed your changes, you can push your branch to remote and create a PR, then follow the instructions to [merge your PR](#pull-request-pr).
 
 ### Pull Request (PR)
 Once your work is complete, you can make a pull request. Remember to link your pull request to an issue by using a supported keyword in the pull request's description or in a commit message. E.g. "closes #issue_number", "resolves #issue_number", or "fixes #issue_number". See [this page](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) for more details.
