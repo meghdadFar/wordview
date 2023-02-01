@@ -397,7 +397,7 @@ dependency groups.
 Testing
 -------
 
-Testing of ``wordview``\ ’s is carried out via
+Testing of ``wordview`` is carried out via
 `Pytest <https://docs.pytest.org/>`__. Please include tests for any
 piece of code that you create inside the `tests <./tests/>`__ directory.
 To see examples, you can consult the existing tests in this directory.
