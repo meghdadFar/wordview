@@ -346,7 +346,7 @@ would like to work on, feel free to `open a PR <#pull-request-pr>`__ for
 it.
 
 Branches
-~~~~~~~~
+--------
 
 To begin contributing, clone the repository and make sure you are on
 ``main`` branch. Then create your own branch.
@@ -369,7 +369,7 @@ based on a normal distribution, a good branch name can be
 ``normal-dist-anomaly-detection``.
 
 Environment Setup
-~~~~~~~~~~~~~~~~~
+-----------------
 
 We use ```Poetry`` <https://pypi.org/project/poetry/>`__ to manage
 dependencies and packaging. Follow these steps to set up your dev
@@ -399,7 +399,7 @@ for more details and for instructions on how to define optional
 dependency groups.
 
 Testing
-~~~~~~~
+-------
 
 Testing of ``wordview``\ ’s is carried out via
 `Pytest <https://docs.pytest.org/>`__. Please include tests for any
@@ -414,7 +414,7 @@ Once you have provided the tests, simply run in the command line.
 If all tests pass, you can continue with the next steps.
 
 Code Quality
-~~~~~~~~~~~~
+------------
 
 To ensure a high quality in terms of readability, complying with PEP
 standards, and static type checking, we use ``pre-commit`` with
@@ -432,7 +432,7 @@ changes, you can push your branch to remote and create a PR, then follow
 the instructions to `merge your PR <#pull-request-pr>`__.
 
 Pull Request (PR)
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Once your work is complete, you can make a pull request. Remember to
 link your pull request to an issue by using a supported keyword in the
