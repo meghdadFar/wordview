@@ -149,7 +149,7 @@ use the ``show_word_clouds`` method.
    # To see adjectives
    ta.show_word_clouds(type="JJ")
 
-.. |verbs| |nouns| |adjs|
+|verbs| |nouns| |adjs|
 
 Labels
 ~~~~~~
