@@ -129,7 +129,6 @@ Or, you can see the Zipf distribution of words:
 .. figure:: /figs/wordszipf.png
    :alt: zipf
 
-   zipf
 
 See `this excellent
 article <https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-models-4c3d66e6d2f6>`__
@@ -150,7 +149,6 @@ use the ``show_word_clouds`` method.
    # To see adjectives
    ta.show_word_clouds(type="JJ")
 
-|verbs| |nouns| |adjs|
 
 Labels
 ~~~~~~
