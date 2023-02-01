@@ -186,8 +186,6 @@ labels are provided in a ``pandas.dataframe``.
 .. figure:: /figs/labels.png
    :alt: labels
 
-   labels
-
 Sequence-level Labels
 ~~~~~~~~~~~~~~~~~~~~~
 
