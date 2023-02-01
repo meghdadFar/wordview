@@ -119,7 +119,6 @@ when you carry out mini-batch training.
 .. figure:: /figs/doclen.png
    :alt: doclen
 
-   doclen
 
 Or, you can see the Zipf distribution of words:
 
