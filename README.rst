@@ -5,13 +5,8 @@ wordview
 
 |Python 3.9|
 
-``wordview`` is a Python package for text analysis. It, moreover,
-provides a number of functionalities for Information Extraction and
-Preprocessing. See section `Features <#Features>`__ for more details.
-``wordview``\ ’s Python API is open-source and available under the `MIT
-license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
-offer a web app under a commercial license. See `this page <>`__ for
-more information about the web-app-based version of ``wordview``.
+.. include:: docs/source/intro.rst
+
 
 Features
 ========
@@ -116,7 +111,7 @@ when you carry out mini-batch training.
 
    ta.show_distplot(plot='doc_len')
 
-.. figure:: /figs/doclen.png
+.. figure:: figs/doclen.png
    :alt: doclen
 
 
@@ -126,7 +121,7 @@ Or, you can see the Zipf distribution of words:
 
    ta.show_distplot(plot='word_frequency_zipf')
 
-.. figure:: /figs/wordszipf.png
+.. figure:: figs/wordszipf.png
    :alt: zipf
 
 
@@ -453,6 +448,6 @@ integrated in wordview!
    :target: https://badge.fury.io/py/wordview
 .. |Python 3.9| image:: https://img.shields.io/badge/python-3.9-blue.svg
    :target: https://www.python.org/downloads/release/python-390/
-.. |verbs| image:: /figs/verbs.png
-.. |nouns| image:: /figs/nouns.png
-.. |adjs| image:: /figs/adjectives.png
+.. |verbs| image:: figs/verbs.png
+.. |nouns| image:: figs/nouns.png
+.. |adjs| image:: figs/adjectives.png
