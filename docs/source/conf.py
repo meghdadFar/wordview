@@ -9,6 +9,7 @@
 project = 'wordview'
 copyright = '2023, Meghdad Farahmand'
 author = 'Meghdad Farahmand'
+release = '"0.1.0"'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -16,7 +17,7 @@ author = 'Meghdad Farahmand'
 extensions = []
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 
 
