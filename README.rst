@@ -6,8 +6,6 @@ wordview
 |Python 3.9|
 
 .. include:: docs/source/intro.rst
-.. include:: docs/source/features.rst
-.. include:: docs/source/textanalysis.rst
 
 
 Features
