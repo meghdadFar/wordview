@@ -6,6 +6,8 @@ wordview
 |Python 3.9|
 
 .. include:: docs/source/intro.rst
+.. include:: docs/source/features.rst
+.. include:: docs/source/textanalysis.rst
 
 
 Features
@@ -111,9 +113,7 @@ when you carry out mini-batch training.
 
    ta.show_distplot(plot='doc_len')
 
-.. figure:: figs/doclen.png
-   :alt: doclen
-
+|doclen|
 
 Or, you can see the Zipf distribution of words:
 
@@ -121,8 +121,7 @@ Or, you can see the Zipf distribution of words:
 
    ta.show_distplot(plot='word_frequency_zipf')
 
-.. figure:: figs/wordszipf.png
-   :alt: zipf
+|wordszipf|
 
 
 See `this excellent
@@ -178,8 +177,7 @@ labels are provided in a ``pandas.dataframe``.
 
    lsp.show_label_plots()
 
-.. figure:: /figs/labels.png
-   :alt: labels
+|labels|
 
 Sequence-level Labels
 ~~~~~~~~~~~~~~~~~~~~~
@@ -451,3 +449,7 @@ integrated in wordview!
 .. |verbs| image:: figs/verbs.png
 .. |nouns| image:: figs/nouns.png
 .. |adjs| image:: figs/adjectives.png
+.. |doclen| image:: figs/doclen.png
+.. |wordszipf| image:: figs/wordszipf.png
+.. |labels| image:: figs/labels.png
+
