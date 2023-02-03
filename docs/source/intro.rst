@@ -1,3 +1,4 @@
+.. inclusion-marker-do-not-remove
 ``wordview`` is a Python package for text analysis. It, moreover,
 provides a number of functionalities for Information Extraction and
 Preprocessing. See section `Features <#Features>`__ for more details.
