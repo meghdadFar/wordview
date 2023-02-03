@@ -5,19 +5,12 @@
 
 Welcome to wordview's documentation!
 ====================================
-``wordview`` is a Python package for text analysis. It, moreover,
-provides a number of functionalities for Information Extraction and
-Preprocessing.
+.. include:: intro.rst
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   readme
    modules
 
 
