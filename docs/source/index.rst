@@ -11,7 +11,6 @@ Welcome to wordview's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   intro
    contributing
    modules
 
