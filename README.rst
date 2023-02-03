@@ -319,7 +319,7 @@ often noise. See the docs to learn more about other parameters of
 
 **Note** ``clean_text`` returns tokenized text.
 
-Contributions
+Contributing
 =============
 
 Thank you for contributing to wordview! We and the users of this repo
