@@ -13,7 +13,8 @@ class NormalDistAnomalies(object):
         """Identify anomalies on a normal distribution.
 
         Args:
-            items: A dictionary of items and their representative value, such as count, idf, etc. The representative value can also be a vector.
+            items: A dictionary of items and their representative value, such as count, idf, etc.
+                    The representative value can also be a vector.
             method: Method of creating the set of redundant words. Can be either of ['idf'].
         Returns:
             None
@@ -29,7 +30,8 @@ class NormalDistAnomalies(object):
         """Identify anomalous items in `self.items`.
 
         Args:
-            manual: Whether or not select redundant words using manual thresholds. When set to True, manual_thresholds should be specified.
+            manual: Whether or not select redundant words using manual thresholds.
+                    When set to True, manual_thresholds should be specified.
             z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default is 3.
             l_idf: Lower cut-off threshold for  items (inclusive). Used only when manual is True.
             u_idf: Upper cut-off threshold for items (inclusive). Used only when manual is True.
@@ -52,7 +54,8 @@ class NormalDistAnomalies(object):
     def _anomalous_items_manual(
         self, item_score_dict, lower_threshold, upper_threshold
     ) -> Set[str]:
-        """Identify anomalous items by looking at manual thresholds i.e. lower_threshold, upper_threshold.
+        """Identify anomalous items by looking at manual thresholds i.e.
+            lower_threshold, upper_threshold.
 
         Args:
             item_score_dict: Dictionary of items to their score.
@@ -67,12 +70,14 @@ class NormalDistAnomalies(object):
         largest_idf = sl[len(sl) - 1][1]
         if lower_threshold < smallest_idf:
             raise ValueError(
-                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
-                or consider switching the manual flag back to False."
+                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. \
+                    You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
+                        or consider switching the manual flag back to False."
             )
         if upper_threshold > largest_idf:
             raise ValueError(
-                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
+                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. \
+                You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
                 or consider switching the manual flag back to False."
             )
         anomalous_items = set()
@@ -88,7 +93,8 @@ class NormalDistAnomalies(object):
 
         Args:
             item_score_dict: Dictionary of items to their score.
-            z_value: Items that are away this many standard deviation from mean are considered anomalous.
+            z_value: Items that are away this many standard deviation
+                    from mean are considered anomalous.
 
         Returns:
             Set of anomalous items.
@@ -110,7 +116,8 @@ class NormalDistAnomalies(object):
         return anomalies_set
 
     def show_plot(self) -> None:
-        """Create a distribution plot for the scores to help manually identify cut-off thresholds.
+        """Create a distribution plot for the scores to help manually
+            identify cut-off thresholds.
 
         Args:
             scores:
