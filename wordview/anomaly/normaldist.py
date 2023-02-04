@@ -3,7 +3,6 @@ from typing import Dict, Set
 import pandas as pd
 import plotly.express as px
 from scipy.stats import zscore
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 from wordview import gaussianize
 
