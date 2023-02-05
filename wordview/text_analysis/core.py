@@ -1,22 +1,24 @@
+import os
 import string
-from typing import List, Tuple
-import nltk
 import time
 from statistics import median
-import os
-import plotly
-import pandas
-import plotly.figure_factory as ff
-import plotly.graph_objs as go
-import pandas as pd
-import numpy as np
-import fasttext
+from typing import Any, Dict, List, Tuple
 
-from wordcloud import WordCloud, get_single_color_func
-from wordview import logger
-from tqdm import tqdm
+import fasttext
+import nltk
+import numpy as np
+import pandas
+import pandas as pd
+import plotly
+import plotly.graph_objs as go
 from nltk.corpus import stopwords
+
+plotly.graph_objects.Figure
 from plotly.subplots import make_subplots
+from tqdm import tqdm
+from wordcloud import WordCloud, get_single_color_func
+
+from wordview import logger
 
 here = os.path.dirname(os.path.abspath(__file__))
 ftmodel = fasttext.load_model(os.path.join(here, "lid.176.ftz"))
@@ -80,7 +82,9 @@ def plotly_wordcloud(token_count_dic: dict) -> plotly.graph_objects.Scattergl:
         )
 
 
-def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
+def generate_label_plots(
+    df: pandas.DataFrame, label_cols: List[Tuple]
+) -> plotly.graph_objects.Figure:
     """Generate histogram and bar plots for the labels in label_cols.
 
     Args:
@@ -90,7 +94,7 @@ def generate_label_plots(df: pandas.DataFrame, label_cols: List[Tuple]) -> None:
                            ('label_2', 'categorical/numerical'), ...]
 
     Returns:
-        None
+        plotly.graph_objects.Figure
     """
 
     if len(label_cols) == 1:
@@ -192,7 +196,7 @@ def do_txt_analysis(
     text_col: str,
     language: str = "english",
     skip_stopwords_punc: bool = True,
-) -> None:
+) -> Any:
     """Generate analysis report and eitherr renders the report via Plotly show api or saves it offline to html.
 
     Args:
@@ -202,7 +206,7 @@ def do_txt_analysis(
         skip_stopwords_punc (bool): Whether or not skip stopwords and punctuations in the analysis. Default: True
 
     Returns:
-        None
+        TxtAnalysisFields
     """
 
     global ftmodel
@@ -244,10 +248,10 @@ def do_txt_analysis(
     punctuations = set(string.punctuation)
 
     doc_lengths = []
-    token_to_count = {}
-    NNs = {}
-    JJs = {}
-    Vs = {}
+    token_to_count_dict: Dict[str, int] = {}
+    NNs: Dict[str, int] = {}
+    JJs: Dict[str, int] = {}
+    Vs: Dict[str, int] = {}
     languages = set()
 
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
@@ -261,7 +265,7 @@ def do_txt_analysis(
                 tokens = [
                     t for t in tokens if t not in stop_words and t not in punctuations
                 ]
-                update_count(token_to_count, tokens)
+                update_count(token_to_count_dict, tokens)
 
         except Exception as e:
             logger.warning(
@@ -278,7 +282,7 @@ def do_txt_analysis(
         update_count(JJs, adjectives)
 
     freq_df = pd.DataFrame(
-        {"tokens": token_to_count.keys(), "count": token_to_count.values()}
+        {"tokens": token_to_count_dict.keys(), "count": token_to_count_dict.values()}
     )
     freq_df["proportion"] = freq_df["count"] / freq_df["count"].sum()
     vocab_size = freq_df.shape[0]
@@ -317,6 +321,7 @@ def do_txt_analysis(
         nns=NNs,
         jjs=JJs,
         vs=Vs,
+        token_to_count_dict=token_to_count_dict,
     )
 
 
@@ -335,6 +340,7 @@ class TxtAnalysisFields:
         nns,
         jjs,
         vs,
+        token_to_count_dict,
     ):
         self.doc_lengths = doc_lengths
         self.zipf_x = zipf_x
@@ -348,3 +354,4 @@ class TxtAnalysisFields:
         self.nns = nns
         self.jjs = jjs
         self.vs = vs
+        self.token_to_count_dict = token_to_count_dict
