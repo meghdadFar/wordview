@@ -8,13 +8,12 @@ from wordview import gaussianize
 
 
 class NormalDistAnomalies(object):
-    def __init__(self, items: Dict, method="idf"):
+    def __init__(self, items: Dict):
         """Identify anomalies on a normal distribution.
 
         Args:
             items: A dictionary of items and their representative value, such as count, idf, etc.
                     The representative value can also be a vector.
-            method: Method of creating the set of redundant words. Can be either of ['idf'].
         Returns:
             None
         """
