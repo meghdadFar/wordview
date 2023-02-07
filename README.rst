@@ -263,11 +263,9 @@ distribution of your data. See a worked example below.
    from sklearn.feature_extraction.text import TfidfVectorizer
    
    # Create a score for words.
-   
    # It can be e.g. word frequency 
    tsp = TextStatsPlots(df=imdb_train, text_column='text')
    token_score_dict = tsp.analysis.token_to_count_dict
-   
    # or it can be the inverse document frequency (IDF)
    vectorizer = TfidfVectorizer(min_df=1)
    X = vectorizer.fit_transform(imdb_train["text"])
