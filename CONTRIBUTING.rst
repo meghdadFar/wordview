@@ -95,7 +95,9 @@ commit code. If one of these tools fail, fix the issue, run
 ``git add <changed_file>`` again, and then again
 ``git commit -m <commit_message>``. Once you successfully committed your
 changes, you can push your branch to remote and create a PR, then follow
-the instructions to `merge your PR <#pull-request-pr>`__.
+the instructions to `merge your PR <#pull-request-pr>`__. Note that you can
+skip pre-commit checks by running your ``git commit`` with the ``--no-verify`` flag (e.g. ``git commit -m 'dirty fix' --no-verify``), however,
+this is discouraged unless you really have to. 
 
 Pull Request (PR)
 -----------------
