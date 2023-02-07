@@ -253,43 +253,35 @@ those classes that can be completely wrong. Anomaly detection, in this
 example, allows us to identify and discard anomalies before running the
 classifier. On the other hand, sometimes anomalies the most interesting
 part of our data and those are the ones that we are looking for.
-
-**Statistically Redundant Words**
----------------------------------
-
-Redundant words carry little value and can exacerbate the results of
-many NLP tasks. To solve this issue, one common approach is to filter
-out a pre-defined set of words, called stop words. Stop words however,
-are usually universal static sets. They mostly vary only across
-languages. ``wordview`` provides a more dynamic solution that is
-specific to each individual data set, by employing purely statistical
-methods to identify redundant words with little value. The solution
-might seem complex behind the scene, as it first calculates certain
-statistics, gaussanize the distribution of those specified statistics
-(i.e. tf or ifd), and then identify the terms with anomalous values on
-the gaussanized distribution by looking at their z-score. However, the
-API is easy and convenient to use. The example below shows how you can
-use this API:
+You can use ``wordview`` to identify anomalies in your data. For instance,
+you can use ``NormalDistAnomalies`` to identify anomalies based on (the normalized)
+distribution of your data. See a worked example below. 
 
 .. code:: python
 
-   from wordview.preprocessing import RedunTerms
-   rt = RedunTerms(imdb_train["text"], method='idf')
+   from wordview.anomaly import NormalDistAnomalies
+   from sklearn.feature_extraction.text import TfidfVectorizer
+   
+   # Create a score for words.
+   
+   # It can be e.g. word frequency 
+   tsp = TextStatsPlots(df=imdb_train, text_column='text')
+   token_score_dict = tsp.analysis.token_to_count_dict
+   
+   # or it can be the inverse document frequency (IDF)
+   vectorizer = TfidfVectorizer(min_df=1)
+   X = vectorizer.fit_transform(imdb_train["text"])
+   idf = vectorizer.idf_
+   token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
+   
+   # Use NormalDistAnomalies to identify anomalies.
+   nda = NormalDistAnomalies(items=token_score_dict)
+   nda.anomalous_items()
 
-   # Let the method automatically identify a set of redundant terms
-   redundant_terms = rt.get_redundant_terms()
+   # You can also manually set the zsocre value. Smaller zscore results in more 
+   # a more aggressive approach (more items are identified as anomalous):
+   nda.anomalous_items(z=2)
 
-   #  Manually set cut-off threshold for the specified score
-   redundant_terms_manual = rt.get_redundant_terms(manual=True, manual_thresholds: dict={'lower_threshold':1, 'upper_threshold': 8})
-
-When choosing the manual approach, to get a better understanding of the
-distribution of the scores before setting the thresholds, you can run
-``show_plot()`` method from ``RedunTerms`` class to see this
-distribution:
-
-.. code:: python
-
-   rt.show_plot()
 
 **Filtering**
 -------------
