@@ -8,16 +8,18 @@ from wordview import gaussianize
 
 
 class NormalDistAnomalies(object):
-    def __init__(self, items: Dict):
+    def __init__(self, items: Dict, val_name: str = "representative_value"):
         """Identify anomalies on a normal distribution.
 
         Args:
-            items: A dictionary of items and their representative value, such as count, idf, etc.
-                    The representative value can also be a vector.
+            items: A dictionary of items and their representative value, such as word_count, idf, etc.
+            val_name: Name of the value in the above dictionary. i.e. word_count, idf, etc. Defaults to `representative_value`.
+
         Returns:
             None
         """
         self.items = items
+        self.val_name = val_name
 
     def anomalous_items(
         self,
@@ -114,18 +116,22 @@ class NormalDistAnomalies(object):
         return anomalies_set
 
     def show_plot(self) -> None:
-        """Create a distribution plot for the scores to help manually
+        """Create a distribution plot for the representative value to help manually
             identify cut-off thresholds.
 
         Args:
-            scores:
+            None
+
         Returns:
             None
         """
-        scores = [v for _, v in self.items.items()]
-        score_name = "scores"
-        scores_df = pd.DataFrame(scores, columns=[score_name])
+        values_df = pd.DataFrame(
+            [v for _, v in self.items.items()], columns=[self.val_name]
+        )
         fig = px.histogram(
-            scores_df, x=score_name, marginal="rug", color_discrete_sequence=["magenta"]
+            values_df,
+            x=self.val_name,
+            marginal="rug",
+            color_discrete_sequence=["magenta"],
         )
         fig.show()
