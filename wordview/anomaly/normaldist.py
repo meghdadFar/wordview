@@ -26,7 +26,7 @@ class NormalDistAnomalies(object):
         manual: bool = False,
         z: int = 3,
         manual_thresholds: Dict = {"lower_threshold": -1, "upper_threshold": -1},
-    ):
+    ) -> Set[str]:
         """Identify anomalous items in `self.items`.
 
         Args:
@@ -37,7 +37,7 @@ class NormalDistAnomalies(object):
             u_idf: Upper cut-off threshold for items (inclusive). Used only when manual is True.
 
         Returns:
-
+            Set of anomalous items.
         """
         if not manual:
             anomalous_set = self._anomalous_items_zscore(
@@ -52,7 +52,7 @@ class NormalDistAnomalies(object):
         return anomalous_set
 
     def _anomalous_items_manual(
-        self, item_score_dict, lower_threshold, upper_threshold
+        self, item_score_dict: Dict, lower_threshold: int, upper_threshold: int
     ) -> Set[str]:
         """Identify anomalous items by looking at manual thresholds i.e.
             lower_threshold, upper_threshold.
@@ -88,7 +88,7 @@ class NormalDistAnomalies(object):
                 anomalous_items.add(sl[i][0])
         return anomalous_items
 
-    def _anomalous_items_zscore(self, item_score_dict, z_value):
+    def _anomalous_items_zscore(self, item_score_dict: Dict, z_value: int) -> Set[str]:
         """Identify anomalous items by looking at 'z_value'.
 
         Args:
