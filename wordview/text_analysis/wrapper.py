@@ -1,13 +1,15 @@
-from typing import Set, List, Tuple
+from typing import List, Set, Tuple
+
+import pandas
+import plotly.figure_factory as ff
+import plotly.graph_objs as go
+from tabulate import tabulate  # type: ignore
+
 from wordview.text_analysis.core import (
     do_txt_analysis,
-    plotly_wordcloud,
     generate_label_plots,
+    plotly_wordcloud,
 )
-import pandas
-import plotly.graph_objs as go
-import plotly.figure_factory as ff
-from tabulate import tabulate
 
 
 class TextStatsPlots:
@@ -15,8 +17,8 @@ class TextStatsPlots:
         self,
         df: pandas.DataFrame,
         text_column: str,
-        distributions: Set = ["doc_len", "word_frequency_zipf"],
-        pos_tags: Set = ["NN", "VB", "JJ"],
+        distributions: Set = {"doc_len", "word_frequency_zipf"},
+        pos_tags: Set = {"NN", "VB", "JJ"},
     ) -> None:
         self.df = df
         self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
@@ -79,8 +81,9 @@ class TextStatsPlots:
         return res
 
     def create_pos_plots(self):
-        word_cloud_setup = {  #'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-            #'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        word_cloud_setup = {
+            # 'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+            # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -141,7 +144,7 @@ class TextStatsPlots:
         )
         print(table)
 
-    def show_insights():
+    def show_insights(self):
         "show topics, MWEs, clusters,"
         raise NotImplementedError
 
