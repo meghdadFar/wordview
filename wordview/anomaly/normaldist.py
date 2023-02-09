@@ -87,12 +87,6 @@ class NormalDistAnomalies(object):
                 or self.item_value_df[self.val_name] > upper_threshold
             ]["item"].to_list()
         )
-        # df[df["Courses"] == 'Spark']
-        # for i in range(len(sl)):
-        #     if sl[i][1] < lower_threshold:
-        #         anomalous_items.add(sl[i][0])
-        #     if sl[i][1] >= upper_threshold:
-        #         anomalous_items.add(sl[i][0])
         return anomalous_items
 
     def _anomalous_items_zscore(self, z_value: int) -> Set[str]:
@@ -120,20 +114,24 @@ class NormalDistAnomalies(object):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
-    def show_plot(self) -> None:
+    def show_plot(self, type: str = "default") -> None:
         """Create a distribution plot for the representative value to help manually
             identify cut-off thresholds.
 
         Args:
-            None
+            type: Type of the data that is plotted. It can be `default` or `normal`. Defaults to `default`.
 
         Returns:
             None
         """
-        self.item_value_df
+        if type == "default":
+            x_value = self.val_name
+        elif type == "normal":
+            x_value = "guassian_score"
+
         fig = px.histogram(
             self.item_value_df,
-            x=self.val_name,
+            x=x_value,
             marginal="rug",
             color_discrete_sequence=["teal"],
         )
