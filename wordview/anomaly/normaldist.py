@@ -2,6 +2,7 @@ from typing import Dict, Set
 
 import pandas as pd
 import plotly.express as px
+from plotly.subplots import make_subplots
 from scipy.stats import zscore
 
 from wordview import gaussianize
@@ -18,8 +19,11 @@ class NormalDistAnomalies(object):
         Returns:
             None
         """
-        self.items = items
+        # self.items = items
         self.val_name = val_name
+        self.item_value_df = pd.DataFrame(
+            items.items(), columns=["item", self.val_name]
+        )
 
     def anomalous_items(
         self,
@@ -40,79 +44,80 @@ class NormalDistAnomalies(object):
             Set of anomalous items.
         """
         if not manual:
-            anomalous_set = self._anomalous_items_zscore(
-                item_score_dict=self.items, z_value=z
-            )
+            anomalous_set = self._anomalous_items_zscore(z_value=z)
         else:
             anomalous_set = self._anomalous_items_manual(
-                item_score_dict=self.items,
                 lower_threshold=manual_thresholds["lower_threshold"],
                 upper_threshold=manual_thresholds["upper_threshold"],
             )
         return anomalous_set
 
     def _anomalous_items_manual(
-        self, item_score_dict: Dict, lower_threshold: int, upper_threshold: int
+        self, lower_threshold: int, upper_threshold: int
     ) -> Set[str]:
         """Identify anomalous items by looking at manual thresholds i.e.
             lower_threshold, upper_threshold.
 
         Args:
-            item_score_dict: Dictionary of items to their score.
-            lower_threshold: Lower cut-off threshold (inclusive).
+            lower_threshold: Lower cut-off threshold (not inclusive).
             upper_threshold: Upper cut-off threshold (inclusive).
 
         Returns:
             Set of anomalous items.
         """
-        sl = sorted(item_score_dict.items(), key=lambda kv: kv[1])
-        smallest_idf = sl[0][1]
-        largest_idf = sl[len(sl) - 1][1]
-        if lower_threshold < smallest_idf:
+        sl = self.item_value_df.sort_values(by=[self.val_name])[self.val_name].to_list()
+        smallest_value = sl[0]
+        largest_value = sl[-1]
+        if lower_threshold < smallest_value:
             raise ValueError(
-                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. \
+                f"Idf values are between {smallest_value:.2f} and {largest_value:.2f}. \
                     You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
                         or consider switching the manual flag back to False."
             )
-        if upper_threshold > largest_idf:
+        if upper_threshold > largest_value:
             raise ValueError(
-                f"Idf values are between {smallest_idf:.2f} and {largest_idf:.2f}. \
+                f"Idf values are between {smallest_value:.2f} and {largest_value:.2f}. \
                 You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
                 or consider switching the manual flag back to False."
             )
-        anomalous_items = set()
-        for i in range(len(sl)):
-            if sl[i][1] < lower_threshold:
-                anomalous_items.add(sl[i][0])
-            if sl[i][1] >= upper_threshold:
-                anomalous_items.add(sl[i][0])
+
+        anomalous_items = set(
+            self.item_value_df[
+                self.item_value_df[self.val_name] < lower_threshold
+                or self.item_value_df[self.val_name] > upper_threshold
+            ]["item"].to_list()
+        )
+        # df[df["Courses"] == 'Spark']
+        # for i in range(len(sl)):
+        #     if sl[i][1] < lower_threshold:
+        #         anomalous_items.add(sl[i][0])
+        #     if sl[i][1] >= upper_threshold:
+        #         anomalous_items.add(sl[i][0])
         return anomalous_items
 
-    def _anomalous_items_zscore(self, item_score_dict: Dict, z_value: int) -> Set[str]:
+    def _anomalous_items_zscore(self, z_value: int) -> Set[str]:
         """Identify anomalous items by looking at 'z_value'.
 
         Args:
-            item_score_dict: Dictionary of items to their score.
             z_value: Items that are away this many standard deviation
                     from mean are considered anomalous.
 
         Returns:
             Set of anomalous items.
         """
-        item_score_df = pd.DataFrame(item_score_dict.items(), columns=["item", "score"])
         g = gaussianize.Gaussianize(strategy="brute")
-        g.fit(item_score_df["item"])
-        idf_guassian = g.transform(item_score_df["item"])
-        item_score_df["score_gaussianized"] = idf_guassian
-        z = zscore(item_score_df["score_gaussianized"])
-        item_score_df["zscore"] = z
+        g.fit(self.item_value_df["item"])
+        guassian_score = g.transform(self.item_value_df["item"])
+        self.item_value_df["guassian_score"] = guassian_score
+        z = zscore(self.item_value_df["guassian_score"])
+        self.item_value_df["zscore"] = z
         anomalies_set = set()
-        for i in range(len(item_score_df)):
+        for i in range(len(self.item_value_df)):
             if (
-                item_score_df.iloc[i]["zscore"] <= -z_value
-                or item_score_df.iloc[i]["zscore"] >= z_value
+                self.item_value_df.iloc[i]["zscore"] <= -z_value
+                or self.item_value_df.iloc[i]["zscore"] >= z_value
             ):
-                anomalies_set.add(item_score_df.iloc[i]["item"])
+                anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
     def show_plot(self) -> None:
@@ -125,13 +130,11 @@ class NormalDistAnomalies(object):
         Returns:
             None
         """
-        values_df = pd.DataFrame(
-            [v for _, v in self.items.items()], columns=[self.val_name]
-        )
+        self.item_value_df
         fig = px.histogram(
-            values_df,
+            self.item_value_df,
             x=self.val_name,
             marginal="rug",
-            color_discrete_sequence=["magenta"],
+            color_discrete_sequence=["teal"],
         )
         fig.show()
