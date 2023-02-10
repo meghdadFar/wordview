@@ -99,9 +99,11 @@ class NormalDistAnomalies(object):
         Returns:
             Set of anomalous items.
         """
-
-        # self.item_value_df["guassian_score"] = guassian_score
-        z = zscore(self.item_value_df["guassian_score"])
+        self.item_value_df["guassian_values"] = self.gaussianize_values(
+            self.item_value_df["item"]
+        )
+        print(self.item_value_df.head())
+        z = zscore(self.item_value_df["guassian_values"])
         self.item_value_df["zscore"] = z
         anomalies_set = set()
         for i in range(len(self.item_value_df)):
@@ -121,8 +123,8 @@ class NormalDistAnomalies(object):
 
         """
         g = gaussianize.Gaussianize(strategy="brute")
-        g.fit(self.item_value_df["item"])
-        # guassian_score = g.transform(self.item_value_df["item"])
+        g.fit(values)
+        return g.transform(values)
 
     def show_plot(self, type: str = "default") -> None:
         """Create a distribution plot for the representative value to help manually
@@ -155,10 +157,9 @@ if __name__ == "__main__":
         "data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
     )
     imdb_train = imdb_train.sample(10)
-    print(imdb_train.head())
-
     vectorizer = TfidfVectorizer(min_df=1)
     X = vectorizer.fit_transform(imdb_train["text"])
     idf = vectorizer.idf_
     token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
     nda = NormalDistAnomalies(items=token_score_dict)
+    print(nda.anomalous_items())
