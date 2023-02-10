@@ -1,6 +1,6 @@
-from typing import Dict, Set
+from typing import Dict, Iterable, Set
 
-import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -102,7 +102,6 @@ class NormalDistAnomalies(object):
         self.item_value_df["guassian_values"] = self.gaussianize_values(
             self.item_value_df[self.val_name]
         )
-        print(self.item_value_df.head())
         z = zscore(self.item_value_df["guassian_values"])
         self.item_value_df["zscore"] = z
         anomalies_set = set()
@@ -114,17 +113,15 @@ class NormalDistAnomalies(object):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
-    def gaussianize_values(self, values):
+    def gaussianize_values(self, values: Iterable[float]) -> npt.NDArray:
         """Gaussianize input values using the brute strategy.
 
         Args:
+            values: Iterable containing numerical values.
 
         Returns:
-
+            numpy.NDArray containing the gaussianized distribution of `values`.
         """
-        print(values)
-        print("-------------")
-        print(np.asarray(values))
         g = gaussianize.Gaussianize(strategy="brute")
         g.fit(values)
         return g.transform(values)
