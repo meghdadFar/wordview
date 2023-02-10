@@ -1,5 +1,6 @@
 from typing import Dict, Set
 
+import numpy as np
 import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -80,7 +81,6 @@ class NormalDistAnomalies(object):
                 You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
                 or consider switching the manual flag back to False."
             )
-
         anomalous_items = set(
             self.item_value_df[
                 self.item_value_df[self.val_name] < lower_threshold
@@ -100,7 +100,7 @@ class NormalDistAnomalies(object):
             Set of anomalous items.
         """
         self.item_value_df["guassian_values"] = self.gaussianize_values(
-            self.item_value_df["item"]
+            self.item_value_df[self.val_name]
         )
         print(self.item_value_df.head())
         z = zscore(self.item_value_df["guassian_values"])
@@ -122,6 +122,9 @@ class NormalDistAnomalies(object):
         Returns:
 
         """
+        print(values)
+        print("-------------")
+        print(np.asarray(values))
         g = gaussianize.Gaussianize(strategy="brute")
         g.fit(values)
         return g.transform(values)
