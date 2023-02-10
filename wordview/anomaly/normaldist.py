@@ -99,10 +99,8 @@ class NormalDistAnomalies(object):
         Returns:
             Set of anomalous items.
         """
-        g = gaussianize.Gaussianize(strategy="brute")
-        g.fit(self.item_value_df["item"])
-        guassian_score = g.transform(self.item_value_df["item"])
-        self.item_value_df["guassian_score"] = guassian_score
+
+        # self.item_value_df["guassian_score"] = guassian_score
         z = zscore(self.item_value_df["guassian_score"])
         self.item_value_df["zscore"] = z
         anomalies_set = set()
@@ -113,6 +111,18 @@ class NormalDistAnomalies(object):
             ):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
+
+    def gaussianize_values(self, values):
+        """Gaussianize input values using the brute strategy.
+
+        Args:
+
+        Returns:
+
+        """
+        g = gaussianize.Gaussianize(strategy="brute")
+        g.fit(self.item_value_df["item"])
+        # guassian_score = g.transform(self.item_value_df["item"])
 
     def show_plot(self, type: str = "default") -> None:
         """Create a distribution plot for the representative value to help manually
@@ -136,3 +146,19 @@ class NormalDistAnomalies(object):
             color_discrete_sequence=["teal"],
         )
         fig.show()
+
+
+if __name__ == "__main__":
+    from sklearn.feature_extraction.text import TfidfVectorizer
+
+    imdb_train = pd.read_csv(
+        "data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
+    )
+    imdb_train = imdb_train.sample(10)
+    print(imdb_train.head())
+
+    vectorizer = TfidfVectorizer(min_df=1)
+    X = vectorizer.fit_transform(imdb_train["text"])
+    idf = vectorizer.idf_
+    token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
+    nda = NormalDistAnomalies(items=token_score_dict)
