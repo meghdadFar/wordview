@@ -4,6 +4,7 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 import plotly.express as px
+import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
 from scipy.stats import norm, zscore
 
@@ -122,14 +123,25 @@ class NormalDistAnomalies(object):
             None
         """
         if type == "default":
-            x_value = self.val_name
+            x = self.item_value_df[self.val_name].to_list()
+            group_labels = [
+                "Original values",
+            ]
+            colors = ["slategray"]
+            curve_type = "kde"
         elif type == "normal":
-            x_value = "guassian_score"
-        fig = px.histogram(
-            self.item_value_df,
-            x=x_value,
-            marginal="rug",
-            color_discrete_sequence=["teal"],
+            x = self.item_value_df["guassian_values"].to_list()
+            group_labels = [
+                "Guassianized values",
+            ]
+            colors = ["magenta"]
+            curve_type = "normal"
+        fig = ff.create_distplot(
+            [x],
+            group_labels,
+            bin_size=0.5,
+            curve_type=curve_type,  # override default 'kde'
+            colors=colors,
         )
         fig.show()
 
