@@ -34,8 +34,17 @@ class NormalDistAnomalies(object):
         self.item_value_df = pd.DataFrame(
             items.items(), columns=["item", self.val_name]
         )
+        # Gaussianize values
         self.item_value_df["guassian_values"] = self.gaussianize_values(
             self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
+        )
+        # Calculate normal prob of gaussianized values
+        dist = norm(
+            loc=np.mean(self.item_value_df["guassian_values"]),
+            scale=np.std(self.item_value_df["guassian_values"]),
+        )
+        self.item_value_df["normal_prob"] = self.item_value_df["guassian_values"].apply(
+            lambda x: dist.pdf(x)
         )
 
     def anomalous_items(
@@ -73,12 +82,6 @@ class NormalDistAnomalies(object):
             Set of anomalous items.
 
         """
-        mean = np.mean(self.item_value_df["guassian_values"])
-        std = np.std(self.item_value_df["guassian_values"])
-        dist = norm(loc=mean, scale=std)
-        self.item_value_df["normal_prob"] = self.item_value_df["guassian_values"].apply(
-            lambda x: dist.pdf(x)
-        )
         anomalous_items = set(
             self.item_value_df[self.item_value_df["normal_prob"] < prob][
                 "item"
