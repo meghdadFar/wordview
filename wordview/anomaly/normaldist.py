@@ -27,6 +27,9 @@ class NormalDistAnomalies(object):
         self.item_value_df = pd.DataFrame(
             items.items(), columns=["item", self.val_name]
         )
+        self.item_value_df["guassian_values"] = self.gaussianize_values(
+            self.item_value_df[self.val_name]
+        )
 
     def anomalous_items(
         self,
@@ -46,9 +49,6 @@ class NormalDistAnomalies(object):
         Returns:
             An alphabetically sorted set of anomalous items.
         """
-        self.item_value_df["guassian_values"] = self.gaussianize_values(
-            self.item_value_df[self.val_name]
-        )
         if manual:
             anomalous_set = self._anomalous_items_manual(prob=prob)
         else:
