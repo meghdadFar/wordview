@@ -30,11 +30,12 @@ class NormalDistAnomalies(object):
         """
         # self.items = items
         self.val_name = val_name
+        self.gaussianization_strategy = gaussianization_strategy
         self.item_value_df = pd.DataFrame(
             items.items(), columns=["item", self.val_name]
         )
         self.item_value_df["guassian_values"] = self.gaussianize_values(
-            self.item_value_df[self.val_name]
+            self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
         )
 
     def anomalous_items(
@@ -106,16 +107,17 @@ class NormalDistAnomalies(object):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
-    def gaussianize_values(self, values: Iterable[float]) -> npt.NDArray:
+    def gaussianize_values(self, values: Iterable[float], strategy: str) -> npt.NDArray:
         """Gaussianize input values using the brute strategy.
 
         Args:
             values: Iterable containing numerical values.
+            strategy: Strategy for gaussianization. Can be any of lambert, brute, or boxcox.
 
         Returns:
             numpy.NDArray containing the gaussianized distribution of `values`.
         """
-        g = gaussianize.Gaussianize(strategy="brute").fit(values)
+        g = gaussianize.Gaussianize(strategy=strategy).fit(values)
         return g.transform(values)
 
     def show_plot(self, type: str = "default", bin_size=1) -> None:
