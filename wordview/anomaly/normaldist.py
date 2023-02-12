@@ -12,12 +12,18 @@ from wordview import gaussianize
 
 
 class NormalDistAnomalies(object):
-    def __init__(self, items: Dict, val_name: str = "representative_value"):
+    def __init__(
+        self,
+        items: Dict,
+        val_name: str = "representative_value",
+        gaussianization_strategy: str = "brute",
+    ):
         """Identify anomalies on a normal distribution.
 
         Args:
             items: A dictionary of items and their representative value, such as word_count, idf, etc.
             val_name: Name of the value in the above dictionary. i.e. word_count, idf, etc. Defaults to `representative_value`.
+            gaussianization_strategy: Strategy for gaussianization. Can be any of lambert, brute, or boxcox. Defaults = `brute`.
 
         Returns:
             None
@@ -42,7 +48,7 @@ class NormalDistAnomalies(object):
         Args:
             manual: Whether or not select redundant words using manual thresholds.
                     When set to True, manual_thresholds should be specified.
-            z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default is 3.
+            z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default = 3.
             prob: Probability threshold below which items are considered anomalous.
 
 
