@@ -158,18 +158,3 @@ class NormalDistAnomalies(object):
             colors=colors,
         )
         fig.show()
-
-
-if __name__ == "__main__":
-    from sklearn.feature_extraction.text import TfidfVectorizer
-
-    imdb_train = pd.read_csv(
-        "data/imdb_train_sample.tsv", sep="\t", names=["label", "text"]
-    )
-    imdb_train = imdb_train[:100]
-    vectorizer = TfidfVectorizer(min_df=1)
-    X = vectorizer.fit_transform(imdb_train["text"])
-    idf = vectorizer.idf_
-    token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
-    nda = NormalDistAnomalies(items=token_score_dict)
-    print(nda.anomalous_items(manual=False))
