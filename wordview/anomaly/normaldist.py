@@ -8,7 +8,7 @@ import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
 from scipy.stats import norm, zscore
 
-from wordview import gaussianize
+from wordview.anomaly import gaussianize
 
 
 class NormalDistAnomalies(object):
@@ -120,8 +120,10 @@ class NormalDistAnomalies(object):
         Returns:
             numpy.NDArray containing the gaussianized distribution of `values`.
         """
-        g = gaussianize.Gaussianize(strategy=strategy).fit(values)
-        return g.transform(values)
+        g = gaussianize.Gaussianize(strategy=strategy)
+        g.fit(values)
+        res = g.transform(values)
+        return res
 
     def show_plot(self, type: str = "default", bin_size=1) -> None:
         """Create a distribution plot for the representative value to help manually
