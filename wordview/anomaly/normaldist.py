@@ -3,11 +3,10 @@ from typing import Dict, Iterable, Set
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-import plotly.express as px
 import plotly.figure_factory as ff
-from plotly.subplots import make_subplots
-from scipy.stats import norm, zscore
+from scipy.stats import norm, shapiro, zscore
 
+from wordview import logger
 from wordview.anomaly import gaussianize
 
 
@@ -35,17 +34,23 @@ class NormalDistAnomalies(object):
             items.items(), columns=["item", self.val_name]
         )
         # Gaussianize values
-        self.item_value_df["guassian_values"] = self.gaussianize_values(
+        g_ersults = self.gaussianize_values(
             self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
         )
-        # Calculate normal prob of gaussianized values
-        dist = norm(
-            loc=np.mean(self.item_value_df["guassian_values"]),
-            scale=np.std(self.item_value_df["guassian_values"]),
-        )
-        self.item_value_df["normal_prob"] = self.item_value_df["guassian_values"].apply(
-            lambda x: dist.pdf(x)
-        )
+        if shapiro(g_ersults).pvalue > 0.05:
+            self.item_value_df["guassian_values"] = g_ersults
+            # Calculate normal prob of gaussianized values
+            dist = norm(
+                loc=np.mean(self.item_value_df["guassian_values"]),
+                scale=np.std(self.item_value_df["guassian_values"]),
+            )
+            self.item_value_df["normal_prob"] = self.item_value_df[
+                "guassian_values"
+            ].apply(lambda x: dist.pdf(x))
+        else:
+            logger.error(
+                "The provided values cannot be gaussanized. Please consider using another anomaly detection method."
+            )
 
     def anomalous_items(
         self,
