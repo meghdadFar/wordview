@@ -129,37 +129,3 @@ class NormalDistAnomalies(object):
         g.fit(values)
         res = g.transform(values)
         return res
-
-    def show_plot(self, type: str = "default", bin_size=1) -> None:
-        """Create a distribution plot for the representative value to help manually
-            identify cut-off thresholds.
-
-        Args:
-            type: Type of the data that is plotted. It can be `default` or `normal`. Defaults to `default`.
-            bin_size: Size of histogram bins. Default = 1.
-
-        Returns:
-            None
-        """
-        if type == "default":
-            x = self.item_value_df[self.val_name].to_list()
-            group_labels = [
-                "Original values",
-            ]
-            colors = ["slategray"]
-            curve_type = "kde"
-        elif type == "normal":
-            x = self.item_value_df["guassian_values"].to_list()
-            group_labels = [
-                "Guassianized values",
-            ]
-            colors = ["magenta"]
-            curve_type = "normal"
-        fig = ff.create_distplot(
-            [x],
-            group_labels,
-            bin_size=bin_size,
-            curve_type=curve_type,  # override default 'kde'
-            colors=colors,
-        )
-        fig.show()
