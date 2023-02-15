@@ -27,7 +27,6 @@ class NormalDistAnomalies(object):
         Returns:
             None
         """
-        # self.items = items
         self.val_name = val_name
         self.gaussianization_strategy = gaussianization_strategy
         self.item_value_df = pd.DataFrame(
