@@ -1,91 +1,94 @@
-from typing import Dict, Set
+from typing import Dict, Iterable, Set
 
+import numpy as np
+import numpy.typing as npt
 import pandas as pd
-import plotly.express as px
-from plotly.subplots import make_subplots
-from scipy.stats import zscore
+import plotly.figure_factory as ff
+from scipy.stats import norm, shapiro, zscore
 
-from wordview import gaussianize
+from wordview import logger
+from wordview.anomaly import gaussianize
 
 
 class NormalDistAnomalies(object):
-    def __init__(self, items: Dict, val_name: str = "representative_value"):
+    def __init__(
+        self,
+        items: Dict,
+        val_name: str = "representative_value",
+        gaussianization_strategy: str = "brute",
+    ):
         """Identify anomalies on a normal distribution.
 
         Args:
             items: A dictionary of items and their representative value, such as word_count, idf, etc.
             val_name: Name of the value in the above dictionary. i.e. word_count, idf, etc. Defaults to `representative_value`.
+            gaussianization_strategy: Strategy for gaussianization. Can be any of lambert, brute, or boxcox. Defaults = `brute`.
 
         Returns:
             None
         """
-        # self.items = items
         self.val_name = val_name
+        self.gaussianization_strategy = gaussianization_strategy
         self.item_value_df = pd.DataFrame(
             items.items(), columns=["item", self.val_name]
         )
+        # Gaussianize values
+        g_ersults = self.gaussianize_values(
+            self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
+        )
+        if shapiro(g_ersults).pvalue > 0.05:
+            self.item_value_df["guassian_values"] = g_ersults
+            # Calculate normal prob of gaussianized values
+            dist = norm(
+                loc=np.mean(self.item_value_df["guassian_values"]),
+                scale=np.std(self.item_value_df["guassian_values"]),
+            )
+            self.item_value_df["normal_prob"] = self.item_value_df[
+                "guassian_values"
+            ].apply(lambda x: dist.pdf(x))
+        else:
+            logger.error(
+                "The provided values cannot be gaussanized. Please consider using another anomaly detection method."
+            )
 
     def anomalous_items(
         self,
         manual: bool = False,
         z: int = 3,
-        manual_thresholds: Dict = {"lower_threshold": -1, "upper_threshold": -1},
+        prob: float = 0.001,
     ) -> Set[str]:
         """Identify anomalous items in `self.items`.
 
         Args:
             manual: Whether or not select redundant words using manual thresholds.
                     When set to True, manual_thresholds should be specified.
-            z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default is 3.
-            l_idf: Lower cut-off threshold for  items (inclusive). Used only when manual is True.
-            u_idf: Upper cut-off threshold for items (inclusive). Used only when manual is True.
+            z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default = 3.
+            prob: Probability threshold below which items are considered anomalous.
 
         Returns:
-            Set of anomalous items.
+            An alphabetically sorted set of anomalous items.
         """
-        if not manual:
-            anomalous_set = self._anomalous_items_zscore(z_value=z)
+        if manual:
+            anomalous_set = self._anomalous_items_manual(prob=prob)
         else:
-            anomalous_set = self._anomalous_items_manual(
-                lower_threshold=manual_thresholds["lower_threshold"],
-                upper_threshold=manual_thresholds["upper_threshold"],
-            )
-        return anomalous_set
+            anomalous_set = self._anomalous_items_zscore(z_value=z)
+        return set(sorted(anomalous_set))
 
-    def _anomalous_items_manual(
-        self, lower_threshold: int, upper_threshold: int
-    ) -> Set[str]:
-        """Identify anomalous items by looking at manual thresholds i.e.
-            lower_threshold, upper_threshold.
+    def _anomalous_items_manual(self, prob: float) -> Set[str]:
+        """Identifies anomalous with respect to the input argument `prob` that specifies
+        the probability threshold below which the items are considered anomalous.
 
         Args:
-            lower_threshold: Lower cut-off threshold (not inclusive).
-            upper_threshold: Upper cut-off threshold (inclusive).
+            prob: Probability threshold below which items are considered anomalous.
 
         Returns:
             Set of anomalous items.
-        """
-        sl = self.item_value_df.sort_values(by=[self.val_name])[self.val_name].to_list()
-        smallest_value = sl[0]
-        largest_value = sl[-1]
-        if lower_threshold < smallest_value:
-            raise ValueError(
-                f"Idf values are between {smallest_value:.2f} and {largest_value:.2f}. \
-                    You have set the lower_idf to {lower_threshold:.2f}. Update the values accordingly, \
-                        or consider switching the manual flag back to False."
-            )
-        if upper_threshold > largest_value:
-            raise ValueError(
-                f"Idf values are between {smallest_value:.2f} and {largest_value:.2f}. \
-                You have set the upper_idf to {upper_threshold:.2f}. Update the values accordingly, \
-                or consider switching the manual flag back to False."
-            )
 
+        """
         anomalous_items = set(
-            self.item_value_df[
-                self.item_value_df[self.val_name] < lower_threshold
-                or self.item_value_df[self.val_name] > upper_threshold
-            ]["item"].to_list()
+            self.item_value_df[self.item_value_df["normal_prob"] < prob][
+                "item"
+            ].to_list()
         )
         return anomalous_items
 
@@ -99,11 +102,7 @@ class NormalDistAnomalies(object):
         Returns:
             Set of anomalous items.
         """
-        g = gaussianize.Gaussianize(strategy="brute")
-        g.fit(self.item_value_df["item"])
-        guassian_score = g.transform(self.item_value_df["item"])
-        self.item_value_df["guassian_score"] = guassian_score
-        z = zscore(self.item_value_df["guassian_score"])
+        z = zscore(self.item_value_df["guassian_values"])
         self.item_value_df["zscore"] = z
         anomalies_set = set()
         for i in range(len(self.item_value_df)):
@@ -114,25 +113,17 @@ class NormalDistAnomalies(object):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
-    def show_plot(self, type: str = "default") -> None:
-        """Create a distribution plot for the representative value to help manually
-            identify cut-off thresholds.
+    def gaussianize_values(self, values: Iterable[float], strategy: str) -> npt.NDArray:
+        """Gaussianize input values using the brute strategy.
 
         Args:
-            type: Type of the data that is plotted. It can be `default` or `normal`. Defaults to `default`.
+            values: Iterable containing numerical values.
+            strategy: Strategy for gaussianization. Can be any of lambert, brute, or boxcox.
 
         Returns:
-            None
+            numpy.NDArray containing the gaussianized distribution of `values`.
         """
-        if type == "default":
-            x_value = self.val_name
-        elif type == "normal":
-            x_value = "guassian_score"
-
-        fig = px.histogram(
-            self.item_value_df,
-            x=x_value,
-            marginal="rug",
-            color_discrete_sequence=["teal"],
-        )
-        fig.show()
+        g = gaussianize.Gaussianize(strategy=strategy)
+        g.fit(values)
+        res = g.transform(values)
+        return res

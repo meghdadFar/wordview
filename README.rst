@@ -276,11 +276,6 @@ distribution of your data. See a worked example below.
    nda = NormalDistAnomalies(items=token_score_dict)
    nda.anomalous_items()
 
-   # You can also manually set the zsocre value. Smaller zscore results in more 
-   # a more aggressive approach (more items are identified as anomalous):
-   nda.anomalous_items(z=2)
-
-
 **Filtering**
 -------------
 
