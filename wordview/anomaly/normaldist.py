@@ -65,7 +65,6 @@ class NormalDistAnomalies(object):
             z: Items with a z-score above this value are considered anomalous. Used only when manual is False.  Default = 3.
             prob: Probability threshold below which items are considered anomalous.
 
-
         Returns:
             An alphabetically sorted set of anomalous items.
         """
