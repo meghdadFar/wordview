@@ -6,38 +6,38 @@ wordview
 |Python 3.9|
 
 
-``wordview`` is a Python package for text analysis. It, moreover,
-provides a number of functionalities for Information Extraction and
-Preprocessing. See section `Features <#Features>`__ for more details.
+``wordview`` is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
 ``wordview``\ ’s Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
-offer a web app under a commercial license. See `this page <>`__ for
-more information about the web-app-based version of ``wordview``.
+offer a framework on top of ``wordview`` for enterprise use under a commercial license. See `this page <>`__ for
+more information about this framework.
 
 
-Features
-========
-
--  `Text Analysis <#text-analysis>`__
-
+Structure
+=========
+- Exploratory Data Analysis (EDA)
+   -  `Text Analysis <#text-analysis>`__
    -  `Overview <#overview>`__
    -  `Distributions <#distributions>`__
    -  `Part of Speech (POS) Tags <#part-of-speech-tags>`__
-   -  `Topics <>`__ (planned)
-   -  `Clusters <>`__ (planned)
-   -  `Arguments <>`__ (planned)
    -  `Labels <#labels>`__
-
       -  `Document-level Labels <#document-level-labels>`__
       -  `Sequence-level Labels <#sequence-level-labels>`__ (planned)
 
--  Information Extraction
+-  Feature Extraction
 
    -  `Multiword Expressions <#multiword-expressions>`__
    -  `Statistically Redundant Words <#statistically-redundant-words>`__
    -  `Anomalies <#anomalies>`__ (planned)
+   -  `Topics <>`__ (planned)
+   -  `Clusters <>`__ (planned)
+   -  `Arguments <>`__ (planned)
 
--  `Filtering <#filtering>`__
+- Utilities
+
+   -  Filtering
+   -  replace_mwes
+
 
 Usage
 =====
