@@ -22,9 +22,11 @@ Structure
   * `Overview <#overview>`__
   * `Distributions <#distributions>`__
   * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
+
   * `Labels <#labels>`__
 
      * `Document-level Labels <#document-level-labels>`__
+
      * `Sequence-level Labels <#sequence-level-labels>`__ (planned)
 
 * Feature Extraction
@@ -35,6 +37,8 @@ Structure
   * Topics (planned)
   * Clusters (planned)
   * Arguments (planned)
+     * high
+     * Low
 
 * Utilities
   
