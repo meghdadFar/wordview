@@ -1,5 +1,5 @@
 wordview
-########
+
 
 |PyPI version|
 
@@ -14,7 +14,7 @@ more information about this framework.
 
 
 Structure
-#########
+
 * Exploratory Data Analysis (EDA)
 
   * `Text Analysis <#text-analysis>`__
@@ -40,7 +40,6 @@ Structure
   * Hyphenating MWEs 
 
 Usage
-#####
 
 Install the package via ``pip``:
 
@@ -69,10 +68,8 @@ Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
 different features of ``wordview`` below.
 
 Exploratory Data Analysis (EDA)
-################################
 
 Text Analysis
-*************
 
 To have an overview of your data and see general stats and different
 distributions, you can use the ``TextStatsPlots`` class.
@@ -83,7 +80,6 @@ distributions, you can use the ``TextStatsPlots`` class.
    ta = TextStatsPlots(df=imdb_train, text_column='text')
 
 Overview
-*********
 
 Use the ``show_stats`` method to see a set of different statistics about
 of your dataset.
@@ -110,7 +106,7 @@ of your dataset.
    └───────────────────┴─────────┘
 
 Distributions
-**************
+
 
 You can look into different distributions using the ``show_distplot``
 method. For instance, you can see the distribution of document lengths
@@ -137,7 +133,7 @@ article <https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-m
 to learn how Zipf’s law can be used to improve some NLP models.
 
 Part of Speech Tags
-*******************
+
 
 To see different Part of Speech tags in the form of word clouds, you can
 use the ``show_word_clouds`` method.
@@ -154,13 +150,13 @@ use the ``show_word_clouds`` method.
 |verbs| |nouns| |adjs|
 
 Labels
-******
+
 
 ``wordview`` provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
 
 Document-level Labels
-======================
+
 
 For document-level labels ``wordview`` supports up to 4 independent
 categorical or numerical labels. These labels should be provided in a
@@ -188,7 +184,7 @@ labels are provided in a ``pandas.dataframe``.
 |labels|
 
 Sequence-level Labels
-======================
+
 
 One of the most widely used types of labels in NLP are sequence-level
 labels (e.g. Named Entity tags such as PER, LOC). ``wordview`` offers
@@ -196,7 +192,7 @@ functions to see the overall and document-level distribution of sequence
 labels.
 
 Multiword Expressions
-**********************
+
 
 Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
@@ -246,7 +242,7 @@ without the need for any labeled data and supervised model. This can
 speed things up and save much costs in certain situations.
 
 Anomalies
-*********
+
 
 Sometimes, anomalies find their way into the data and tamper with the
 quality of the downstream ML model. For instance, a classifier that is
@@ -280,7 +276,6 @@ distribution of your data. See a worked example below.
    nda.anomalous_items()
 
 **Filtering**
--------------
 
 Filtering noise and cleaning up the text can be a tedious task, but for
 most NLP applications we almost always need some degree of it.
@@ -315,7 +310,7 @@ often noise. See the docs to learn more about other parameters of
 **Note** ``clean_text`` returns tokenized text.
 
 Contributing
-=============
+
 
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to ``wordview``.
