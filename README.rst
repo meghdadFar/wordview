@@ -194,14 +194,16 @@ labels are provided in a ``pandas.dataframe``.
 Sequence-level Labels
 =====================
 
-
 One of the most widely used types of labels in NLP are sequence-level
 labels (e.g. Named Entity tags such as PER, LOC). ``wordview`` offers
 functions to see the overall and document-level distribution of sequence
 labels.
 
-Multiword Expressions
+Feature Extraction
+###################
 
+Multiword Expressions
+*********************
 
 Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
@@ -251,7 +253,7 @@ without the need for any labeled data and supervised model. This can
 speed things up and save much costs in certain situations.
 
 Anomalies
-
+*********
 
 Sometimes, anomalies find their way into the data and tamper with the
 quality of the downstream ML model. For instance, a classifier that is
@@ -284,7 +286,11 @@ distribution of your data. See a worked example below.
    nda = NormalDistAnomalies(items=token_score_dict)
    nda.anomalous_items()
 
-**Filtering**
+Utilities
+#########
+
+Filtering
+*********
 
 Filtering noise and cleaning up the text can be a tedious task, but for
 most NLP applications we almost always need some degree of it.
@@ -319,7 +325,7 @@ often noise. See the docs to learn more about other parameters of
 **Note** ``clean_text`` returns tokenized text.
 
 Contributing
-
+############
 
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to ``wordview``.
