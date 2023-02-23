@@ -151,7 +151,7 @@ use the ``show_word_clouds`` method.
 |verbs| |nouns| |adjs|
 
 Labels
-~~~~~~
+======
 
 ``wordview`` provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
