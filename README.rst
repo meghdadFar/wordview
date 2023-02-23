@@ -15,29 +15,29 @@ more information about this framework.
 
 Structure
 =========
-- Exploratory Data Analysis (EDA)
-   -  `Text Analysis <#text-analysis>`__
-   -  `Overview <#overview>`__
-   -  `Distributions <#distributions>`__
-   -  `Part of Speech (POS) Tags <#part-of-speech-tags>`__
-   -  `Labels <#labels>`__
-      -  `Document-level Labels <#document-level-labels>`__
-      -  `Sequence-level Labels <#sequence-level-labels>`__ (planned)
+* Exploratory Data Analysis (EDA)
 
--  Feature Extraction
+  * `Text Analysis <#text-analysis>`__
+  * `Overview <#overview>`__
+  * `Distributions <#distributions>`__
+  * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
+  * `Labels <#labels>`__
+     * `Document-level Labels <#document-level-labels>`__
+     * `Sequence-level Labels <#sequence-level-labels>`__ (planned)
 
-   -  `Multiword Expressions <#multiword-expressions>`__
-   -  `Statistically Redundant Words <#statistically-redundant-words>`__
-   -  `Anomalies <#anomalies>`__ (planned)
-   -  `Topics <>`__ (planned)
-   -  `Clusters <>`__ (planned)
-   -  `Arguments <>`__ (planned)
+* Feature Extraction
+  
+  * `Multiword Expressions <#multiword-expressions>`__
+  * `Statistically Redundant Words <#statistically-redundant-words>`__
+  * `Anomalies <#anomalies>`__
+  * Topics (planned)
+  * Clusters (planned)
+  * Arguments (planned)
 
-- Utilities
-
-   -  Filtering
-   -  replace_mwes
-
+* Utilities
+  
+  * Text Cleaning
+  * Hyphenating MWEs 
 
 Usage
 =====
