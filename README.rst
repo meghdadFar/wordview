@@ -163,6 +163,7 @@ Labels
 To use this feature, you can use ``LabelStatsPlots``.
 
 Document-level Labels
+=====================
 
 
 For document-level labels ``wordview`` supports up to 4 independent
@@ -191,6 +192,7 @@ labels are provided in a ``pandas.dataframe``.
 |labels|
 
 Sequence-level Labels
+=====================
 
 
 One of the most widely used types of labels in NLP are sequence-level
