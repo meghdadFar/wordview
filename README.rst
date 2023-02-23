@@ -19,8 +19,11 @@ Structure
 * Exploratory Data Analysis (EDA)
 
   * `Text Analysis <#text-analysis>`__
+
   * `Overview <#overview>`__
+
   * `Distributions <#distributions>`__
+  
   * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
 
   * `Labels <#labels>`__
@@ -32,17 +35,21 @@ Structure
 * Feature Extraction
   
   * `Multiword Expressions <#multiword-expressions>`__
+
   * `Statistically Redundant Words <#statistically-redundant-words>`__
+
   * `Anomalies <#anomalies>`__
+
   * Topics (planned)
+
   * Clusters (planned)
+
   * Arguments (planned)
-     * high
-     * Low
 
 * Utilities
   
   * Text Cleaning
+
   * Hyphenating MWEs 
 
 Usage
