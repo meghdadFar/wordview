@@ -301,8 +301,8 @@ distribution of your data. See a worked example below.
 Utilities
 #########
 
-Filtering
-*********
+Text Cleaning
+**************
 
 Filtering noise and cleaning up the text can be a tedious task, but for
 most NLP applications we almost always need some degree of it.
