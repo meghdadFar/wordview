@@ -41,6 +41,7 @@ Structure
   * Hyphenating MWEs 
 
 Usage
+######
 
 Install the package via ``pip``:
 
@@ -69,8 +70,10 @@ Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
 different features of ``wordview`` below.
 
 Exploratory Data Analysis (EDA)
+################################
 
 Text Analysis
+**************
 
 To have an overview of your data and see general stats and different
 distributions, you can use the ``TextStatsPlots`` class.
@@ -81,6 +84,7 @@ distributions, you can use the ``TextStatsPlots`` class.
    ta = TextStatsPlots(df=imdb_train, text_column='text')
 
 Overview
+*********
 
 Use the ``show_stats`` method to see a set of different statistics about
 of your dataset.
@@ -107,7 +111,7 @@ of your dataset.
    └───────────────────┴─────────┘
 
 Distributions
-
+**************
 
 You can look into different distributions using the ``show_distplot``
 method. For instance, you can see the distribution of document lengths
@@ -134,6 +138,7 @@ article <https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-m
 to learn how Zipf’s law can be used to improve some NLP models.
 
 Part of Speech Tags
+*******************
 
 
 To see different Part of Speech tags in the form of word clouds, you can
@@ -151,6 +156,7 @@ use the ``show_word_clouds`` method.
 |verbs| |nouns| |adjs|
 
 Labels
+*******
 
 
 ``wordview`` provides several statistics for labels in labeled datasets.
