@@ -1,9 +1,7 @@
-from pprint import pprint
-from typing import Collection, Dict, List
+from typing import Dict, List
 
-import pandas as pd
 from sentence_transformers import SentenceTransformer
-from sklearn.cluster import AgglomerativeClustering, KMeans
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
