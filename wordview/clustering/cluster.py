@@ -1,15 +1,18 @@
-from typing import Iterable, Union
+from pprint import pprint
+from typing import Collection, Dict, List
 
+import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class Cluster:
-    def __init__(self, documents: Iterable, vector_model: str) -> None:
+    def __init__(self, documents: List[str], vector_model: str) -> None:
         self.documents = documents
         self.vector_model = vector_model
         self.vectors = self._vectorize()
+        self.clusters: Dict[str, List] = {}
 
     def _vectorize(self):
         if self.vector_model == "transformer":
@@ -27,13 +30,16 @@ class Cluster:
             clust_model = AgglomerativeClustering(
                 n_clusters=None, distance_threshold=1.5
             )
-            clust_model.fit(self.vectors)
+            clust_model.fit(self.vectors.toarray())
             clust_labels = clust_model.labels_
         else:
             raise ValueError(
                 f"Clustering algorithm {clustering_algorithm} is not supported."
             )
-        return clust_labels
+        clusters: Dict[str, List] = {k: [] for k in clust_labels}
+        for i in range(len(self.documents)):
+            clusters[clust_labels[i]].append(self.documents[i])
+        self.clusters = clusters
 
 
 if __name__ == "__main__":
@@ -50,24 +56,9 @@ if __name__ == "__main__":
         "Graph minors A survey",
     ]
 
-    # Perform kmean clustering
-    # clustering_model = AgglomerativeClustering(
-    #     n_clusters=None, distance_threshold=1.5
-    # )  # , affinity='cosine', linkage='average', distance_threshold=0.4)
-    # clustering_model.fit(corpus_embeddings.toarray())
-    # cluster_assignment = clustering_model.labels_
-
-    # clustered_sentences = {}
-    # for sentence_id, cluster_id in enumerate(cluster_assignment):
-    #     if cluster_id not in clustered_sentences:
-    #         clustered_sentences[cluster_id] = []
-
-    #     clustered_sentences[cluster_id].append(documents[sentence_id])
-
-    # for i, cluster in clustered_sentences.items():
-    #     print("Cluster ", i + 1)
-    #     print(cluster)
-    #     print("")
+    cl = Cluster(documents=documents, vector_model="tfidf")
+    cl.cluster(clustering_algorithm="AgglomerativeClustering")
+    pprint(cl.clusters)
 
     # true_k = 2
     # model = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
