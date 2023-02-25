@@ -42,7 +42,7 @@ Structure
 
   * Topics (planned)
 
-  * Clusters (planned)
+  * `Clusters <#clusters>`__
 
   * Arguments (planned)
 
@@ -297,6 +297,12 @@ distribution of your data. See a worked example below.
    # Use NormalDistAnomalies to identify anomalies.
    nda = NormalDistAnomalies(items=token_score_dict)
    nda.anomalous_items()
+
+Clusters
+*********
+Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
+Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. See
+`wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage and examples.
 
 Utilities
 #########
