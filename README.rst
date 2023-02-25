@@ -42,7 +42,7 @@ Structure
 
   * Topics (planned)
 
-  * Clusters (planned)
+  * `Clusters <#clusters>`__
 
   * Arguments (planned)
 
@@ -302,7 +302,7 @@ Clusters
 *********
 Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
 Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. See
-the documentation page of `wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage details and examples.
+`wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage and examples.
 
 Utilities
 #########
