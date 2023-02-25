@@ -298,6 +298,12 @@ distribution of your data. See a worked example below.
    nda = NormalDistAnomalies(items=token_score_dict)
    nda.anomalous_items()
 
+Clusters
+*********
+Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
+Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. See
+the documentation page of `wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage details and examples.
+
 Utilities
 #########
 
