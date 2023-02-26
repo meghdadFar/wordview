@@ -8,6 +8,12 @@ def test_tfidf_agglomerative_clusters(documents, clusters):
     assert cl.clusters == clusters
 
 
+def test_transformer_agglomerative_clusters(documents, clusters):
+    cl = Cluster(documents=documents, vector_model="transformer")
+    cl.cluster(clustering_algorithm="AgglomerativeClustering")
+    assert cl.clusters == clusters
+
+
 @pytest.fixture
 def documents():
     docs = [
