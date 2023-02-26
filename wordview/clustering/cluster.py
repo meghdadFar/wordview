@@ -20,13 +20,22 @@ class Cluster:
         self.clusters: Dict[str, List] = {}
 
     def _vectorize(self):
-        """Vectorizes documents in self.documents using the model specified by self.vector_model."""
+        """Vectorizes documents in self.documents using the model specified by self.vector_model.
+
+        Args:
+            None
+
+        Returns:
+            vectors (numpy.ndarray)
+        """
         if self.vector_model == "transformer":
             vectorizer = SentenceTransformer("all-MiniLM-L6-v2")
             vectors = vectorizer.encode(self.documents)
         elif self.vector_model == "tfidf":
             vectorizer = TfidfVectorizer(stop_words="english")
             vectors = vectorizer.fit_transform(self.documents)
+            # cipy.sparse._csr.csr_matrix --> numpy.ndarray
+            vectors = vectors.toarray()
         else:
             raise ValueError(f"Vector model {self.vector_model} is not supported.")
         return vectors
@@ -44,7 +53,7 @@ class Cluster:
             clust_model = AgglomerativeClustering(
                 n_clusters=None, distance_threshold=1.5
             )
-            clust_model.fit(self.vectors.toarray())
+            clust_model.fit(self.vectors)
             clust_labels = clust_model.labels_
         else:
             raise ValueError(
