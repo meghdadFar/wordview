@@ -1,7 +1,7 @@
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from sentence_transformers import SentenceTransformer
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
@@ -40,26 +40,55 @@ class Cluster:
             raise ValueError(f"Vector model {self.vector_model} is not supported.")
         return vectors
 
-    def cluster(self, clustering_algorithm: str) -> None:
+    def cluster(
+        self,
+        clustering_algorithm: str,
+        n_clusters: int = 3,
+        distance_threshold: Any = None,
+    ) -> None:
         """Cluster documents using the algorithm specified by clustering_algorithm.
 
         Args:
-            clustering_algorithm (str): Clustering algorithm. Supported algorithms: [AgglomerativeClustering].
+            clustering_algorithm (str): Clustering algorithm. Supported algorithms: [Kmeans, AgglomerativeClustering].
+            k (str): Number of clusters. Default = 3.
+            distance_threshold (float): Distance threshold for AgglomerativeClustering. Default = None.
 
             Returns:
                 None
         """
         if clustering_algorithm == "AgglomerativeClustering":
             clust_model = AgglomerativeClustering(
-                n_clusters=None, distance_threshold=1.5
+                n_clusters=n_clusters, distance_threshold=distance_threshold
             )
+            clust_model.fit(self.vectors)
+            clust_labels = clust_model.labels_
+        elif clustering_algorithm == "kmeans":
+            clust_model = KMeans(n_clusters=n_clusters, max_iter=100, n_init=1)
             clust_model.fit(self.vectors)
             clust_labels = clust_model.labels_
         else:
             raise ValueError(
                 f"Clustering algorithm {clustering_algorithm} is not supported."
             )
-        clusters: Dict[str, List] = {k: [] for k in clust_labels}
+        clusters: Dict[str, List] = {j: [] for j in clust_labels}
         for i in range(len(self.documents)):
             clusters[clust_labels[i]].append(self.documents[i])
         self.clusters = clusters
+
+
+if __name__ == "__main__":
+    docs = [
+        "Human machine interface for lab abc computer applications",
+        "A survey of user opinion of computer system response time",
+        "The EPS user interface management system",
+        "System and human system engineering testing of EPS",
+        "Relation of user perceived response time to error measurement",
+        "The generation of random binary unordered trees",
+        "The intersection graph of paths in trees",
+        "Graph minors IV Widths of trees and well quasi ordering",
+        "Graph minors A survey",
+    ]
+
+    cl = Cluster(documents=docs, vector_model="transformer")
+    cl.cluster(clustering_algorithm="kmeans")
+    print(cl.clusters)
