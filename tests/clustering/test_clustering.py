@@ -16,6 +16,21 @@ def test_tfidf_agglomerative_zero_cluster_sizes(documents):
         cl.cluster(clustering_algorithm="AgglomerativeClustering", n_clusters=0)
 
 
+def test_tfidf_kmeans_good_cluster_sizes(documents):
+    cl = Cluster(documents=documents, vector_model="tfidf")
+    good_cluster_sizes = [1, 5]
+    for n in good_cluster_sizes:
+        cl.cluster(clustering_algorithm="kmeans", n_clusters=n)
+        assert len(cl.clusters) == n
+
+
+def test_tfidf_kmeans_zero_cluster_sizes(documents):
+    cl = Cluster(documents=documents, vector_model="tfidf")
+    # sklearn.cluster.KMeans does not raise value error but an OverflowError for cluster size of 0.
+    with pytest.raises(Exception):
+        cl.cluster(clustering_algorithm="kmeans", n_clusters=0)
+
+
 @pytest.fixture
 def documents():
     docs = [
