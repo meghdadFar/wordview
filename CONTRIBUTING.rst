@@ -85,7 +85,7 @@ Code Quality
 To ensure a high quality in terms of readability, complying with PEP
 standards, and static type checking, we use ``pre-commit`` with
 ``black``, ``flake8``, ``mypy`` and ``isort``. The configurations are in
-``.pre-commit-config.yaml``. Once you have install dev dependencies,
+``.pre-commit-config.yaml``. Once you have installed dev dependencies,
 following the above instructions, run ``pre-commit install`` so that the
 above tools are installed.
 
