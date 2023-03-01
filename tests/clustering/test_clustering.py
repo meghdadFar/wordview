@@ -44,8 +44,3 @@ def documents():
         "Graph minors IV Widths of trees and well quasi ordering",
         "Graph minors A survey"]
     return docs
-
-
-
-
-
