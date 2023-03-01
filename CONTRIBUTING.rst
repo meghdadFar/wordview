@@ -2,7 +2,7 @@ Contributing to wordview
 ========================
 
 Thank you for contributing to wordview! We and the users of this repo
-appreciate your efforts! If spot a problem or you have a feature request
+appreciate your efforts! If you spot a problem or you have a feature request
 or you wanted to suggest an improvement, please create an issue. Please
 first search the existing open and closed issues
 `here <https://github.com/meghdadFar/wordview/issues>`__. If a related
