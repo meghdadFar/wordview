@@ -37,7 +37,7 @@ based on a normal distribution, a good branch name can be
 Environment Setup
 -----------------
 
-We use ```Poetry`` <https://pypi.org/project/poetry/>`__ to manage
+We use `Poetry <https://pypi.org/project/poetry/>`__ to manage
 dependencies and packaging. Follow these steps to set up your dev
 environment:
 
