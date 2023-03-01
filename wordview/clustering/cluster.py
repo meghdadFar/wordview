@@ -42,15 +42,16 @@ class Cluster:
 
     def cluster(
         self,
-        clustering_algorithm: str,
+        clustering_algorithm: str = "kmeans",
         n_clusters: int = 3,
         distance_threshold: Any = None,
     ) -> None:
         """Cluster documents using the algorithm specified by clustering_algorithm.
 
         Args:
-            clustering_algorithm (str): Clustering algorithm. Supported algorithms: [Kmeans, AgglomerativeClustering].
-            k (str): Number of clusters. Default = 3.
+            clustering_algorithm (str): Clustering algorithm. Default = kmeans.
+                Supported algorithms: [Kmeans, AgglomerativeClustering].
+            n_clusters (str): Number of clusters. Default = 3.
             distance_threshold (float): Distance threshold for AgglomerativeClustering. Default = None.
 
             Returns:
