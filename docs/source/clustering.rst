@@ -9,6 +9,7 @@ clustering in ``wordview``.
 
 .. code:: python
 
+    from wordview.clustering import Cluster
     docs = [
         "Human machine interface for lab abc computer applications",
         "A survey of user opinion of computer system response time",
