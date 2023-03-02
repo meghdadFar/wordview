@@ -46,11 +46,7 @@ Structure
 
   * Arguments (planned)
 
-* Utilities
-  
-  * Text Cleaning
-
-  * Hyphenating MWEs 
+* `Utilities <#utilities>`__
 
 Usage
 ######
