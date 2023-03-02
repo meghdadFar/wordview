@@ -38,7 +38,7 @@ Structure
 
   * `Statistically Redundant Words <#statistically-redundant-words>`__
 
-  * `Anomalies <#anomalies>`__
+  * `Anomalies & Outliers <#anomalies&outliers>`__
 
   * Topics (planned)
 
@@ -260,8 +260,16 @@ concepts such as ``quantum physics`` and ``guinea pig`` are captured,
 without the need for any labeled data and supervised model. This can
 speed things up and save much costs in certain situations.
 
-Anomalies
-*********
+Anomalies & Outliers
+********************
+
+Anomalies and outliers have wide applications in Machine Learning. While in
+some cases, you can capture them and remove them from the data to improve the
+performance of a downstream ML model, in other cases, they become the data points
+of interest where we endeavor to find them in order to shed light into our data.
+
+``wordview`` offers several anomaly and outlier detection functions.
+See `anomalies documentation page <./docs/source/anomalies.rst>`__ for usage and examples.
 
 Sometimes, anomalies find their way into the data and tamper with the
 quality of the downstream ML model. For instance, a classifier that is
@@ -303,7 +311,7 @@ Despite it's ability to provide valuable insights into your data, you do not nee
 Utilities
 #########
 
-``wordview``` has a number of utility functions that you can use for common pre and post processing tasks in NLP. 
+``wordview`` offers a number of utility functions that you can use for common pre and post processing tasks in NLP. 
 See `utilities documentation page <./docs/source/utilities.rst>`__ for usage and examples.
 
 Contributing
