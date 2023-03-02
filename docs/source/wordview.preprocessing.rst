@@ -12,14 +12,6 @@ wordview.preprocessing.cleaning module
    :undoc-members:
    :show-inheritance:
 
-wordview.preprocessing.filtering module
----------------------------------------
-
-.. automodule:: wordview.preprocessing.filtering
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

@@ -38,7 +38,7 @@ Structure
 
   * `Statistically Redundant Words <#statistically-redundant-words>`__
 
-  * `Anomalies <#anomalies>`__
+  * `Anomalies & Outliers <#anomalies-and-outliers>`__
 
   * Topics (planned)
 
@@ -46,11 +46,7 @@ Structure
 
   * Arguments (planned)
 
-* Utilities
-  
-  * Text Cleaning
-
-  * Hyphenating MWEs 
+* `Utilities <#utilities>`__
 
 Usage
 ######
@@ -264,39 +260,17 @@ concepts such as ``quantum physics`` and ``guinea pig`` are captured,
 without the need for any labeled data and supervised model. This can
 speed things up and save much costs in certain situations.
 
-Anomalies
-*********
+Anomalies and Outliers
+**********************
 
-Sometimes, anomalies find their way into the data and tamper with the
-quality of the downstream ML model. For instance, a classifier that is
-trained to classify input documents into N known classes, does not know
-what to do with an anomalous document, hence, it places it into one of
-those classes that can be completely wrong. Anomaly detection, in this
-example, allows us to identify and discard anomalies before running the
-classifier. On the other hand, sometimes anomalies the most interesting
-part of our data and those are the ones that we are looking for.
-You can use ``wordview`` to identify anomalies in your data. For instance,
-you can use ``NormalDistAnomalies`` to identify anomalies based on (the normalized)
-distribution of your data. See a worked example below. 
+Anomalies and outliers have wide applications in Machine Learning. While in
+some cases, you can capture them and remove them from the data to improve the
+performance of a downstream ML model, in other cases, they become the data points
+of interest where we endeavor to find them in order to shed light into our data.
 
-.. code:: python
+``wordview`` offers several anomaly and outlier detection functions.
+See `anomalies documentation page <./docs/source/anomalies.rst>`__ for usage and examples.
 
-   from wordview.anomaly import NormalDistAnomalies
-   from sklearn.feature_extraction.text import TfidfVectorizer
-   
-   # Create a score for words.
-   # It can be e.g. word frequency 
-   tsp = TextStatsPlots(df=imdb_train, text_column='text')
-   token_score_dict = tsp.analysis.token_to_count_dict
-   # or it can be the inverse document frequency (IDF)
-   vectorizer = TfidfVectorizer(min_df=1)
-   X = vectorizer.fit_transform(imdb_train["text"])
-   idf = vectorizer.idf_
-   token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
-   
-   # Use NormalDistAnomalies to identify anomalies.
-   nda = NormalDistAnomalies(items=token_score_dict)
-   nda.anomalous_items()
 
 Clusters
 *********
@@ -307,40 +281,8 @@ Despite it's ability to provide valuable insights into your data, you do not nee
 Utilities
 #########
 
-Text Cleaning
-**************
-
-Filtering noise and cleaning up the text can be a tedious task, but for
-most NLP applications we almost always need some degree of it.
-*wordview* offers easy to use functionalities for filtering noise,
-customized definition of noise, and cleaning up the text from it. For
-instance, you can choose what pattern to accept via ``keep_pattern``
-argument, what pattern to drop via ``drop_patterns`` argument, and what
-pattern to replace via ``replace`` argument. Or you can specify the max
-length of allowed tokens to filter out very long sequences that are
-often noise. See the docs to learn more about other parameters of
-``clean_text``. Here is a worked example:
-
-.. code:: python
-
-   from wordview.preprocessing import clean_text
-
-   # Let's only keep alphanumeric tokens as well as important punctuation marks:
-   keep_pattern='^[a-zA-Z0-9!.,?\';:$/_-]+$'
-
-   # In this corpus, one can frequently see HTML tags such as `< br / >`. So let's drop them:
-   drop_patterns={'< br / >'}
-
-   # By skimming throw the text one can frequently see many patterns such as !!! or ???. Let's replace them:
-   replace={'!!!':'!', '\?\?\?':'?'}
-
-   # Finally, let's set the maximum length of a token to 15:
-   maxlen=15
-
-   # Pass the set keyword arguments to the apply:
-   imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_pattern, replace=replace, maxlen=maxlen)
-
-**Note** ``clean_text`` returns tokenized text.
+``wordview`` offers a number of utility functions that you can use for common pre and post processing tasks in NLP. 
+See `utilities documentation page <./docs/source/utilities.rst>`__ for usage and examples.
 
 Contributing
 ############
