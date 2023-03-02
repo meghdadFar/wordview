@@ -307,40 +307,8 @@ Despite it's ability to provide valuable insights into your data, you do not nee
 Utilities
 #########
 
-Text Cleaning
-**************
-
-Filtering noise and cleaning up the text can be a tedious task, but for
-most NLP applications we almost always need some degree of it.
-*wordview* offers easy to use functionalities for filtering noise,
-customized definition of noise, and cleaning up the text from it. For
-instance, you can choose what pattern to accept via ``keep_pattern``
-argument, what pattern to drop via ``drop_patterns`` argument, and what
-pattern to replace via ``replace`` argument. Or you can specify the max
-length of allowed tokens to filter out very long sequences that are
-often noise. See the docs to learn more about other parameters of
-``clean_text``. Here is a worked example:
-
-.. code:: python
-
-   from wordview.preprocessing import clean_text
-
-   # Let's only keep alphanumeric tokens as well as important punctuation marks:
-   keep_pattern='^[a-zA-Z0-9!.,?\';:$/_-]+$'
-
-   # In this corpus, one can frequently see HTML tags such as `< br / >`. So let's drop them:
-   drop_patterns={'< br / >'}
-
-   # By skimming throw the text one can frequently see many patterns such as !!! or ???. Let's replace them:
-   replace={'!!!':'!', '\?\?\?':'?'}
-
-   # Finally, let's set the maximum length of a token to 15:
-   maxlen=15
-
-   # Pass the set keyword arguments to the apply:
-   imdb_train.text = imdb_train.text.apply(clean_text, args=(), keep_pattern=keep_pattern, replace=replace, maxlen=maxlen)
-
-**Note** ``clean_text`` returns tokenized text.
+``wordview``` has a number of utility functions that you can use for common pre and post processing tasks in NLP. 
+See `utilities documentation page <./docs/source/utilities.rst>`__ for usage and examples.
 
 Contributing
 ############
