@@ -26,7 +26,7 @@ To begin contributing, clone the repository and make sure you are on
    git pull
 
    # Create a new branch
-   git checkout -b BRANCH_NAME
+   git checkout -b <branch_name>
 
 Please try to name your branch such that the name clarifies the purpose
 of your branch, to some extent. We commonly use hyphenated branch names.
