@@ -75,7 +75,7 @@ Once you have provided the tests, simply run in the command line.
 
 .. code:: bash
 
-   python -m pytest tests/clustering/test_clustering.py
+   python -m pytest tests
 
 If all tests pass, you can continue with the next steps.
 
