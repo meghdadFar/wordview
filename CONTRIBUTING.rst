@@ -11,8 +11,8 @@ duplicate or very similar issues. If you come across an issue that you
 would like to work on, feel free to `open a PR <#pull-request-pr>`__ for
 it.
 
-Branches
---------
+Getting Started
+---------------
 
 To begin contributing, clone the repository and make sure you are on
 ``main`` branch. Then create your own branch.
@@ -22,7 +22,7 @@ To begin contributing, clone the repository and make sure you are on
    # Clone the repo
    git clone git@github.com:meghdadFar/wordview.git
 
-   # Get the latest updates, if you have previously cloned wordview.
+   # If it's been a while since you cloned, make sure you have the latest updates:
    git pull
 
    # Create a new branch
