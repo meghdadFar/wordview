@@ -1,5 +1,8 @@
+Utilities
+#########
+
 Text Cleaning
-#############
+-------------
 
 Cleaning up the text can be a tedious task, but for
 most NLP applications we almost always need some degree of it.
@@ -35,7 +38,7 @@ often noise. See the docs to learn more about other parameters of
 
 
 Hyphenating MWEs
-################
+----------------
 
 An important use of extracting MWEs is to treat them as a single token. 
 Research shows that when fixed expressions are treated as a single token rather than the sum of their components, 
