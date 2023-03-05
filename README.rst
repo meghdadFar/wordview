@@ -36,8 +36,6 @@ Structure
   
   * `Multiword Expressions <#multiword-expressions>`__
 
-  * `Statistically Redundant Words <#statistically-redundant-words>`__
-
   * `Anomalies & Outliers <#anomalies-and-outliers>`__
 
   * Topics (planned)
