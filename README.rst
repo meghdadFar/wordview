@@ -62,7 +62,9 @@ found `here <https://paperswithcode.com/dataset/imdb-movie-reviews>`__.
 .. code:: python
 
    import pandas as pd
-   imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
+   imdb_train = pd.read_csv('data/imdb_train_sample.tsv',
+                             sep='\t',
+                             names=['label', 'text'])
    imdb_train.head()
 
      label                                               text
@@ -76,7 +78,7 @@ Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
 different features of ``wordview`` below.
 
 Exploratory Data Analysis (EDA)
-################################
+###############################
 
 Text Analysis
 **************
