@@ -18,6 +18,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    clustering
    utilities
    contributing
+   codeofconduct
    modules
 
 
