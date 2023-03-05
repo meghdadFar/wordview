@@ -48,6 +48,8 @@ Structure
 
 * `Utilities <#utilities>`__
 
+* `Contributing <#contributing>`__
+
 Usage
 ######
 
