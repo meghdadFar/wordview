@@ -110,6 +110,12 @@ pull request’s description or in a commit message. E.g. “closes
 page <https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue>`__
 for more details.
 
+A good PR should have the following qualities:
+
+- The title of the PR should be self-explanatory. For instance: "Add knn to clustering algorithms".
+- The description of the PR should describe why this PR was created and what was changed.
+- An ideal PR is as small as possible. Small PRs can be reviewed and merged quickly, and reduce the risk of bugs. Ideally, a PR should be between 200 to 400 lines of code.
+
 Once your PR is submitted, a maintainer will review your PR. They may
 ask questions or suggest changes either using `suggested
 changes <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/incorporating-feedback-in-your-pull-request>`__
@@ -119,4 +125,4 @@ Once all the comments and changes are resolved, your PR will be merged.
 🥳🥳
 
 Thank you for your contribution! We are really excited to have your work
-integrated in wordview!
+integrated in `wordview`!
