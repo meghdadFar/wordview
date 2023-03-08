@@ -114,7 +114,7 @@ A good PR should have the following qualities:
 
 - The title of the PR should be self-explanatory. For instance: "Add knn to clustering algorithms".
 - The description of the PR should describe why this PR was created and what was changed.
-- An ideal PR is as small as possible. Small PRs can be reviewed and merged quickly, and reduce the risk of bugs.
+- An ideal PR is as small as possible. Small PRs can be reviewed and merged quickly, and reduce the risk of bugs. Ideally, a PR should be between 200 to 400 lines of code.
 
 Once your PR is submitted, a maintainer will review your PR. They may
 ask questions or suggest changes either using `suggested
@@ -125,4 +125,4 @@ Once all the comments and changes are resolved, your PR will be merged.
 🥳🥳
 
 Thank you for your contribution! We are really excited to have your work
-integrated in wordview!
+integrated in `wordview`!
