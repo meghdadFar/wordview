@@ -28,6 +28,10 @@ class MWE(object):
         """
         self.df = df
         self.text_column = text_column
+        if not mwe_types:
+            raise ValueError(f"mwe_types is empty.")
+        if not isinstance(mwe_types, list):
+            raise ValueError(f"mwe_types is not a list.")
         for mt in mwe_types:
             if mt not in ["NC", "JNC"]:
                 raise ValueError(f"{mt} type is not recognized.")
