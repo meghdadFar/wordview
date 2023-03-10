@@ -105,7 +105,7 @@ Pull Request (PR)
 Once your work is complete, you can make a pull request. Remember to
 link your pull request to an issue by using a supported keyword in the
 pull request’s description or in a commit message. E.g. “closes
-#issue_number”, “resolves #issue_number”, or “fixes #issue_number”. See
+#issue_number”, “resolves <#issue_number>”, or “fixes <#issue_number>”. See
 `this
 page <https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue>`__
 for more details.
