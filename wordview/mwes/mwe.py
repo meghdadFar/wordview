@@ -1,10 +1,12 @@
+from collections import Counter
+import re
 import pandas
 import json
 from pathlib import Path
-from typing import List, Dict
 from nltk import word_tokenize
+import tqdm
 from wordview.mwes.am import calculate_am
-from wordview.mwes.mwe_utils import get_counts
+from wordview.mwes.mwe_utils import get_pos_tags
 from wordview import logger
 
 
@@ -13,7 +15,7 @@ class MWE(object):
         self,
         df: pandas.DataFrame,
         text_column: str,
-        mwe_types: List[str] = ["NC"],
+        mwe_types: list[str] = ["NC"],
         tokenize=False,
     ) -> None:
         """Provide functionalities for unsupervised extraction of MWEs through association measures.
@@ -44,7 +46,7 @@ class MWE(object):
         else:
             self._check_tokenized()
 
-    def _tokenize(self, x):
+    def _tokenize(self, x): #REFACTOR: Move to utils
         """Helper function to tokenize and join the results with a space.
 
         Args:
@@ -55,7 +57,7 @@ class MWE(object):
         """
         return " ".join(word_tokenize(x))
 
-    def _check_tokenized(self) -> None:
+    def _check_tokenized(self) -> None: #REFACTOR: Move to utils
         """Helper function to check if the content of text_column is tokenized.
 
         Args:
@@ -93,7 +95,7 @@ class MWE(object):
 
         """
         logger.info("Creating counts...")
-        res = get_counts(
+        res = self.get_counts(
             df=self.df, text_column=self.text_column, mwe_types=self.mwe_types
         )
         if not counts_filename:
@@ -111,8 +113,8 @@ class MWE(object):
         am: str = "pmi",
         mwes_filename: str = None,
         counts_filename: str = None,
-        counts: Dict = None,
-    ) -> Dict:
+        counts: dict = None,
+    ) -> dict:
         """
         Args:
             mwe_types: Types of MWEs. Can be any of [NC, JNC]
@@ -151,3 +153,86 @@ class MWE(object):
                 return mwe_am_dict
         else:
             return mwe_am_dict
+
+
+    def get_counts(self) -> dict:
+        """Read a corpus in pandas.DataFrame format and generates all counts necessary for calculating AMs.
+
+        Args:
+            df (pandas.DataFrame): DataFrame with input data, which contains a column with text content
+                                from which compounds and their counts are extracted.
+            text_column: Name of the column the contains the text content.
+            mwe_types: Types of MWEs. Can be any of [NC, JNC]
+
+        Returns:
+            res: Dictionary of mwe_types to dictionary of individual mwe within that type and their count.
+                E.g. {'NC':{'climate change': 10, 'brain drain': 3}, 'JNC': {'black sheep': 3, 'red flag': 2}}
+        """
+        res = {}
+        for mt in self.mwe_types:
+            res[mt] = {}
+        res["WORDS"] = {}
+        for sent in tqdm.tqdm(self.df[self.text_column]):
+            tokens = sent.split(" ")
+            word_count_dict = Counter(tokens)
+            for k, v in word_count_dict.items(): #REFACTOR into its own method. 
+                if k in res["WORDS"]:
+                    res["WORDS"][k] += v
+                else:
+                    res["WORDS"][k] = v
+            for mt in self.mwe_types:
+                mwes_count_dic = self.extract_mwes_from_sent(tokens, mwe_type=mt) #REFACTOR into its own method.
+                for k, v in mwes_count_dic.items():
+                    if k in res[mt]:
+                        res[mt][k] += v
+                    else:
+                        res[mt][k] = v
+        return res
+
+
+    def extract_mwes_from_sent(self, tokens: list[str], mwe_type: str) -> dict:
+        """Extract two-word noun compounds from tokenized input.
+
+        Args:
+            tokens: A tokenized sentence, i.e. list of tokens.
+            type: Type of MWE. Any of ['NC', 'JNC'].
+
+        Returns:
+            mwes_count_dic: Dictionary of compounds to their count.
+        """
+        if not isinstance(tokens, list):
+            raise TypeError(
+                f'Input argument "tokens" must be a list of string. Currently it is of type {type(tokens)} \
+                with a value of: {tokens}.'
+            )
+        if len(tokens) == 0:
+            return
+        mwes = []
+        postag_tokens: list[tuple[str, str]] = get_pos_tags(tokens)
+        w1_pos_tags = []
+        w2_pos_tags = []
+        if mwe_type == "NC":
+            w1_pos_tags = ["NN", "NNS"]
+            w2_pos_tags = ["NN", "NNS"]
+        elif mwe_type == "JNC":
+            w1_pos_tags = ["JJ"]
+            w2_pos_tags = ["NN", "NNS"]
+        for i in range(len(postag_tokens) - 1):
+            w1 = postag_tokens[i]
+            if w1[1] not in w1_pos_tags:
+                continue
+            else:
+                w2 = postag_tokens[i + 1]
+                if not re.match("[a-zA-Z0-9]{2,}", w1[0]) or not re.match(
+                    "[a-zA-Z0-9]{2,}", w2[0]
+                ):
+                    continue
+                if w2[1] in w2_pos_tags:
+                    if i + 2 < len(postag_tokens):
+                        w3 = postag_tokens[i + 2]
+                        if w3 not in ["NN", "NNS"]:
+                            mwes.append(w1[0] + " " + w2[0])
+                    else:
+                        mwes.append(w1[0] + " " + w2[0])
+        mwes_count_dic = Counter(mwes)
+        return mwes_count_dic
