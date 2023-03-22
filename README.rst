@@ -6,10 +6,10 @@ wordview
 |Python 3.9|
 
 
-``wordview`` is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
-``wordview``\ ’s Python API is open-source and available under the `MIT
+Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
+Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
-offer a framework on top of ``wordview`` for enterprise use under a commercial license. See this page for
+offer a framework on top of Wordview for enterprise use under a commercial license. See this page for
 more information about this framework.
 
 
@@ -55,7 +55,7 @@ Install the package via ``pip``:
 
 ``pip install wordview``
 
-To explore different features, let’s first load a dataset. ``wordview``
+To explore different features, let’s first load a dataset. Wordview
 accepts ``pandas.DataFrame``. You can find a sample of size ``5K`` from
 the IMDb Movie Reviews dataset in the `data
 directory <./data/imdb_train_sample.tsv>`__. The original dataset can be
@@ -77,7 +77,7 @@ found `here <https://paperswithcode.com/dataset/imdb-movie-reviews>`__.
    4   pos  i could n't help but feel that this could have...
 
 Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
-different features of ``wordview`` below.
+different features of Wordview below.
 
 Exploratory Data Analysis (EDA)
 ###############################
@@ -169,14 +169,14 @@ Labels
 *******
 
 
-``wordview`` provides several statistics for labels in labeled datasets.
+Wordview provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
 
 Document-level Labels
 =====================
 
 
-For document-level labels ``wordview`` supports up to 4 independent
+For document-level labels Wordview supports up to 4 independent
 categorical or numerical labels. These labels should be provided in a
 one-label-per-document fashion. See the following example where such
 labels are provided in a ``pandas.dataframe``.
@@ -205,7 +205,7 @@ Sequence-level Labels
 =====================
 
 One of the most widely used types of labels in NLP are sequence-level
-labels (e.g. Named Entity tags such as PER, LOC). ``wordview`` offers
+labels (e.g. Named Entity tags such as PER, LOC). Wordview offers
 functions to see the overall and document-level distribution of sequence
 labels.
 
@@ -218,7 +218,7 @@ Multiword Expressions
 Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
 application in different areas including: parsing, language models,
-language generation, terminology extraction, and topic models. ``wordview`` can extract different types of MWEs from text.
+language generation, terminology extraction, and topic models. Wordview can extract different types of MWEs from text.
 See `MWEs documentation page <./docs/source/mwes.rst>`__ for usage and examples.
 
 Anomalies and Outliers
@@ -229,7 +229,7 @@ some cases, you can capture them and remove them from the data to improve the
 performance of a downstream ML model, in other cases, they become the data points
 of interest where we endeavor to find them in order to shed light into our data.
 
-``wordview`` offers several anomaly and outlier detection functions.
+Wordview offers several anomaly and outlier detection functions.
 See `anomalies documentation page <./docs/source/anomalies.rst>`__ for usage and examples.
 
 
@@ -242,14 +242,14 @@ Despite it's ability to provide valuable insights into your data, you do not nee
 Utilities
 #########
 
-``wordview`` offers a number of utility functions that you can use for common pre and post processing tasks in NLP. 
+Wordview offers a number of utility functions that you can use for common pre and post processing tasks in NLP. 
 See `utilities documentation page <./docs/source/utilities.rst>`__ for usage and examples.
 
 Contributing
 ############
 
 Thank you for contributing to wordview! We and the users of this repo
-appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to ``wordview``.
+appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
 
 .. If spot a problem or you have a feature request
@@ -317,7 +317,7 @@ appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>
 .. Testing
 .. -------
 
-.. Testing of ``wordview`` is carried out via
+.. Testing of Wordview is carried out via
 .. `Pytest <https://docs.pytest.org/>`__. Please include tests for any
 .. piece of code that you create inside the `tests <./tests/>`__ directory.
 .. To see examples, you can consult the existing tests in this directory.
