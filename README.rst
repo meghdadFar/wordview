@@ -1,4 +1,4 @@
-wordview
+Wordview
 ########
 
 |PyPI version|
