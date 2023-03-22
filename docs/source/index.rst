@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to wordview's documentation!
+Welcome to Wordview's documentation!
 ====================================
 
-``wordview`` is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
-``wordview``\ ’s Python API is open-source and available under the `MIT
+Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
+Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
