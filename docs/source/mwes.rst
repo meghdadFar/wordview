@@ -29,6 +29,10 @@ Wordview can extract different types of MWEs in your text.
    top_mwes_nc = [[k, v] for k,v in mwes_nc.items()][:10]
    print(tabulate(top_mwes_nc, tablefmt="double_outline"))
 
+The above results in a table the looks like the following and contains an ordered list of MWEs:
+
+..  code:: none
+
    ╔══════════════════╦═══════╗
    ║ busby berkeley   ║ 11.2  ║
    ║ burgess meredith ║ 11.13 ║
@@ -42,9 +46,9 @@ Wordview can extract different types of MWEs in your text.
    ║ quantum physics  ║ 10.38 ║
    ╚══════════════════╩═══════╝
 
-Notice how show and actor names such as ``busby berkeley``,
-``burgess meredith``, and ``monty python`` as well other multi-word
-concepts such as ``quantum physics`` and ``guinea pig`` are captured,
+Notice how show and actor names such as `busby berkeley`,
+`burgess meredith`, and `monty python` as well other multi-word
+concepts such as `quantum physics` and `guinea pig` are captured,
 without the need for any labeled data and supervised model. This can
 speed things up and save much costs in certain situations.
 
