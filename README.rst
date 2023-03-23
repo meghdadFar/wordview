@@ -373,10 +373,10 @@ appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>
    :target: https://badge.fury.io/py/wordview
 .. |Python 3.9| image:: https://img.shields.io/badge/python-3.9-blue.svg
    :target: https://www.python.org/downloads/release/python-390/
-.. |verbs| image:: figs/verbs.png
-.. |nouns| image:: figs/nouns.png
-.. |adjs| image:: figs/adjectives.png
-.. |doclen| image:: figs/doclen.png
-.. |wordszipf| image:: figs/wordszipf.png
-.. |labels| image:: figs/labels.png
+.. |verbs| image:: docs/figs/verbs.png
+.. |nouns| image:: docs/figs/nouns.png
+.. |adjs| image:: docs/figs/adjectives.png
+.. |doclen| image:: docs/figs/doclen.png
+.. |wordszipf| image:: docs/figs/wordszipf.png
+.. |labels| image:: docs/figs/labels.png
 

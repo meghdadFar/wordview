@@ -67,7 +67,6 @@ to learn how Zipf’s law can be used to improve some NLP models.
 Part of Speech Tags
 -------------------
 
-
 To see different Part of Speech tags in the form of word clouds, you can
 use the ``show_word_clouds`` method.
 
@@ -81,3 +80,9 @@ use the ``show_word_clouds`` method.
    ta.show_word_clouds(type="JJ")
 
 |verbs| |nouns| |adjs|
+
+.. |verbs| image:: ../figs/verbs.png
+.. |nouns| image:: ../figs/nouns.png
+.. |adjs| image:: ../figs/adjectives.png
+.. |doclen| image:: ../figs/doclen.png
+.. |wordszipf| image:: ../figs/wordszipf.png
