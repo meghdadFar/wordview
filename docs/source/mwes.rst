@@ -5,7 +5,7 @@ Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
 application in different areas including: parsing, language models,
 language generation, terminology extraction, and topic models.
-``wordview`` can extract different types of MWEs in your text.
+Wordview can extract different types of MWEs in your text.
 
 .. code:: python
 
