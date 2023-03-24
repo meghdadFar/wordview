@@ -11,11 +11,8 @@ Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
-
-Exploratory Data Analysis (EDA)
-=================================
 
    textstats
    mwes
