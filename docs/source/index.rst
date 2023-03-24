@@ -14,6 +14,9 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    :maxdepth: 2
    :caption: Contents:
 
+Exploratory Data Analysis (EDA)
+=================================
+
    textstats
    mwes
    anomalies
