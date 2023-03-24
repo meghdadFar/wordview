@@ -15,6 +15,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    :caption: Contents:
 
    textstats
+   labels
    mwes
    anomalies
    clustering
