@@ -1,11 +1,11 @@
 Label Stats
-###########
+-----------
 
 Wordview provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
 
 Document-level Labels
-=====================
+~~~~~~~~~~~~~~~~~~~~~
 
 For document-level labels Wordview supports up to 4 independent
 categorical or numerical labels. These labels should be provided in a
@@ -33,7 +33,7 @@ labels are provided in a ``pandas.dataframe``.
 |labels|
 
 Sequence-level Labels
-=====================
+~~~~~~~~~~~~~~~~~~~~~
 
 One of the most widely used types of labels in NLP are sequence-level
 labels (e.g. Named Entity tags such as PER, LOC). Wordview offers
