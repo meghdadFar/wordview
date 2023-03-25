@@ -1,6 +1,8 @@
 Getting Started
 ###############
 
+.. include:: start.rst
+
 Exploratory Data Analysis (EDA)
 ###############################
 
