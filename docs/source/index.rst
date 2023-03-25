@@ -20,16 +20,8 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    :maxdepth: 1
    :caption: Exploratory Data Analysis (EDA):
    
-   .. content
    textstats
    labels
-   .. mwes
-   .. anomalies
-   .. clustering
-   .. utilities
-   .. contributing
-   .. codeofconduct
-   .. modules
 
 .. toctree::
    :maxdepth: 1
