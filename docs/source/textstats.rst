@@ -1,5 +1,5 @@
 Text Stats
-##########
+----------
 
 Wordview's provides an overview of your text data, as well as general statistics and different
 distributions and plots via ``TextStatsPlots`` class. To get started, import and 
@@ -12,7 +12,7 @@ instantiate an object of ``TextStatsPlots`` using your dataset:
    ta = TextStatsPlots(df=imdb_train, text_column='text')
 
 Overview
---------
+~~~~~~~~
 Use the ``show_stats`` method to see a set of different statistics about
 of your dataset.
 
@@ -38,7 +38,7 @@ of your dataset.
    └───────────────────┴─────────┘
 
 Distributions
--------------
+~~~~~~~~~~~~~
 
 You can look into different distributions using the ``show_distplot``
 method. For instance, you can see the distribution of document lengths
@@ -65,7 +65,7 @@ article <https://medium.com/@_init_/using-zipfs-law-to-improve-neural-language-m
 to learn how Zipf’s law can be used to improve some NLP models.
 
 Part of Speech Tags
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 To see different Part of Speech tags in the form of word clouds, you can
 use the ``show_word_clouds`` method.
