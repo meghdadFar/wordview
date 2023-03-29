@@ -47,11 +47,10 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
    :caption: API Reference:
    
    modules
-
 
 Indices and tables
 ==================
