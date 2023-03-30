@@ -1,8 +1,3 @@
-.. wordview documentation master file, created by
-   sphinx-quickstart on Thu Feb  2 17:54:08 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to Wordview's documentation!
 ====================================
 
@@ -47,10 +42,10 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: API Reference:
    
-   modules
+   api
 
 Indices and tables
 ==================
