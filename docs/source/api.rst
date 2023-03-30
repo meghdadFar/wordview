@@ -3,13 +3,22 @@ API
 
 .. module:: wordview
 
-This part of the documentation lists the full API reference of all public
+Lists the API reference of public
 classes and functions.
 
 Anomaly Detection
 -----------------
 
 .. autoclass:: wordview.anomaly.NormalDistAnomalies
+   :members:
+
+   .. automethod:: __init__
+
+
+Clustering
+----------
+
+.. autoclass:: wordview.clustering.Cluster
    :members:
 
    .. automethod:: __init__
