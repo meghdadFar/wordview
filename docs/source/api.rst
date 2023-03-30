@@ -22,3 +22,12 @@ Clustering
    :members:
 
    .. automethod:: __init__
+
+
+Multiword Expressions
+----------------------
+
+.. autoclass:: wordview.mwes.MWE
+   :members:
+
+   .. automethod:: __init__
