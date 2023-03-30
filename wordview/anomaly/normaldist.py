@@ -33,7 +33,7 @@ class NormalDistAnomalies(object):
             items.items(), columns=["item", self.val_name]
         )
         # Gaussianize values
-        g_ersults = self.gaussianize_values(
+        g_ersults = self._gaussianize_values(
             self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
         )
         if shapiro(g_ersults).pvalue > 0.05:
@@ -113,7 +113,9 @@ class NormalDistAnomalies(object):
                 anomalies_set.add(self.item_value_df.iloc[i]["item"])
         return anomalies_set
 
-    def gaussianize_values(self, values: Iterable[float], strategy: str) -> npt.NDArray:
+    def _gaussianize_values(
+        self, values: Iterable[float], strategy: str
+    ) -> npt.NDArray:
         """Gaussianize input values using the brute strategy.
 
         Args:
