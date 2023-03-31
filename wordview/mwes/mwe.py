@@ -13,11 +13,6 @@ from wordview.mwes.mwe_utils import get_counts
 class MWE(object):
     """
     Represents a Multiword Expression.
-
-    Attributes:
-        df (pd.DataFrame): DataFrame with a text_column that contains the corpus..
-        text_column (str): Specifies the column of DataFrame where text/corpus data resides.
-        mwe_types (str): Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
     """
 
     def __init__(
