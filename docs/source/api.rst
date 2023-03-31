@@ -31,3 +31,19 @@ Multiword Expressions
    :members:
 
    .. automethod:: __init__
+
+
+Exploratory Text Analysis
+-------------------------
+
+.. autoclass:: wordview.text_analysis.TextStatsPlots
+   :members:
+
+   .. automethod:: __init__
+
+
+.. autoclass:: wordview.text_analysis.LabelStatsPlots
+   :members:
+
+   .. automethod:: __init__
+
