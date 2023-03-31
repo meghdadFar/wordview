@@ -25,9 +25,10 @@ class MWE(object):
         """Initialize a new MWE object with the given df, text_column and mwe_types.
 
         Args:
-            df: DataFrame with a text_column that contains the corpus.
-            text_column: Specifies the column of DataFrame where text data resides.
-            mwe_types: Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
+            df (pandas.DataFram): DataFrame with a text_column that contains the corpus.
+            text_column (str): Specifies the column of DataFrame where text data resides.
+            mwe_types (List): Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
+            tokenize (bool): Tokenize the content of `df[text_column]`.
 
         Returns:
             None
