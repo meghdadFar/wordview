@@ -1,12 +1,14 @@
-from typing import Dict, List
 import json
-import sys
-import pandas
 import re
-import tqdm
-from wordview import logger
-import nltk
+import sys
 from collections import Counter
+from typing import Dict, List
+
+import nltk
+import pandas
+import tqdm
+
+from wordview import logger
 
 
 def hyphenate_mwes(
@@ -79,7 +81,7 @@ def hyphenate_mwes(
     return df
 
 
-def get_ngrams(sentence: str, n: int) -> List:
+def get_ngrams(sentence: str, n: int) -> List[str]:
     """Extracts n-grams from sentence.
 
     Args:
@@ -90,8 +92,10 @@ def get_ngrams(sentence: str, n: int) -> List:
         ngrams: List of extracted n-grams.
     """
     if not isinstance(sentence, str):
-        raise TypeError(f"Input argument 'sentence' must be of type str. You have provided an input of type: {type(sentence)}.")
-    ngrams = []
+        raise TypeError(
+            f"Input argument 'sentence' must be of type str. You have provided an input of type: {type(sentence)}."
+        )
+    ngrams: List[str] = []
     try:
         tokens = sentence.split(" ")
     except Exception as E:
@@ -105,7 +109,9 @@ def get_ngrams(sentence: str, n: int) -> List:
     return ngrams
 
 
-def get_counts(df: pandas.DataFrame, text_column: str, mwe_types: List[str]) -> dict:
+def get_counts(
+    df: pandas.DataFrame, text_column: str, mwe_types: List[str]
+) -> Dict[str, Dict[str, int]]:
     """Read a corpus in pandas.DataFrame format and generates all counts necessary for calculating AMs.
 
     Args:
@@ -115,10 +121,10 @@ def get_counts(df: pandas.DataFrame, text_column: str, mwe_types: List[str]) -> 
         mwe_types: Types of MWEs. Can be any of [NC, JNC]
 
     Returns:
-        res: Dictionary of mwe_types to dictionary of individual mwe within that type and their count.
+        res which is a dictionary of mwe_types to dictionary of individual mwe within that type and their count.
             E.g. {'NC':{'climate change': 10, 'brain drain': 3}, 'JNC': {'black sheep': 3, 'red flag': 2}}
     """
-    res = {}
+    res: Dict[str, Dict[str, int]] = {}
     for mt in mwe_types:
         res[mt] = {}
     res["WORDS"] = {}
@@ -156,7 +162,7 @@ def extract_mwes_from_sent(tokens: List[str], mwe_type: str) -> Dict:
             with a value of: {tokens}.'
         )
     if len(tokens) == 0:
-        return
+        return {}
     mwes = []
     postag_tokens = nltk.pos_tag(tokens)
     w1_pos_tags = []

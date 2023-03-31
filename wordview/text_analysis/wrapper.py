@@ -1,4 +1,4 @@
-from typing import List, Set, Tuple
+from typing import Dict, List, Set, Tuple, Union
 
 import pandas
 import plotly.figure_factory as ff
@@ -13,6 +13,10 @@ from wordview.text_analysis.core import (
 
 
 class TextStatsPlots:
+    """
+    Represents a Text Stats and Plots.
+    """
+
     def __init__(
         self,
         df: pandas.DataFrame,
@@ -20,6 +24,19 @@ class TextStatsPlots:
         distributions: Set = {"doc_len", "word_frequency_zipf"},
         pos_tags: Set = {"NN", "VB", "JJ"},
     ) -> None:
+        """Initialize a new TextStatsPlots object with the given arguments.
+
+        Args:
+            df (pandas.DataFrame): DataFrame with a text_column that contains the corpus.
+            text_column (str): Specifies the column of DataFrame where text data resides.
+            distributions (Set): Set of distribution types to generate and plot. Available distributions are:
+                doc_len: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
+                Default = {"doc_len", "word_frequency_zipf"}.
+            pos_tags (Set): = Set of POS tags for which world cloud is shown. Default = {"NN", "VB", "JJ"}.
+
+        Returns:
+            None
+        """
         self.df = df
         self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
         self.distributions = distributions
@@ -35,8 +52,15 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    def create_dist_plots(self):
-        """Creates distribution plots for items in `self.distributions`."""
+    def create_dist_plots(self) -> Dict[str, go.Figure]:
+        """Create distribution plots for items in `self.distributions`.
+
+        Args:
+            None
+
+        Returns:
+            Dictionary of distribution names to plotly go.Figure objects for that distribution.
+        """
         res = {}
         if "doc_len" in self.distributions:
             fig_doc_len_dist = ff.create_distplot(
@@ -80,7 +104,16 @@ class TextStatsPlots:
 
         return res
 
-    def create_pos_plots(self):
+    def create_pos_plots(self) -> Dict[str, go.Figure]:
+        """Create plots for the POS tags specified in items in `self.pos_tags`.
+
+        Args:
+            None
+
+        Returns:
+            Dictionary of POS tags to plotly go.Figure objects.
+
+        """
         word_cloud_setup = {
             # 'plot_bgcolor': 'rgba(0, 0, 0, 0)',
             # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
@@ -128,7 +161,17 @@ class TextStatsPlots:
         if type == "VB":
             self.pos_plots["verb_cloud"].show()
 
-    def show_stats(self):
+    def show_stats(self) -> None:
+        """Print dataset statistics, including:
+        Language/s
+        Number of unique words
+        Number of all words
+        Number of documents
+        Median document length
+        Number of nouns
+        Number of adjectives
+        Number of verbs.
+        """
         table = tabulate(
             [
                 ["Language/s", ", ".join(self.languages)],
