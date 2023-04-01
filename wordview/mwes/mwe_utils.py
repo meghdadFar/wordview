@@ -108,3 +108,8 @@ def get_ngrams(sentence: str, n: int) -> List:
 def get_pos_tags(tokens: list[str]) -> list[tuple[str, str]]:
     pos_tags = nltk.pos_tag(tokens)
     return pos_tags
+
+
+def is_alphanumeric_latinscript_multigram(word: str):
+    match = re.match("[a-zA-Z0-9]{2,}", word)
+    return match
