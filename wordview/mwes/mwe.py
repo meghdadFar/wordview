@@ -6,7 +6,7 @@ from pathlib import Path
 from nltk import word_tokenize
 import tqdm
 from wordview.mwes.am import calculate_am
-from wordview.mwes.mwe_utils import get_pos_tags
+from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview import logger
 
 
@@ -223,9 +223,7 @@ class MWE(object):
                 continue
             else:
                 w2 = postag_tokens[i + 1]
-                if not re.match("[a-zA-Z0-9]{2,}", w1[0]) or not re.match(
-                    "[a-zA-Z0-9]{2,}", w2[0]
-                ):
+                if not is_alphanumeric_latinscript_multigram(w1[0]) or not is_alphanumeric_latinscript_multigram(w2[0]):
                     continue
                 if w2[1] in w2_pos_tags:
                     if i + 2 < len(postag_tokens):
