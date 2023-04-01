@@ -1,8 +1,9 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 import json
 import sys
 import pandas
 import re
+from re import Match
 import tqdm
 from wordview import logger
 import nltk
@@ -110,6 +111,6 @@ def get_pos_tags(tokens: list[str]) -> list[tuple[str, str]]:
     return pos_tags
 
 
-def is_alphanumeric_latinscript_multigram(word: str):
-    match = re.match("[a-zA-Z0-9]{2,}", word)
+def is_alphanumeric_latinscript_multigram(word: str) -> Optional[Match]:
+    match: Match = re.match("[a-zA-Z0-9]{2,}", word)
     return match
