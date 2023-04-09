@@ -223,5 +223,5 @@ appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>
 .. |doclen| image:: docs/figs/doclen.png
 .. |wordszipf| image:: docs/figs/wordszipf.png
 .. |labels| image:: docs/figs/labels.png
-.. |cover| image:: docs/figs/abstract_cover.png
+.. |cover| image:: docs/figs/abstract_cover_2.png
 
