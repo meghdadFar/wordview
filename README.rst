@@ -12,6 +12,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
 offer a framework on top of Wordview for enterprise use under a commercial license. See this page for
 more information about this framework.
 
+|cover|
 
 Structure
 #########
@@ -222,4 +223,5 @@ appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>
 .. |doclen| image:: docs/figs/doclen.png
 .. |wordszipf| image:: docs/figs/wordszipf.png
 .. |labels| image:: docs/figs/labels.png
+.. |cover| image:: docs/figs/abstract_cover.png
 
