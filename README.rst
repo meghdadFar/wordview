@@ -89,11 +89,7 @@ Exploratory Data Analysis (EDA)
 
 Text Analysis
 **************
-
 |text_analysis_cover|
-
-To have an overview of your data and see general stats and different
-distributions, you can use the ``TextStatsPlots`` class.
 
 Wordview presents many statistics about your data in form of plots and tables allowing you to 
 have both a high-level and detailed overview of your data. For instance, which languages
