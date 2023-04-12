@@ -14,40 +14,41 @@ more information about this framework.
 
 |cover|
 
-Structure
-#########
 
-* Exploratory Data Analysis (EDA)
+.. Structure
+.. #########
 
-  * `Text Analysis <#text-analysis>`__
+.. * Exploratory Data Analysis (EDA)
 
-  * `Overview <#overview>`__
+..   * `Text Analysis <#text-analysis>`__
 
-  * `Distributions <#distributions>`__
+..   * `Overview <#overview>`__
+
+..   * `Distributions <#distributions>`__
   
-  * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
+..   * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
 
-  * `Labels <#labels>`__
+..   * `Labels <#labels>`__
 
-     * `Document-level Labels <#document-level-labels>`__
+..      * `Document-level Labels <#document-level-labels>`__
 
-     * `Sequence-level Labels <#sequence-level-labels>`__ (planned)
+..      * `Sequence-level Labels <#sequence-level-labels>`__ (planned)
 
-* Feature Extraction
+.. * Feature Extraction
   
-  * `Multiword Expressions <#multiword-expressions>`__
+..   * `Multiword Expressions <#multiword-expressions>`__
 
-  * `Anomalies & Outliers <#anomalies-and-outliers>`__
+..   * `Anomalies & Outliers <#anomalies-and-outliers>`__
 
-  * Topics (planned)
+..   * Topics (planned)
 
-  * `Clusters <#clusters>`__
+..   * `Clusters <#clusters>`__
 
-  * Arguments (planned)
+..   * Arguments (planned)
 
-* `Utilities <#utilities>`__
+.. * `Utilities <#utilities>`__
 
-* `Contributing <#contributing>`__
+.. * `Contributing <#contributing>`__
 
 Usage
 ######
@@ -56,28 +57,31 @@ Install the package via ``pip``:
 
 ``pip install wordview``
 
-To explore different features, let’s first load a dataset. Wordview
-accepts ``pandas.DataFrame``. You can find a sample of size ``5K`` from
-the IMDb Movie Reviews dataset in the `data
-directory <./data/imdb_train_sample.tsv>`__. The original dataset can be
-found `here <https://paperswithcode.com/dataset/imdb-movie-reviews>`__.
+To explore various features and functionalities, consult the documentation pages. The following 
+features are available.
 
-.. code:: python
+.. let’s first load a dataset. Wordview
+.. accepts ``pandas.DataFrame``. You can find a sample of size ``5K`` from
+.. the IMDb Movie Reviews dataset in the `data
+.. directory <./data/imdb_train_sample.tsv>`__. The original dataset can be
+.. found `here <https://paperswithcode.com/dataset/imdb-movie-reviews>`__.
 
-   import pandas as pd
-   imdb_train = pd.read_csv('data/imdb_train_sample.tsv',
-                             sep='\t',
-                             names=['label', 'text'])
-   imdb_train.head()
+.. .. code:: python
 
-     label                                               text
-   0   neg  well , i rented this movie and found out it re...
-   1   pos  you know , this movie is n't that great , but ...
-   2   pos  a heartwarming film . the usual superb acting ...
-   3   pos  i did n't expect to like this film as much as ...
-   4   pos  i could n't help but feel that this could have...
+..    import pandas as pd
+..    imdb_train = pd.read_csv('data/imdb_train_sample.tsv',
+..                              sep='\t',
+..                              names=['label', 'text'])
+..    imdb_train.head()
 
-Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
+..      label                                               text
+..    0   neg  well , i rented this movie and found out it re...
+..    1   pos  you know , this movie is n't that great , but ...
+..    2   pos  a heartwarming film . the usual superb acting ...
+..    3   pos  i did n't expect to like this film as much as ...
+..    4   pos  i could n't help but feel that this could have...
+
+.. Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
 different features of Wordview below.
 
 Exploratory Data Analysis (EDA)
