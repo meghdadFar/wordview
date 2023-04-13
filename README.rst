@@ -96,6 +96,10 @@ See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs
 
 Feature Extraction
 ###################
+|clustering_cover|
+
+Wordview has various functionalities for feature extraction from text, including Multiword Expressions (MWEs), clusters, anomalies and 
+outliers, and more. See the following sections as well as the linked documentation page in each section for details.
 
 Multiword Expressions
 *********************
@@ -124,7 +128,6 @@ Clustering can be used to identify different groups of documents with similar in
 Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. See
 `wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage and examples.
 
-|clustering_cover|
 
 Utilities
 #########
