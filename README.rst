@@ -93,6 +93,18 @@ are present in your dataset, how many unique words and unique words are there in
 of them are Adjectives, Nouns or Verbs, what are the most common POS tags, etc. Wordview also provides several statistics for labels in labeled datasets.
 See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs/source/labels.rst>`__ documentation pages for usage and examples.
 
+Text Analysis
+*************
+Using this feature, you can have an overview of your text data in terms of various statistics and different
+See `the corresponding documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
+
+
+Label Analysis
+**************
+Wordview calculates several statistics for labels in labeled datasets whether they are at document or sequence level.
+See `the corresponding documentation pages <./docs/source/labels.rst>`__ for usage and examples.
+
+
 Feature Extraction
 ###################
 
