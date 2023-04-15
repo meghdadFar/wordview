@@ -57,8 +57,9 @@ Install the package via ``pip``:
 
 ``pip install wordview``
 
-To explore various features and functionalities, consult the documentation pages. The following 
-features are available.
+To explore various features and functionalities, consult the documentation pages. The following sections
+present a high-level description of Wordview's features and functionalities. For details, tutorials and worked examples, corresponding 
+documentation pages are linked in each section.
 
 .. let’s first load a dataset. Wordview
 .. accepts ``pandas.DataFrame``. You can find a sample of size ``5K`` from
