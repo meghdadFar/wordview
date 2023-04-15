@@ -91,11 +91,12 @@ Wordview presents many statistics about your data in form of plots and tables al
 have both a high-level and detailed overview of your data. For instance, which languages
 are present in your dataset, how many unique words and unique words are there in your dataset, what percentage 
 of them are Adjectives, Nouns or Verbs, what are the most common POS tags, etc. Wordview also provides several statistics for labels in labeled datasets.
-See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs/source/labels.rst>`__ documentation pages for usage and examples.
+
+.. See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs/source/labels.rst>`__ documentation pages for usage and examples.
 
 Text Analysis
 *************
-Using this feature, you can have an overview of your text data in terms of various statistics and different
+Using this feature, you can have an overview of your text data in terms of various statistics, plots and distribution.
 See `the corresponding documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
 
