@@ -12,7 +12,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
 offer a framework on top of Wordview for enterprise use under a commercial license. See this page for
 more information about this framework.
 
-|cover|
+|text_analysis_cover|
 
 
 .. Structure
@@ -87,8 +87,6 @@ documentation pages are linked in each section.
 Exploratory Data Analysis (EDA)
 ###############################
 
-|text_analysis_cover|
-
 Wordview presents many statistics about your data in form of plots and tables allowing you to 
 have both a high-level and detailed overview of your data. For instance, which languages
 are present in your dataset, how many unique words and unique words are there in your dataset, what percentage 
@@ -97,7 +95,6 @@ See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs
 
 Feature Extraction
 ###################
-|clustering_cover|
 
 Wordview has various functionalities for feature extraction from text, including Multiword Expressions (MWEs), clusters, anomalies and 
 outliers, and more. See the following sections as well as the linked documentation page in each section for details.
