@@ -26,28 +26,6 @@ To explore various features and functionalities, consult the documentation pages
 present a high-level description of Wordview's features and functionalities. For details, tutorials and worked examples, corresponding 
 documentation pages are linked in each section.
 
-.. let’s first load a dataset. Wordview
-.. accepts ``pandas.DataFrame``. You can find a sample of size ``5K`` from
-.. the IMDb Movie Reviews dataset in the `data
-.. directory <./data/imdb_train_sample.tsv>`__. The original dataset can be
-.. found `here <https://paperswithcode.com/dataset/imdb-movie-reviews>`__.
-
-.. .. code:: python
-
-..    import pandas as pd
-..    imdb_train = pd.read_csv('data/imdb_train_sample.tsv',
-..                              sep='\t',
-..                              names=['label', 'text'])
-..    imdb_train.head()
-
-..      label                                               text
-..    0   neg  well , i rented this movie and found out it re...
-..    1   pos  you know , this movie is n't that great , but ...
-..    2   pos  a heartwarming film . the usual superb acting ...
-..    3   pos  i did n't expect to like this film as much as ...
-..    4   pos  i could n't help but feel that this could have...
-
-.. Now that a dataset is loaded in a ``pandas.DataFrame``, let’s explore
 
 Exploratory Data Analysis (EDA)
 ###############################
@@ -57,7 +35,6 @@ have both a high-level and detailed overview of your data. For instance, which l
 are present in your dataset, how many unique words and unique words are there in your dataset, what percentage 
 of them are Adjectives, Nouns or Verbs, what are the most common POS tags, etc. Wordview also provides several statistics for labels in labeled datasets.
 
-.. See `Text Analysis <./docs/source/textstats.rst>`__  and `Label Analysis <./docs/source/labels.rst>`__ documentation pages for usage and examples.
 
 Text Analysis
 *************
