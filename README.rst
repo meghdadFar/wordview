@@ -39,13 +39,13 @@ of them are Adjectives, Nouns or Verbs, what are the most common POS tags, etc. 
 Text Analysis
 *************
 Using this feature, you can have an overview of your text data in terms of various statistics, plots and distribution.
-See `the corresponding documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
+See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
 
 Label Analysis
 **************
 Wordview calculates several statistics for labels in labeled datasets whether they are at document or sequence level.
-See `the corresponding documentation pages <./docs/source/labels.rst>`__ for usage and examples.
+See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
 
 Feature Extraction
