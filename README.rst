@@ -15,41 +15,6 @@ more information about this framework.
 |text_analysis_cover|
 
 
-.. Structure
-.. #########
-
-.. * Exploratory Data Analysis (EDA)
-
-..   * `Text Analysis <#text-analysis>`__
-
-..   * `Overview <#overview>`__
-
-..   * `Distributions <#distributions>`__
-  
-..   * `Part of Speech (POS) Tags <#part-of-speech-tags>`__
-
-..   * `Labels <#labels>`__
-
-..      * `Document-level Labels <#document-level-labels>`__
-
-..      * `Sequence-level Labels <#sequence-level-labels>`__ (planned)
-
-.. * Feature Extraction
-  
-..   * `Multiword Expressions <#multiword-expressions>`__
-
-..   * `Anomalies & Outliers <#anomalies-and-outliers>`__
-
-..   * Topics (planned)
-
-..   * `Clusters <#clusters>`__
-
-..   * Arguments (planned)
-
-.. * `Utilities <#utilities>`__
-
-.. * `Contributing <#contributing>`__
-
 Usage
 ######
 
