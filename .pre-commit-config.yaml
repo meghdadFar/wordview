@@ -1,10 +1,10 @@
 repos:
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        files: ^wordview/
-        name: isort (python)
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 5.12.0
+  #   hooks:
+  #     - id: isort
+  #       files: ^wordview/
+  #       name: isort (python)
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
