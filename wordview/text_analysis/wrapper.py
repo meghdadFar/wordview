@@ -215,7 +215,7 @@ class LabelStatsPlots:
         self.labels_fig = generate_label_plots(self.df, label_cols=label_columns)
 
     def show_label_plots(self) -> None:
-        """Renders label plots.
+        """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
             None
