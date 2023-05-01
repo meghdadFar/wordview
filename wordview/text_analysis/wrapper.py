@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Tuple, Union
+from typing import Dict, List, Set, Tuple
 
 import pandas
 import plotly.figure_factory as ff
@@ -14,7 +14,7 @@ from wordview.text_analysis.core import (
 
 class TextStatsPlots:
     """
-    Represents a Text Stats and Plots.
+    Represents Text Statistics and Plots.
     """
 
     def __init__(
@@ -188,18 +188,39 @@ class TextStatsPlots:
         print(table)
 
     def show_insights(self):
-        "show topics, MWEs, clusters,"
+        "Show topics, MWEs, clusters,"
         raise NotImplementedError
 
 
 class LabelStatsPlots:
+    """
+    Represents Label Statistics and Plots.
+    """
+
     def __init__(
         self,
         df: pandas.DataFrame,
         label_columns: List[Tuple],
     ) -> None:
+        """Initialize a new LabelStatsPlots object with the given arguments.
+
+        Args:
+            df (pandas.DataFrame): DataFrame with one or more label column/s.
+            label_columns (List): List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).
+
+        Returns:
+            None
+        """
         self.df = df
         self.labels_fig = generate_label_plots(self.df, label_cols=label_columns)
 
-    def show_label_plots(self):
+    def show_label_plots(self) -> None:
+        """Renders label plots for columns specified in `self.label_columns`.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         self.labels_fig.show()

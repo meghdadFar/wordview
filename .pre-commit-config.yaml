@@ -5,6 +5,7 @@ repos:
       - id: isort
         files: ^wordview/
         name: isort (python)
+        args: ["--profile", "black"]
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
