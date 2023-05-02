@@ -46,7 +46,8 @@ class MWE(object):
         else:
             self._check_tokenized()
 
-    def _tokenize(self, x): #REFACTOR: Move to utils
+
+    def _tokenize(self, x):
         """Helper function to tokenize and join the results with a space.
 
         Args:
@@ -57,7 +58,8 @@ class MWE(object):
         """
         return " ".join(word_tokenize(x))
 
-    def _check_tokenized(self) -> None: #REFACTOR: Move to utils
+
+    def _check_tokenized(self) -> None:
         """Helper function to check if the content of text_column is tokenized.
 
         Args:
@@ -83,6 +85,7 @@ class MWE(object):
                 f"It seems that the content of {self.text_column} in the input data frame is not (fully) tokenized.\nThis can lead to poor results. Consider re-instantiating your MWE instance with 'tokenize' flag set to True.\nNote that this might lead to a slower instantiation."
             )
 
+
     def build_counts(self, counts_filename: str = None) -> None:
         """Create various count files to be used by downstream methods
         by calling snlp.mwes.counter.get_counts.
@@ -107,6 +110,7 @@ class MWE(object):
             except Exception as e:
                 logger.error(e)
                 raise e
+
 
     def extract_mwes(
         self,
@@ -175,13 +179,13 @@ class MWE(object):
         for sent in tqdm.tqdm(self.df[self.text_column]):
             tokens = sent.split(" ")
             word_count_dict = Counter(tokens)
-            for k, v in word_count_dict.items(): #REFACTOR into its own method. 
+            for k, v in word_count_dict.items():
                 if k in res["WORDS"]:
                     res["WORDS"][k] += v
                 else:
                     res["WORDS"][k] = v
             for mt in self.mwe_types:
-                mwes_count_dic = self.extract_mwes_from_sent(tokens, mwe_type=mt) #REFACTOR into its own method.
+                mwes_count_dic = self.extract_mwes_from_sent(tokens, mwe_type=mt)
                 for k, v in mwes_count_dic.items():
                     if k in res[mt]:
                         res[mt][k] += v
