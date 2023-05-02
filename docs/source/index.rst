@@ -1,27 +1,51 @@
-.. wordview documentation master file, created by
-   sphinx-quickstart on Thu Feb  2 17:54:08 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to wordview's documentation!
+Welcome to Wordview's documentation!
 ====================================
 
-``wordview`` is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
-``wordview``\ ’s Python API is open-source and available under the `MIT
+Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
+Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Quick Start:
 
+   start
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Exploratory Data Analysis (EDA):
+   
+   textstats
+   labels
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Feature Extraction:
+   
    mwes
    anomalies
    clustering
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Utilities:
+   
    utilities
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contributing:
+   
    contributing
    codeofconduct
-   modules
 
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference:
+   
+   api
 
 Indices and tables
 ==================

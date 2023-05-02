@@ -22,8 +22,8 @@ def clean_text(
         keep_pattern (str): Allowed patterns e.g. [a-zA-Z]. Defaults to "[a-zA-Z0-9!.,?]".
         drop_patterns (set): Set of patterns that should be dropped from text.
         replace (dict): Dictionary of to_be_replaced_pattern: replaced_with. E.g. {[0-9]+: NUM}
-        remove_emojis:‌ Whether or not to remove emojis. Defaults to False.
-        remove_blanks: Relevant for text scraped from Web or HTML tags. Remove excessive blank lines and whitespaces. Defaults to False.
+        remove_emojis (bool):‌ Whether or not to remove emojis. Defaults to False.
+        remove_blanks (bool): Relevant for text scraped from Web or HTML tags. Remove excessive blank lines and whitespaces. Defaults to False.
         maxlen (int): Maximum length of a token. Defaults to 15.
         lower (bool): Whether or nor lowercase the text at the end.
 
@@ -68,7 +68,7 @@ def remove_emojis(text: str) -> str:
     """Remove Emojis from `text`.
 
     Args:
-        text: Input text to remove emojis from.
+        text (str): Input text to remove emojis from.
 
     Returns:
         text with emojis removed.

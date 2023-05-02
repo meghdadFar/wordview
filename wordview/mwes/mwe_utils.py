@@ -1,13 +1,17 @@
 from typing import Dict, List, Optional
 import json
-import sys
-import pandas
 import re
 from re import Match
-import tqdm
-from wordview import logger
-import nltk
+import sys
 from collections import Counter
+
+
+import nltk
+import pandas
+from re import Match
+import tqdm
+
+from wordview import logger
 
 
 def hyphenate_mwes(
@@ -80,7 +84,7 @@ def hyphenate_mwes(
     return df
 
 
-def get_ngrams(sentence: str, n: int) -> List:
+def get_ngrams(sentence: str, n: int) -> List[str]:
     """Extracts n-grams from sentence.
 
     Args:
@@ -91,8 +95,10 @@ def get_ngrams(sentence: str, n: int) -> List:
         ngrams: List of extracted n-grams.
     """
     if not isinstance(sentence, str):
-        raise TypeError(f"Input argument 'sentence' must be of type str. You have provided an input of type: {type(sentence)}.")
-    ngrams = []
+        raise TypeError(
+            f"Input argument 'sentence' must be of type str. You have provided an input of type: {type(sentence)}."
+        )
+    ngrams: List[str] = []
     try:
         tokens = sentence.split(" ")
     except Exception as E:

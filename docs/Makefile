@@ -12,6 +12,11 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+docs:
+    for f in docs/source/wordview.*.rst; do\
+        perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
+    done
+
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new

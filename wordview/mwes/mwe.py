@@ -1,16 +1,24 @@
 from collections import Counter
 import re
-import pandas
 import json
 from pathlib import Path
+from typing import Dict, List, Union
+
+import pandas
 from nltk import word_tokenize
 import tqdm
+
+from wordview import logger
 from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview import logger
 
 
 class MWE(object):
+    """
+    Represents a Multiword Expression.
+    """
+
     def __init__(
         self,
         df: pandas.DataFrame,
@@ -18,12 +26,13 @@ class MWE(object):
         mwe_types: list[str] = ["NC"],
         tokenize=False,
     ) -> None:
-        """Provide functionalities for unsupervised extraction of MWEs through association measures.
+        """Initialize a new MWE object with the given df, text_column and mwe_types.
 
         Args:
-            df: DataFrame with a text_column that contains the corpus.
-            text_column: Specifies the column of DataFrame where text data resides.
-            mwe_types: Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
+            df (pandas.DataFram): DataFrame with a text_column that contains the corpus.
+            text_column (str): Specifies the column of DataFrame where text data resides.
+            mwe_types (List): Types of MWEs to be extracted. Supports: NC for Noun-Noun and JNC for Adjective-Noun compounds. Example: ['NC', 'JNC'].
+            tokenize (bool): Tokenize the content of `df[text_column]`.
 
         Returns:
             None
@@ -88,14 +97,13 @@ class MWE(object):
 
     def build_counts(self, counts_filename: str = None) -> None:
         """Create various count files to be used by downstream methods
-        by calling snlp.mwes.counter.get_counts.
+        by calling wordview.mwes.mwe_utils.
 
         Args:
-            counts_filename: Filename for storing counts.
+            counts_filename (str): Filename for storing counts.
 
         Returns:
-            None (when no counts_filename is provided) otherwise res: Dictionary of counts.
-
+            None when no counts_filename is provided, otherwise res which is a dictionary of counts.
         """
         logger.info("Creating counts...")
         res = self.get_counts(
@@ -120,11 +128,12 @@ class MWE(object):
         counts: dict = None,
     ) -> dict:
         """
+        Extract MWEs from counts_filename with respect to the association measure specified by `am`.
+
         Args:
-            mwe_types: Types of MWEs. Can be any of [NC, JNC]
-            am: The association measure to be used. Can be any of [pmi, npmi]
-            mwes_filename: File for storing MWEs. Defaults to None.
-            counts_filename: File to read counts from.
+            am (str): The association measure to be used. Can be any of [pmi, npmi]
+            mwes_filename (str): File for storing MWEs. Defaults to None.
+            counts_filename (str): File to read counts from.
 
         Returns:
             Dictionary of MWEs.
