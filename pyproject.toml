@@ -3,8 +3,8 @@ name = "wordview"
 version = "0.2.0"
 description = "Wordview is a Python package for text analysis."
 authors = ["meghdadFar <meghdad.farahmand@gmail.com>"]
-readme = "README.md"
-include = ["CHANGES.md"]
+readme = "README.rst"
+include = ["CHANGES.rst"]
 license = "MIT"
 keywords = ["nlp", "text analysis", "statistics"]
 
