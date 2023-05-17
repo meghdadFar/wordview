@@ -1,7 +1,7 @@
 Version 0.2.0
 -------------
 
-- First minor release with a semi-stable features (see below) and their documentations.
+- Major refactoring with a semi-stable features (see below) and their documentations.
 - Exploratory Data Analysis.
 - Doc level Label Analysis.
 - Clustering.
@@ -13,5 +13,5 @@ Version 0.2.0
 Version 0.1.0
 -------------
 
-- Initial release with limited feats.
-- Do not install this version.
+- Initial release with major Exploratory Data Analysis, MWEs, and Preprocessing features.
+- Initial documentations.
