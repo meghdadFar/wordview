@@ -1,3 +1,8 @@
+Version 0.2.2
+-------------
+- Upgrade wordcloud version to latest to avoid build failure.
+
+
 Version 0.2.1
 -------------
 - Upgrade pandas and scikit-learn versions
