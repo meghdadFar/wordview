@@ -95,8 +95,9 @@ Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
 
-.. |PyPI version| image:: https://badge.fury.io/py/wordview.svg?&kill_cache=1
-   :target: https://badge.fury.io/py/wordview
+.. |PyPI version| image:: https://badge.fury.io/py/wordview.svg
+    :target: https://badge.fury.io/py/wordview
+
 .. |Python 3.9| image:: https://img.shields.io/badge/python-3.9-blue.svg
    :target: https://www.python.org/downloads/release/python-390/
 .. |verbs| image:: docs/figs/verbs.png
