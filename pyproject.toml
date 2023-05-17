@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wordview"
-version = "0.2.0"
+version = "0.2.1"
 description = "Wordview is a Python package for text analysis."
 authors = ["meghdadFar <meghdad.farahmand@gmail.com>"]
 readme = "README.rst"

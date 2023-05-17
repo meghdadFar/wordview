@@ -1,3 +1,7 @@
+Version 0.2.1
+-------------
+- Upgrade pandas and scikit-learn versions
+
 Version 0.2.0
 -------------
 
