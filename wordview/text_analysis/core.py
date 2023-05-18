@@ -24,16 +24,22 @@ here = os.path.dirname(os.path.abspath(__file__))
 ftmodel = fasttext.load_model(os.path.join(here, "lid.176.ftz"))
 
 
-def plotly_wordcloud(token_count_dic: dict) -> plotly.graph_objects.Scattergl:
+def plotly_wordcloud(
+    token_count_dic: dict, settings: Dict = {"color": "deepskyblue", "max_words": 100}
+) -> plotly.graph_objects.Scattergl:
     """Create a world cloud trace for plotly.
 
     Args:
-        token_count_dic (dictionary): Dictionary of token to its count
+        token_count_dic (Dict): Dictionary of token to its count
+        settings (Dict): wordcloud.WordCloud settings.
 
     Returns:
         trace (plotly.graph_objects.Scatter)
     """
-    wc = WordCloud(color_func=get_single_color_func("deepskyblue"), max_words=100)
+    wc = WordCloud(
+        color_func=get_single_color_func(settings["color"]),
+        max_words=settings["max_words"],
+    )
     wc.generate_from_frequencies(token_count_dic)
     word_list = []
     rel_freq_list = []
