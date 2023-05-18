@@ -40,9 +40,9 @@ class TextStatsPlots:
         self.df = df
         self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
         self.distributions = distributions
-        self.dist_plots = self.create_dist_plots()
+        # self.dist_plots = self.create_dist_plots()
         self.pos_tags = pos_tags
-        self.pos_plots = self.create_pos_plots()
+        # self.pos_plots = self.create_pos_plots()
         self.languages = self.analysis.languages
         self.type_count = self.analysis.type_count
         self.token_count = self.analysis.token_count
@@ -92,7 +92,6 @@ class TextStatsPlots:
                     marker=dict(color=self.analysis.zipf_x, colorscale="Reds"),
                 )
             )
-
             res["word_frequency_zipf"] = fig_w_freq
 
         dist_plot_setup = {
@@ -104,19 +103,24 @@ class TextStatsPlots:
 
         return res
 
-    def create_pos_plots(self) -> Dict[str, go.Figure]:
+    def show_distplot(self, plot: str):
+        self.create_dist_plots()[plot].show()
+        # self.dist_plots[plot].show()
+
+    def create_pos_plots(
+        self, go_plot_settings: Dict = {}, wc_settings: Dict = {}
+    ) -> Dict[str, go.Figure]:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
         Args:
-            None
+            go_plot_settings (Dict): Color and other settings for the plotly.graph_objs figure.
+            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
 
         Returns:
             Dictionary of POS tags to plotly go.Figure objects.
 
         """
-        word_cloud_setup = {
-            # 'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-            # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        word_cloud_mandatory_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -127,39 +131,69 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
+        # word_cloud_setting = {
+        #     # 'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+        #     # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        #     "showlegend": False,
+        #     "xaxis_showgrid": False,
+        #     "yaxis_showgrid": False,
+        #     "xaxis_zeroline": False,
+        #     "yaxis_zeroline": False,
+        #     "yaxis_visible": False,
+        #     "yaxis_showticklabels": False,
+        #     "xaxis_visible": False,
+        #     "xaxis_showticklabels": False,
+        # }
+        word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
         res = {}
         if "NN" in self.pos_tags:
             res["noun_cloud"] = go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.nns)
+                plotly_wordcloud(
+                    token_count_dic=self.analysis.nns, settings=wc_settings
+                )
             )
         if "JJ" in self.pos_tags:
             res["adj_cloud"] = go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.jjs)
+                plotly_wordcloud(
+                    token_count_dic=self.analysis.jjs, settings=wc_settings
+                )
             )
         if "VB" in self.pos_tags:
             res["verb_cloud"] = go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.vs)
+                plotly_wordcloud(token_count_dic=self.analysis.vs, settings=wc_settings)
             )
-
         for _, fig in res.items():
-            fig.update_layout(word_cloud_setup)
-
+            fig.update_layout(word_cloud_setting)
         return res
 
-    def show_distplot(self, plot: str):
-        self.dist_plots[plot].show()
+    def show_word_clouds(
+        self, pos: str, go_plot_settings: Dict = {}, wc_settings: Dict = {}
+    ) -> None:
+        """Shows POS word clouds.
 
-    def show_word_clouds(self, type: str):
-        if type == "all":
-            raise ValueError(
-                'Type "all" is not supported. Consider changing it to: NN, JJ, or VB.'
-            )
-        if type == "NN":
-            self.pos_plots["noun_cloud"].show()
-        if type == "JJ":
-            self.pos_plots["adj_cloud"].show()
-        if type == "VB":
-            self.pos_plots["verb_cloud"].show()
+        Args:
+            pos (str): Type of POS. Can be any of: [NN, JJ, VB].
+            go_plot_settings (Dict): Color and other settings for the word clouds.
+            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
+
+        Returns:
+            None
+        """
+        if pos == "NN":
+            self.create_pos_plots(
+                go_plot_settings=go_plot_settings, wc_settings=wc_settings
+            )["noun_cloud"].show()
+            # self.pos_plots["noun_cloud"].show()
+        if pos == "JJ":
+            self.create_pos_plots(
+                go_plot_settings=go_plot_settings,
+            )["adj_cloud"].show()
+            # self.pos_plots["adj_cloud"].show()
+        if pos == "VB":
+            self.create_pos_plots(
+                go_plot_settings=go_plot_settings,
+            )["verb_cloud"].show()
+            # self.pos_plots["verb_cloud"].show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
