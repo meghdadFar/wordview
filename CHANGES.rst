@@ -1,3 +1,8 @@
+Version 0.2.3
+-------------
+- Make POS wordclouds configurable.
+- Remove pos wordclouds and distplots as fields, and allow access to them via function call, for an improved data encapsulation.
+
 Version 0.2.2
 -------------
 - Upgrade wordcloud version to latest to avoid build failure.
