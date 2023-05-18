@@ -40,9 +40,7 @@ class TextStatsPlots:
         self.df = df
         self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
         self.distributions = distributions
-        # self.dist_plots = self.create_dist_plots()
         self.pos_tags = pos_tags
-        # self.pos_plots = self.create_pos_plots()
         self.languages = self.analysis.languages
         self.type_count = self.analysis.type_count
         self.token_count = self.analysis.token_count
@@ -114,7 +112,6 @@ class TextStatsPlots:
             None
         """
         self.create_dist_plots()[distribution].show()
-        # self.dist_plots[plot].show()
 
     def create_pos_plots(
         self, go_plot_settings: Dict = {}, wc_settings: Dict = {}
@@ -140,19 +137,6 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        # word_cloud_setting = {
-        #     # 'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        #     # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-        #     "showlegend": False,
-        #     "xaxis_showgrid": False,
-        #     "yaxis_showgrid": False,
-        #     "xaxis_zeroline": False,
-        #     "yaxis_zeroline": False,
-        #     "yaxis_visible": False,
-        #     "yaxis_showticklabels": False,
-        #     "xaxis_visible": False,
-        #     "xaxis_showticklabels": False,
-        # }
         word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
         res = {}
         if "NN" in self.pos_tags:
@@ -192,17 +176,14 @@ class TextStatsPlots:
             self.create_pos_plots(
                 go_plot_settings=go_plot_settings, wc_settings=wc_settings
             )["noun_cloud"].show()
-            # self.pos_plots["noun_cloud"].show()
         if pos == "JJ":
             self.create_pos_plots(
                 go_plot_settings=go_plot_settings,
             )["adj_cloud"].show()
-            # self.pos_plots["adj_cloud"].show()
         if pos == "VB":
             self.create_pos_plots(
                 go_plot_settings=go_plot_settings,
             )["verb_cloud"].show()
-            # self.pos_plots["verb_cloud"].show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
