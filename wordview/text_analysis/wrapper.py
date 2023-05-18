@@ -103,8 +103,17 @@ class TextStatsPlots:
 
         return res
 
-    def show_distplot(self, plot: str):
-        self.create_dist_plots()[plot].show()
+    def show_distplot(self, distribution: str) -> None:
+        """Shows distribution plots for `dist`.
+
+        Args:
+            dist (str): The distribution for which the plot is to be shown.
+                        Can be either of: doc_len" or "word_frequency_zipf.
+
+        Returns:
+            None
+        """
+        self.create_dist_plots()[distribution].show()
         # self.dist_plots[plot].show()
 
     def create_pos_plots(
