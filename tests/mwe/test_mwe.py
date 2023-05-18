@@ -5,7 +5,7 @@ from wordview.mwes.mwe import MWE
 
 
 @pytest.fixture
-def dummy_text_panda():
+def dummy_text_pandas():
     text = [
         "new   york  is the capital     of new  york    state", 
         "new york is called the big apple", 
@@ -58,8 +58,8 @@ class TestMweInitialisation:
             mwe = MWE(df = dummy_text_panda, text_column = "text", mwe_types = [])
 
 
-    def test_mwe_with_non_list_mwe_type_raises_value_error(self, dummy_text_panda):
-        with pytest.raises(ValueError):
+    def test_mwe_with_non_list_mwe_type_raises_type_error(self, dummy_text_panda):
+        with pytest.raises(TypeError):
             mwe = MWE(df = dummy_text_panda, text_column = "text", mwe_types = "NC")
 
 

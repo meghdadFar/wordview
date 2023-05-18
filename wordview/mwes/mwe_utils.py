@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 import json
 import re
 from re import Match
@@ -117,6 +117,6 @@ def get_pos_tags(tokens: list[str]) -> list[tuple[str, str]]:
     return pos_tags
 
 
-def is_alphanumeric_latinscript_multigram(word: str) -> Optional[Match]:
+def is_alphanumeric_latinscript_multigram(word: str) -> Match[Any]:
     match: Match = re.match("[a-zA-Z0-9]{2,}", word)
     return match

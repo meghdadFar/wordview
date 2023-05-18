@@ -42,7 +42,7 @@ class MWE(object):
         if not mwe_types:
             raise ValueError(f"mwe_types is empty.")
         if not isinstance(mwe_types, list):
-            raise ValueError(f"mwe_types is not a list.")
+            raise TypeError(f"mwe_types is not a list.")
         for mt in mwe_types:
             if mt not in ["NC", "JNC"]:
                 raise ValueError(f"{mt} type is not recognized.")
@@ -106,9 +106,7 @@ class MWE(object):
             None when no counts_filename is provided, otherwise res which is a dictionary of counts.
         """
         logger.info("Creating counts...")
-        res = self.get_counts(
-            df=self.df, text_column=self.text_column, mwe_types=self.mwe_types
-        )
+        res = self.get_counts()
         if not counts_filename:
             return res
         else:
@@ -168,14 +166,11 @@ class MWE(object):
             return mwe_am_dict
 
 
-    def get_counts(self) -> dict:
+    def get_counts(self) -> Dict:
         """Read a corpus in pandas.DataFrame format and generates all counts necessary for calculating AMs.
 
         Args:
-            df (pandas.DataFrame): DataFrame with input data, which contains a column with text content
-                                from which compounds and their counts are extracted.
-            text_column: Name of the column the contains the text content.
-            mwe_types: Types of MWEs. Can be any of [NC, JNC]
+            None
 
         Returns:
             res: Dictionary of mwe_types to dictionary of individual mwe within that type and their count.
@@ -203,7 +198,7 @@ class MWE(object):
         return res
 
 
-    def extract_mwes_from_sent(self, tokens: list[str], mwe_type: str) -> dict:
+    def extract_mwes_from_sent(self, tokens: list[str], mwe_type: str) -> Dict:
         """Extract two-word noun compounds from tokenized input.
 
         Args:
