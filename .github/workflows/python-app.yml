@@ -18,22 +18,22 @@ jobs:
         python-version: ["3.9", "3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Poetry
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry==1.4.2
-    - name: Install Dependencies
+      - name: Install Dependencies
         run: poetry install
-    - name: Install Pre-commit
+      - name: Install Pre-commit
         run: pre-commit install 
-    - name: Format and Static Type Checking with Pre-commit
+      - name: Format and Static Type Checking with Pre-commit
         run: pre-commit run --files wordview/
-    - name: Running Tests with pytest
+      - name: Running Tests with pytest
         run: poetry run pytest
   
 
