@@ -1,17 +1,16 @@
-from collections import Counter
-import re
 import json
+import re
+from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Union, Optional
+from typing import Dict, List, Optional, Union
 
 import pandas
-from nltk import word_tokenize
 import tqdm
+from nltk import word_tokenize
 
 from wordview import logger
 from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
-from wordview import logger
 
 
 class MWE(object):
@@ -40,9 +39,9 @@ class MWE(object):
         self.df = df
         self.text_column = text_column
         if not mwe_types:
-            raise ValueError(f"mwe_types is empty.")
+            raise ValueError("mwe_types is empty.")
         if not isinstance(mwe_types, list):
-            raise TypeError(f"mwe_types is not a list.")
+            raise TypeError("mwe_types is not a list.")
         for mt in mwe_types:
             if mt not in ["NC", "JNC"]:
                 raise ValueError(f"{mt} type is not recognized.")
@@ -55,7 +54,6 @@ class MWE(object):
         else:
             self._check_tokenized()
 
-
     def _tokenize(self, x):
         """Helper function to tokenize and join the results with a space.
 
@@ -66,7 +64,6 @@ class MWE(object):
             None
         """
         return " ".join(word_tokenize(x))
-
 
     def _check_tokenized(self) -> None:
         """Helper function to check if the content of text_column is tokenized.
@@ -94,7 +91,6 @@ class MWE(object):
                 f"It seems that the content of {self.text_column} in the input data frame is not (fully) tokenized.\nThis can lead to poor results. Consider re-instantiating your MWE instance with 'tokenize' flag set to True.\nNote that this might lead to a slower instantiation."
             )
 
-
     def build_counts(self, counts_filename: Optional[str] = None) -> Optional[Dict]:
         """Create various count files to be used by downstream methods
         by calling wordview.mwes.mwe_utils.
@@ -116,8 +112,7 @@ class MWE(object):
             except Exception as e:
                 logger.error(e)
                 raise e
-            return None 
-
+            return None
 
     def extract_mwes(
         self,
@@ -151,7 +146,7 @@ class MWE(object):
                 raise e
         else:
             raise ValueError("Either 'counts' or 'counts_filename' must be provided.")
-        
+
         logger.info(f"Extracting {self.mwe_types} based on {am}")
         mwe_am_dict = calculate_am(
             count_data=count_data, am=am, mwe_types=self.mwe_types
@@ -167,7 +162,6 @@ class MWE(object):
                 return mwe_am_dict
         else:
             return mwe_am_dict
-
 
     def get_counts(self) -> Dict:
         """Read a corpus in pandas.DataFrame format and generates all counts necessary for calculating AMs.
@@ -199,7 +193,6 @@ class MWE(object):
                     else:
                         res[mt][k] = v
         return res
-
 
     def extract_mwes_from_sent(self, tokens: list[str], mwe_type: str) -> Dict:
         """Extract two-word noun compounds from tokenized input.
@@ -234,7 +227,9 @@ class MWE(object):
                 continue
             else:
                 w2 = postag_tokens[i + 1]
-                if not is_alphanumeric_latinscript_multigram(w1[0]) or not is_alphanumeric_latinscript_multigram(w2[0]):
+                if not is_alphanumeric_latinscript_multigram(
+                    w1[0]
+                ) or not is_alphanumeric_latinscript_multigram(w2[0]):
                     continue
                 if w2[1] in w2_pos_tags:
                     if i + 2 < len(postag_tokens):

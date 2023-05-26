@@ -1,14 +1,12 @@
-from typing import Any, Dict, List, Optional
 import json
 import re
-from re import Match
 import sys
 from collections import Counter
-
+from re import Match
+from typing import Any, Dict, List, Optional
 
 import nltk
 import pandas
-from re import Match
 import tqdm
 
 from wordview import logger
