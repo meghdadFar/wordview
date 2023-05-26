@@ -2,7 +2,7 @@ from collections import Counter
 import re
 import json
 from pathlib import Path
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 
 import pandas
 from nltk import word_tokenize
@@ -95,7 +95,7 @@ class MWE(object):
             )
 
 
-    def build_counts(self, counts_filename: str = None) -> None:
+    def build_counts(self, counts_filename: Optional[str] = None) -> Optional[Dict]:
         """Create various count files to be used by downstream methods
         by calling wordview.mwes.mwe_utils.
 
@@ -116,14 +116,15 @@ class MWE(object):
             except Exception as e:
                 logger.error(e)
                 raise e
+            return None 
 
 
     def extract_mwes(
         self,
         am: str = "pmi",
-        mwes_filename: str = None,
-        counts_filename: str = None,
-        counts: dict = None,
+        mwes_filename: Optional[str] = None,
+        counts_filename: Optional[str] = None,
+        counts: Optional[dict] = None,
     ) -> dict:
         """
         Extract MWEs from counts_filename with respect to the association measure specified by `am`.
@@ -138,7 +139,7 @@ class MWE(object):
         """
         if counts:
             count_data = counts
-        else:
+        elif counts_filename is not None:
             try:
                 with open(counts_filename, "r") as file:
                     count_data = json.load(file)
@@ -148,7 +149,9 @@ class MWE(object):
                     "Counts must be provided either via input argument `counts` or `counts_filename`. Argument `counts` is not specified and it seems like there was an error reading the counts from `counts_filename`."
                 )
                 raise e
-
+        else:
+            raise ValueError("Either 'counts' or 'counts_filename' must be provided.")
+        
         logger.info(f"Extracting {self.mwe_types} based on {am}")
         mwe_am_dict = calculate_am(
             count_data=count_data, am=am, mwe_types=self.mwe_types
@@ -176,7 +179,7 @@ class MWE(object):
             res: Dictionary of mwe_types to dictionary of individual mwe within that type and their count.
                 E.g. {'NC':{'climate change': 10, 'brain drain': 3}, 'JNC': {'black sheep': 3, 'red flag': 2}}
         """
-        res = {}
+        res: Dict = {}
         for mt in self.mwe_types:
             res[mt] = {}
         res["WORDS"] = {}
@@ -214,7 +217,7 @@ class MWE(object):
                 with a value of: {tokens}.'
             )
         if len(tokens) == 0:
-            return
+            return {}
         mwes = []
         postag_tokens: list[tuple[str, str]] = get_pos_tags(tokens)
         w1_pos_tags = []
