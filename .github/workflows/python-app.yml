@@ -24,7 +24,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
-        run: pip install poetry==1.4.2
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install poetry==1.4.2
     - name: Install Dependencies
         run: poetry install
     - name: Install Pre-commit
@@ -33,3 +35,7 @@ jobs:
         run: pre-commit run --files wordview/
     - name: Running Tests with pytest
         run: poetry run pytest
+  
+
+
+
