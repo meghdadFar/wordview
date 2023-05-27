@@ -11,8 +11,6 @@ import plotly
 import plotly.graph_objs as go
 from langdetect import detect
 from nltk.corpus import stopwords
-
-plotly.graph_objects.Figure
 from plotly.subplots import make_subplots
 from tqdm import tqdm
 from wordcloud import WordCloud, get_single_color_func
