@@ -1,5 +1,5 @@
-from typing import Dict, List
 import math
+from typing import Dict, List
 
 
 def calculate_pmi(
