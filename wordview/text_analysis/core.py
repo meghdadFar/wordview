@@ -1,27 +1,21 @@
-import os
 import string
 import time
 from statistics import median
 from typing import Any, Dict, List, Tuple
 
-import fasttext
 import nltk
 import numpy as np
 import pandas
 import pandas as pd
 import plotly
 import plotly.graph_objs as go
+from langdetect import detect
 from nltk.corpus import stopwords
-
-plotly.graph_objects.Figure
 from plotly.subplots import make_subplots
 from tqdm import tqdm
 from wordcloud import WordCloud, get_single_color_func
 
 from wordview import logger
-
-here = os.path.dirname(os.path.abspath(__file__))
-ftmodel = fasttext.load_model(os.path.join(here, "lid.176.ftz"))
 
 
 def plotly_wordcloud(
@@ -262,7 +256,7 @@ def do_txt_analysis(
 
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
     for text in tqdm(df[text_col]):
-        ls = ftmodel.predict(text)[0][0].replace("__label__", "").upper()
+        ls = detect(text).upper()
         languages.update([ls])
         try:
             tokens = text.lower().split(" ")
