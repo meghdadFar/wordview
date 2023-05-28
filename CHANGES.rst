@@ -2,7 +2,6 @@ Version 0.2.4
 -------------
 - Improve MWE functionalities.
 - Fix fasttext issues.
-- Add CI.
 - Remove support for Python 11 (for now).
 
 Version 0.2.3
