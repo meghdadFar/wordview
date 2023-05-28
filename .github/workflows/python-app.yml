@@ -32,7 +32,7 @@ jobs:
       - name: Install Pre-commit
         run: poetry run pre-commit install
       - name: Format and Static Type Checking with Pre-commit
-        run: pre-commit run --files wordview/
+        run: poetry pre-commit run --files wordview/
       - name: Running Tests with pytest
         run: poetry run pytest
   
