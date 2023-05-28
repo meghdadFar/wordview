@@ -9,7 +9,7 @@ license = "MIT"
 keywords = ["nlp", "text analysis", "statistics"]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.10"
+python = ">=3.9,<3.11"
 langdetect = ">=1.0.9"
 pandas = "2.0.1"
 scikit-learn = "1.2.2"
