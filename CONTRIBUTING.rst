@@ -59,6 +59,7 @@ Use Poetry to install dev (and main) dependencies:
 .. code:: bash
 
    poetry install
+   poetry run nltk_download_script
 
 By default, dependencies across all non-optional groups are install. See
 `Poetry
