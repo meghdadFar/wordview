@@ -30,7 +30,7 @@ sphinx = ">=v6.1.3"
 sphinx-rtd-theme= "1.2.1"
 
 [tool.poetry.scripts]
-nltk_download_script = "wordview.bin.downloads:download_nltk_req"
+nltk_download_script = "bin.downloads:download_nltk_req"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
