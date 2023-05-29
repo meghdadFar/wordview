@@ -29,7 +29,9 @@ jobs:
           python -m pip install poetry
       - name: Install Dependencies
         run: poetry install
-      - name: Running Tests
+      - name: Download NLTK Resources
+        run: poetry run nltk_download_script
+      - name: Run Tests
         run: poetry run pytest --ignore=tests/clustering/
 
 
