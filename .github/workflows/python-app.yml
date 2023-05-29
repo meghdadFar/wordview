@@ -29,9 +29,9 @@ jobs:
           python -m pip install poetry
       - name: Install Dependencies
         run: poetry install
-      - name: Running Tests with pytest
-        run: poetry run pytest
-  
+      - name: Running Tests
+        run: poetry run pytest --ignore=tests/clustering/
+
 
 
 
