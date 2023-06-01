@@ -6,7 +6,7 @@ from typing import Dict, List, Optional, Union
 
 import pandas
 import tqdm
-from nltk import word_tokenize, RegexpParser
+from nltk import RegexpParser, word_tokenize
 
 from wordview import logger
 from wordview.mwes.am import calculate_am
@@ -241,8 +241,8 @@ class MWE(object):
         mwes_count_dic = Counter(mwes)
         return mwes_count_dic
 
-class HigherOrderMWEExtractor:
 
+class HigherOrderMWEExtractor:
     def __init__(self, tokens: list[str], pattern: str) -> None:
         self.tokens = tokens
         self.pattern = pattern
@@ -256,7 +256,7 @@ class HigherOrderMWEExtractor:
             )
         if len(self.tokens) == 0:
             raise ValueError(
-                f'Input argument "tokens" must be a non-empty list of string.'
+                'Input argument "tokens" must be a non-empty list of string.'
             )
         if not isinstance(self.pattern, str):
             raise TypeError(
@@ -265,7 +265,7 @@ class HigherOrderMWEExtractor:
             )
         if len(self.pattern) == 0:
             raise ValueError(
-                f'Input argument "pattern" must be a non-zero length string.'
+                'Input argument "pattern" must be a non-zero length string.'
             )
 
     def extract_higher_order_mwes(self) -> dict:
@@ -277,7 +277,7 @@ class HigherOrderMWEExtractor:
             pattern (str): A string containing a user-defined pattern for nltk.RegexpParser.
 
         Returns:
-            match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by patter label. 
+            match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by patter label.
                                                     An empty list if none were found.
 
         Examples of user-defined patterns:
@@ -296,19 +296,25 @@ class HigherOrderMWEExtractor:
         In this case, patterns of a clause are executed in order.  An earlier
         pattern may introduce a chunk boundary that prevents a later pattern from executing.
         """
-        
+
         tagged_tokens: list[tuple[str, str]] = get_pos_tags(self.tokens)
         parser = RegexpParser(self.pattern)
         parsed_tokens = parser.parse(tagged_tokens)
 
-        labels = [rule.split(":")[0].strip() for rule in self.pattern.split("\n") if rule]
+        labels: list[str] = [
+            rule.split(":")[0].strip() for rule in self.pattern.split("\n") if rule
+        ]
 
-        matches = {label: [] for label in labels}
+        matches: dict[str, list[str]] = {label: [] for label in labels}
 
         for subtree in parsed_tokens.subtrees():
             label = subtree.label()
             if label in matches:
-                matches[label].append(" ".join(word for (word, tag) in subtree.leaves()))
+                matches[label].append(
+                    " ".join(word for (word, tag) in subtree.leaves())
+                )
 
-        matches = {label: dict(Counter(match_list)) for label, match_list in matches.items()}
-        return matches
+        matches_counter: dict[str, dict[str, int]] = {
+            label: dict(Counter(match_list)) for label, match_list in matches.items()
+        }
+        return matches_counter
