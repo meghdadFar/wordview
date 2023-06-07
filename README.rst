@@ -1,9 +1,12 @@
 Wordview (Work In Progress)
 ###########################
 
-|PyPI version|
 
-|Python 3.9|
+.. image:: https://img.shields.io/pypi/v/wordview
+   :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/wordview
+   :alt: PyPI - Python Version
 
 Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
 Wordview's Python API is open-source and available under the `MIT
@@ -94,11 +97,10 @@ Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
 
-.. |PyPI version| image:: https://badge.fury.io/py/wordview.svg
-    :target: https://badge.fury.io/py/wordview
-
 .. |Python 3.9| image:: https://img.shields.io/badge/python-3.9-blue.svg
    :target: https://www.python.org/downloads/release/python-390/
+
+.. |Python Versions| https://img.shields.io/pypi/pyversions/wordview
 .. |verbs| image:: docs/figs/verbs.png
 .. |nouns| image:: docs/figs/nouns.png
 .. |adjs| image:: docs/figs/adjectives.png
