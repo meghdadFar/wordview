@@ -99,13 +99,6 @@ Contributing
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
-
-.. |verbs| image:: docs/figs/verbs.png
-.. |nouns| image:: docs/figs/nouns.png
-.. |adjs| image:: docs/figs/adjectives.png
-.. |doclen| image:: docs/figs/doclen.png
-.. |wordszipf| image:: docs/figs/wordszipf.png
-.. |labels| image:: docs/figs/labels.png
 .. |cover| image:: docs/figs/abstract_cover_2.png
 .. |clustering_cover| image:: docs/figs/clustering_cover.png
 .. |text_analysis_cover| image:: docs/figs/text_analysis.png
