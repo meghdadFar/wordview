@@ -3,8 +3,6 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 from wordview.mwes.mwe import MWE, HigherOrderMWEExtractor
 import nltk
-from collections import Counter
-from nltk.chunk import RegexpParser
 
 
 @pytest.fixture
