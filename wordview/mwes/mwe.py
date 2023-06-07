@@ -277,7 +277,7 @@ class HigherOrderMWEExtractor:
             pattern (str): A string containing a user-defined pattern for nltk.RegexpParser.
 
         Returns:
-            match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by patter label.
+            match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by pattern label.
                                                     An empty list if none were found.
 
         Examples of user-defined patterns:
