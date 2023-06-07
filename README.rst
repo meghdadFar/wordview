@@ -8,6 +8,9 @@ Wordview (Work In Progress)
 .. image:: https://img.shields.io/pypi/pyversions/wordview
    :alt: PyPI - Python Version
 
+.. image:: https://img.shields.io/pypi/dm/wordview
+   :alt: PyPI - Downloads
+
 Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
 Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
