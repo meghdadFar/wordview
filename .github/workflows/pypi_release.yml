@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
+      - name: Set up Python 3.9.10
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ extract_python_version() }}
+          python-version: 3.9.10
 
       - name: Install Poetry
         run: |
