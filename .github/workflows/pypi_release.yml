@@ -1,12 +1,17 @@
 name: PyPI Release
 
 on:
-  release:
+  pull_request:
     types:
-      - created
+      - closed
+    paths:
+      - 'pyproject.toml'
+    branches: 
+      - main
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +27,13 @@ jobs:
         run: |
           pip install poetry
 
-      - name: Increase package version
+      - name: Check changelog
         run: |
-          poetry version ${{ github.event.release.tag_name }}
-          echo "::set-output name=version::$(poetry version | awk '{print $2}')"
+          VERSION=$(poetry version | awk '{print $2}')
+          if ! grep -q "Version $VERSION" CHANGES.rst; then
+            echo "No changelog entry found for version $VERSION"
+            exit 1
+          fi
 
       - name: Build and publish
         run: |
@@ -33,4 +41,3 @@ jobs:
           poetry build
           poetry config pypi-token.pypi ${{ secrets.WORDVIEW_PYPI_TOKEN }}
           poetry publish
-        
