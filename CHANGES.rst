@@ -1,3 +1,10 @@
+Version 0.3.1
+-------------
+- Add action for CD.
+- Publish to PyPi and GitHub Releases on bump version.
+- Improve the CD workflow to ensure checks are passed and the merge is successful.
+- Check for release notes, otherwise do not publish. 
+
 Version 0.2.4
 -------------
 - Improve MWE functionalities.
