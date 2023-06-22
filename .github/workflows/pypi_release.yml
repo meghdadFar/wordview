@@ -31,6 +31,6 @@ jobs:
         run: |
           poetry install --no-dev
           poetry build
-          poetry publish
-        env:
-          POETRY_PYPI_TOKEN: ${{ secrets.WORDVIEW_PYPI_TOKEN }}
+          poetry config pypi-token.pypi ${{ secrets.WORDVIEW_PYPI_TOKEN }}
+          poetry publish --username 
+        
