@@ -22,11 +22,6 @@ jobs:
         run: |
           pip install poetry
 
-      - name: Extract package version
-        id: extract_version
-        run: |
-          echo "::set-output name=version::$(poetry version | awk '{print $2}')"
-
       - name: Increase package version
         run: |
           poetry version ${{ github.event.release.tag_name }}
