@@ -33,4 +33,4 @@ jobs:
           poetry build
           poetry publish
         env:
-          POETRY_PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          POETRY_PYPI_TOKEN: ${{ secrets.WORDVIEW_PYPI_TOKEN }}
