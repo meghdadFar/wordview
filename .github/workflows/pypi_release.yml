@@ -27,13 +27,17 @@ jobs:
         run: |
           pip install poetry
 
-      - name: Check changelog
+      - name: Check changelog and create release notes
+        id: release_notes
         run: |
           VERSION=$(poetry version | awk '{print $2}')
+          echo "::set-output name=version::$VERSION"
           if ! grep -q "Version $VERSION" CHANGES.rst; then
             echo "No changelog entry found for version $VERSION"
             exit 1
           fi
+          NOTES=$(awk -v ver="$VERSION" '/Version/{if(p){exit}; if($2 == ver){p=1}} p' CHANGES.rst)
+          echo "::set-output name=notes::$NOTES"
 
       - name: Build and publish
         run: |
@@ -41,3 +45,12 @@ jobs:
           poetry build
           poetry config pypi-token.pypi ${{ secrets.WORDVIEW_PYPI_TOKEN }}
           poetry publish
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.release_notes.outputs.version }}
+          release_name: Release ${{ steps.release_notes.outputs.version }}
+          body: ${{ steps.release_notes.outputs.notes }}
