@@ -1,0 +1,36 @@
+name: PyPI Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.10
+
+      - name: Install Poetry
+        run: |
+          pip install poetry
+
+      - name: Increase package version
+        run: |
+          poetry version ${{ github.event.release.tag_name }}
+          echo "::set-output name=version::$(poetry version | awk '{print $2}')"
+
+      - name: Build and publish
+        run: |
+          poetry install --no-dev
+          poetry build
+          poetry publish
+        env:
+          POETRY_PYPI_TOKEN: ${{ secrets.WORDVIEW_PYPI_TOKEN }}
