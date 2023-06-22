@@ -7,7 +7,7 @@ on:
     paths:
       - 'pyproject.toml'
     branches: 
-      - main
+      - meghdadfar/better-release
 
 jobs:
   build:
