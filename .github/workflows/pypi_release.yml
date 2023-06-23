@@ -37,7 +37,7 @@ jobs:
             exit 1
           fi
           NOTES=$(awk -v ver="$VERSION" '/Version/{if(p){exit}; if($2 == ver){p=1}} p' CHANGES.rst)
-          echo "::set-output name=notes::$NOTES"
+          echo "::set-output name=notes::${NOTES//$'\n'/'\r\n'}"
 
       - name: Build and publish
         run: |
