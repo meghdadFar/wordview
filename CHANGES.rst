@@ -1,3 +1,9 @@
+Version 0.3.7
+-------------
+- Change newline encoding.
+- To support multiline in GitHub release body.
+
+
 Version 0.3.6
 -------------
 - Test description.

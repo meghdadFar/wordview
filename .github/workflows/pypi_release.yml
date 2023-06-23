@@ -38,6 +38,9 @@ jobs:
             exit 1
           fi
           NOTES=$(awk -v ver="$VERSION" '/Version/{if(p){exit}; if($2 == ver){p=1;next}} p' CHANGES.rst | sed '/^--*$/d')
+          NOTES="${NOTES//'%'/'%25'}"
+          NOTES="${NOTES//$'\n'/'%0A'}"
+          NOTES="${NOTES//$'\r'/'%0D'}"
           echo "::set-output name=notes::$(printf '%s' "$NOTES")"
 
       - name: Build and publish
