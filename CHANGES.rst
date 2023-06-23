@@ -1,3 +1,9 @@
+Version 0.3.5
+-------------
+- Sersion to support multiline description l1.
+- Support multiline description l2.
+- Sersion to support multiline description l3.
+
 Version 0.3.4
 -------------
 - Update awk sed parser to correctly read release body. 
