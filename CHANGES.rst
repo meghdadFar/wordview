@@ -1,3 +1,7 @@
+Version 0.3.4
+-------------
+- Update awk sed parser to correctly read release body. 
+
 Version 0.3.3
 -------------
 - Fix missing multiline description in GitHub release using printf.
