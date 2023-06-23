@@ -1,8 +1,14 @@
+Version 0.3.6
+-------------
+- Test description.
+- Test description2.
+- Test description3.
+- Test description4.
+
 Version 0.3.5
 -------------
-- Sersion to support multiline description l1.
-- Support multiline description l2.
-- Sersion to support multiline description l3.
+- Test description.
+- Test description2.
 
 Version 0.3.4
 -------------
