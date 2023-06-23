@@ -1,5 +1,9 @@
 Version 0.3.2
 -------------
+- Fix missing multiline description in GitHub release using printf.
+
+Version 0.3.2
+-------------
 - Fix missing multiline description in GitHub release.
 
 Version 0.3.1
