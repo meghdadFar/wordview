@@ -266,7 +266,7 @@ class HigherOrderMWEExtractor:
                 'Input argument "pattern" must be a non-zero length string.'
             )
 
-    def extract_higher_order_mwes(self) -> dict:
+    def extract_higher_order_mwe_candidates(self) -> dict:
         """
         Extract variable-length MWE from tokenized input, using a user-defined POS regex pattern.
 

@@ -112,16 +112,16 @@ class TestHigherOrderMWEExtraction:
             mwe_extractor = HigherOrderMWEExtractor(tagged_sentence_fixture, pattern)
 
     def test_extract_higher_order_mwes_incorrect_pattern(self, tagged_sentence_fixture):
-        pattern = "{<DT>?<JJ>*<NN>}"  # missing label
+        pattern = "{<DT>?<JJ>*<NN>}"
         mwe_extractor = HigherOrderMWEExtractor(tagged_sentence_fixture, pattern)
         with pytest.raises(ValueError):
-            mwe_extractor.extract_higher_order_mwes()
+            mwe_extractor.extract_higher_order_mwe_candidates()
     
     def test_extract_higher_order_mwes_single_pattern(self, tagged_sentence_fixture):
         pattern = "NP: {<DT>?<JJ>+<NN>}"
         mwe_extractor = HigherOrderMWEExtractor(tagged_sentence_fixture, pattern)
         expected = {'NP': {'quick brown': 1, 'the lazy dog': 2}}
-        actual = mwe_extractor.extract_higher_order_mwes()
+        actual = mwe_extractor.extract_higher_order_mwe_candidates()
         assert expected == actual
 
     def test_extract_higher_order_mwes_multi_pattern(self, tagged_sentence_fixture):
@@ -136,7 +136,7 @@ class TestHigherOrderMWEExtraction:
             'ADVP': {'swiftly jumps': 1, 'attentively watches': 1}
         }
         mwe_extractor = HigherOrderMWEExtractor(tagged_sentence_fixture, pattern)
-        actual = mwe_extractor.extract_higher_order_mwes()
+        actual = mwe_extractor.extract_higher_order_mwe_candidates()
         assert expected == actual
 
 
