@@ -1,3 +1,40 @@
+Version 0.3.7
+-------------
+- Change newline encoding.
+- To support multiline in GitHub release body.
+
+
+Version 0.3.6
+-------------
+- Test description.
+- Test description2.
+- Test description3.
+- Test description4.
+
+Version 0.3.5
+-------------
+- Test description.
+- Test description2.
+
+Version 0.3.4
+-------------
+- Update awk sed parser to correctly read release body. 
+
+Version 0.3.3
+-------------
+- Fix missing multiline description in GitHub release using printf.
+
+Version 0.3.2
+-------------
+- Fix missing multiline description in GitHub release.
+
+Version 0.3.1
+-------------
+- Add action for CD.
+- Publish to PyPi and GitHub Releases on bump version.
+- Improve the CD workflow to ensure checks are passed and the merge is successful.
+- Check for release notes, otherwise do not publish. 
+
 Version 0.2.4
 -------------
 - Improve MWE functionalities.
