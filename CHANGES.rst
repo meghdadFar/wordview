@@ -1,3 +1,8 @@
+Version 0.4.0
+-------------
+- Support for extracting variable length MWE given a user pattern of POS tags.
+
+
 Version 0.3.7
 -------------
 - Change newline encoding.
