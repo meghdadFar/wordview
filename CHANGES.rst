@@ -1,3 +1,7 @@
+Version 0.4.1
+-------------
+- Update precommit hooks mypy and black versions
+
 Version 0.4.0
 -------------
 - Support for extracting variable length MWE given a user pattern of POS tags.
