@@ -27,8 +27,8 @@ pytest = ">=7.1"
 pytest-cov = ">=3.0.0"
 ipython = ">=8.4.0"
 sphinx = ">=v6.1.3"
-sphinx-rtd-theme= "1.2.1"
-jupyterlab= ">=4.0.2"
+sphinx-rtd-theme = "1.2.1"
+jupyterlab = ">=4.0.2"
 
 [tool.poetry.scripts]
 nltk_download_script = "bin.downloads:download_nltk_req"
