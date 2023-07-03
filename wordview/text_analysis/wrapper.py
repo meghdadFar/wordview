@@ -50,7 +50,7 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    def create_dist_plots(self) -> Dict[str, go.Figure]:
+    def _create_dist_plots(self) -> Dict[str, go.Figure]:
         """Create distribution plots for items in `self.distributions`.
 
         Args:
@@ -111,9 +111,9 @@ class TextStatsPlots:
         Returns:
             None
         """
-        self.create_dist_plots()[distribution].show()
+        self._create_dist_plots()[distribution].show()
 
-    def create_pos_plots(
+    def _create_pos_plots(
         self, go_plot_settings: Dict = {}, wc_settings: Dict = {}
     ) -> Dict[str, go.Figure]:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
@@ -173,15 +173,15 @@ class TextStatsPlots:
             None
         """
         if pos == "NN":
-            self.create_pos_plots(
+            self._create_pos_plots(
                 go_plot_settings=go_plot_settings, wc_settings=wc_settings
             )["noun_cloud"].show()
         if pos == "JJ":
-            self.create_pos_plots(
+            self._create_pos_plots(
                 go_plot_settings=go_plot_settings,
             )["adj_cloud"].show()
         if pos == "VB":
-            self.create_pos_plots(
+            self._create_pos_plots(
                 go_plot_settings=go_plot_settings,
             )["verb_cloud"].show()
 
