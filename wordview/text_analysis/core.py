@@ -18,9 +18,7 @@ from wordcloud import WordCloud, get_single_color_func
 from wordview import logger
 
 
-def plotly_wordcloud(
-    token_count_dic: dict, settings: Dict = {"color": "deepskyblue", "max_words": 100}
-) -> plotly.graph_objects.Scattergl:
+def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Scattergl:
     """Create a world cloud trace for plotly.
 
     Args:
@@ -30,9 +28,12 @@ def plotly_wordcloud(
     Returns:
         trace (plotly.graph_objects.Scatter)
     """
+    wc_settings: Dict = kwargs.get(
+        "wc_settings", {"color": "deepskyblue", "max_words": 100}
+    )
     wc = WordCloud(
-        color_func=get_single_color_func(settings["color"]),
-        max_words=settings["max_words"],
+        color_func=get_single_color_func(wc_settings["color"]),
+        max_words=wc_settings["max_words"],
     )
     wc.generate_from_frequencies(token_count_dic)
     word_list = []

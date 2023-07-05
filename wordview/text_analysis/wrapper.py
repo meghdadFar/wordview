@@ -149,15 +149,11 @@ class TextStatsPlots:
             )
         if "JJ" in self.pos_tags:
             res["adj_cloud"] = go.Figure(
-                plotly_wordcloud(
-                    token_count_dic=self.analysis.jjs, settings=kwargs["wc_settings"]
-                )
+                plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
             )
         if "VB" in self.pos_tags:
             res["verb_cloud"] = go.Figure(
-                plotly_wordcloud(
-                    token_count_dic=self.analysis.vs, settings=kwargs["wc_settings"]
-                )
+                plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
             )
         for _, fig in res.items():
             fig.update_layout(word_cloud_setting)
