@@ -114,7 +114,8 @@ class TextStatsPlots:
         self._create_dist_plots()[distribution].show()
 
     def _create_pos_plots(
-        self, go_plot_settings: Dict = {}, wc_settings: Dict = {}
+        self,
+        **kwargs,
     ) -> Dict[str, go.Figure]:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
@@ -137,31 +138,32 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
+        go_plot_settings = kwargs.get("go_plot_settings", {})
         word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
         res = {}
         if "NN" in self.pos_tags:
             res["noun_cloud"] = go.Figure(
                 plotly_wordcloud(
-                    token_count_dic=self.analysis.nns, settings=wc_settings
+                    token_count_dic=self.analysis.nns,
                 )
             )
         if "JJ" in self.pos_tags:
             res["adj_cloud"] = go.Figure(
                 plotly_wordcloud(
-                    token_count_dic=self.analysis.jjs, settings=wc_settings
+                    token_count_dic=self.analysis.jjs, settings=kwargs["wc_settings"]
                 )
             )
         if "VB" in self.pos_tags:
             res["verb_cloud"] = go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.vs, settings=wc_settings)
+                plotly_wordcloud(
+                    token_count_dic=self.analysis.vs, settings=kwargs["wc_settings"]
+                )
             )
         for _, fig in res.items():
             fig.update_layout(word_cloud_setting)
         return res
 
-    def show_word_clouds(
-        self, pos: str, go_plot_settings: Dict = {}, wc_settings: Dict = {}
-    ) -> None:
+    def show_word_clouds(self, pos: str, **kwargs) -> None:
         """Shows POS word clouds.
 
         Args:
@@ -174,15 +176,18 @@ class TextStatsPlots:
         """
         if pos == "NN":
             self._create_pos_plots(
-                go_plot_settings=go_plot_settings, wc_settings=wc_settings
+                **kwargs
+                # go_plot_settings=go_plot_settings, wc_settings=wc_settings
             )["noun_cloud"].show()
         if pos == "JJ":
             self._create_pos_plots(
-                go_plot_settings=go_plot_settings,
+                **kwargs
+                # go_plot_settings=go_plot_settings,
             )["adj_cloud"].show()
         if pos == "VB":
             self._create_pos_plots(
-                go_plot_settings=go_plot_settings,
+                **kwargs
+                # go_plot_settings=go_plot_settings,
             )["verb_cloud"].show()
 
     def show_stats(self) -> None:
