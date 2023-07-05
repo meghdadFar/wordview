@@ -31,8 +31,6 @@ def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Sc
     wc_settings: Dict = kwargs.get(
         "wc_settings", {"color": "deepskyblue", "max_words": 100}
     )
-    print("wc_settings")
-    print(wc_settings)
     wc = WordCloud(
         color_func=get_single_color_func(wc_settings["color"]),
         max_words=wc_settings["max_words"],
