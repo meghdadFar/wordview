@@ -162,27 +162,11 @@ class TextStatsPlots:
 
         Args:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
-            go_plot_settings (Dict): Color and other settings for the word clouds.
-            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
 
         Returns:
             None
         """
-        if pos == "NN":
-            self._create_pos_plots(
-                **kwargs
-                # go_plot_settings=go_plot_settings, wc_settings=wc_settings
-            ).show()
-        if pos == "JJ":
-            self._create_pos_plots(
-                **kwargs
-                # go_plot_settings=go_plot_settings,
-            ).show()
-        if pos == "VB":
-            self._create_pos_plots(
-                **kwargs
-                # go_plot_settings=go_plot_settings,
-            ).show()
+        self._create_pos_plots(pos=pos, **kwargs).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
