@@ -115,13 +115,13 @@ class TextStatsPlots:
 
     def _create_pos_plots(
         self,
+        pos: str,
         **kwargs,
-    ) -> Dict[str, go.Figure]:
+    ) -> go.Figure:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
         Args:
-            go_plot_settings (Dict): Color and other settings for the plotly.graph_objs figure.
-            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
+            pos (str): The POS tag for which the plot is to be shown.
 
         Returns:
             Dictionary of POS tags to plotly go.Figure objects.
@@ -140,24 +140,22 @@ class TextStatsPlots:
         }
         go_plot_settings = kwargs.get("go_plot_settings", {})
         word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
-        res = {}
-        if "NN" in self.pos_tags:
-            res["noun_cloud"] = go.Figure(
-                plotly_wordcloud(
-                    token_count_dic=self.analysis.nns,
-                )
-            )
-        if "JJ" in self.pos_tags:
-            res["adj_cloud"] = go.Figure(
+        if pos == "NN" and "NN" in self.pos_tags:
+            return go.Figure(
+                plotly_wordcloud(token_count_dic=self.analysis.nns, **kwargs)
+            ).update_layout(word_cloud_setting)
+        elif pos == "JJ" and "JJ" in self.pos_tags:
+            return go.Figure(
                 plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
-            )
-        if "VB" in self.pos_tags:
-            res["verb_cloud"] = go.Figure(
+            ).update_layout(word_cloud_setting)
+        elif pos == "VB" and "VB" in self.pos_tags:
+            return go.Figure(
                 plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
+            ).update_layout(word_cloud_setting)
+        else:
+            raise ValueError(
+                f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
             )
-        for _, fig in res.items():
-            fig.update_layout(word_cloud_setting)
-        return res
 
     def show_word_clouds(self, pos: str, **kwargs) -> None:
         """Shows POS word clouds.
@@ -174,17 +172,17 @@ class TextStatsPlots:
             self._create_pos_plots(
                 **kwargs
                 # go_plot_settings=go_plot_settings, wc_settings=wc_settings
-            )["noun_cloud"].show()
+            ).show()
         if pos == "JJ":
             self._create_pos_plots(
                 **kwargs
                 # go_plot_settings=go_plot_settings,
-            )["adj_cloud"].show()
+            ).show()
         if pos == "VB":
             self._create_pos_plots(
                 **kwargs
                 # go_plot_settings=go_plot_settings,
-            )["verb_cloud"].show()
+            ).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
