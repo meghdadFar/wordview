@@ -50,11 +50,12 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    def _create_dist_plots(self) -> Dict[str, go.Figure]:
+    def _create_dist_plots(self, **kwargs) -> Dict[str, go.Figure]:
         """Create distribution plots for items in `self.distributions`.
 
         Args:
-            None
+            **kwargs: Additional arguments to be passed to the plotly figure factory.
+                      For available settings see: https://plotly.com/python/reference/layout/
 
         Returns:
             Dictionary of distribution names to plotly go.Figure objects for that distribution.
@@ -68,9 +69,6 @@ class TextStatsPlots:
 
         if "word_frequency_zipf" in self.distributions:
             fig_w_freq = go.Figure()
-            # Alternative nice color scales that go together:
-            # Plotly3
-            # ice
             fig_w_freq.add_trace(
                 go.Scattergl(
                     x=self.analysis.zipf_x,
@@ -91,22 +89,20 @@ class TextStatsPlots:
                 )
             )
             res["word_frequency_zipf"] = fig_w_freq
-
-        dist_plot_setup = {
-            # 'paper_bgcolor': '#007A78',
-            "showlegend": False
-        }
+        dist_plot_settings = kwargs.get("plot_settings", {"showlegend": False})
         for _, fig in res.items():
-            fig.update_layout(dist_plot_setup)
+            fig.update_layout(dist_plot_settings)
 
         return res
 
-    def show_distplot(self, distribution: str) -> None:
+    def show_distplot(self, distribution: str, **kwargs) -> None:
         """Shows distribution plots for `dist`.
 
         Args:
             dist (str): The distribution for which the plot is to be shown.
                         Can be either of: doc_len" or "word_frequency_zipf.
+            **kwargs: Additional arguments to be passed to the plotly figure factory.
+                      For available settings see: https://plotly.com/python/reference/layout/
 
         Returns:
             None
@@ -164,7 +160,7 @@ class TextStatsPlots:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
             **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
               This includes:
-                - plot_settings: Dictionary of form: for self._create_pos_plots(). For availble setting see: https://plotly.com/python/reference/layout/.
+                - plot_settings: Dictionary of form: for self._create_pos_plots(). For available settings see: https://plotly.com/python/reference/layout/.
                 - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
 
         Returns:
