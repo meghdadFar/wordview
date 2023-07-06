@@ -164,7 +164,7 @@ class TextStatsPlots:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
             **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
               This includes:
-                - plot_settings: Dictionary of form: for self._create_pos_plots() and
+                - plot_settings: Dictionary of form: for self._create_pos_plots(). For availble setting see: https://plotly.com/python/reference/layout/.
                 - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
 
         Returns:
