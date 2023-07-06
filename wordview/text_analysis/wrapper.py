@@ -138,7 +138,7 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        plot_settings = kwargs.get("go_plot_settings", {})
+        plot_settings = kwargs.get("plot_settings", {})
         plot_settings = {**word_cloud_plot_mandatory_settings, **plot_settings}
         if pos == "NN" and "NN" in self.pos_tags:
             return go.Figure(
@@ -164,7 +164,7 @@ class TextStatsPlots:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
             **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
               This includes:
-                - go_plot_settings: Dictionary of form: for self._create_pos_plots() and
+                - plot_settings: Dictionary of form: for self._create_pos_plots() and
                 - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
 
         Returns:
