@@ -127,7 +127,7 @@ class TextStatsPlots:
             Dictionary of POS tags to plotly go.Figure objects.
 
         """
-        word_cloud_mandatory_settings = {
+        word_cloud_plot_mandatory_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -138,20 +138,20 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        go_plot_settings = kwargs.get("go_plot_settings", {})
-        word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
+        plot_settings = kwargs.get("go_plot_settings", {})
+        plot_settings = {**word_cloud_plot_mandatory_settings, **plot_settings}
         if pos == "NN" and "NN" in self.pos_tags:
             return go.Figure(
                 plotly_wordcloud(token_count_dic=self.analysis.nns, **kwargs)
-            ).update_layout(word_cloud_setting)
+            ).update_layout(plot_settings)
         elif pos == "JJ" and "JJ" in self.pos_tags:
             return go.Figure(
                 plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
-            ).update_layout(word_cloud_setting)
+            ).update_layout(plot_settings)
         elif pos == "VB" and "VB" in self.pos_tags:
             return go.Figure(
                 plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
-            ).update_layout(word_cloud_setting)
+            ).update_layout(plot_settings)
         else:
             raise ValueError(
                 f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
@@ -162,6 +162,10 @@ class TextStatsPlots:
 
         Args:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
+            **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
+              This includes:
+                - go_plot_settings: Dictionary of form: for self._create_pos_plots() and
+                - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
 
         Returns:
             None

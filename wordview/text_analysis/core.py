@@ -23,7 +23,7 @@ def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Sc
 
     Args:
         token_count_dic (Dict): Dictionary of token to its count
-        settings (Dict): wordcloud.WordCloud settings.
+        **kwargs:
 
     Returns:
         trace (plotly.graph_objects.Scatter)
