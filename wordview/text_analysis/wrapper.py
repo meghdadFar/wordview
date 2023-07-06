@@ -101,13 +101,13 @@ class TextStatsPlots:
         Args:
             dist (str): The distribution for which the plot is to be shown.
                         Can be either of: doc_len" or "word_frequency_zipf.
-            **kwargs: Additional arguments to be passed to the plotly figure factory.
+            **kwargs: Additional arguments to be passed to self._create_dist_plots and then plotly figure factory.
                       For available settings see: https://plotly.com/python/reference/layout/
 
         Returns:
             None
         """
-        self._create_dist_plots()[distribution].show()
+        self._create_dist_plots(**kwargs)[distribution].show()
 
     def _create_pos_plots(
         self,
