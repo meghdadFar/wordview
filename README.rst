@@ -100,6 +100,3 @@ Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
 .. |cover| image:: docs/figs/cover.png
-
-
-
