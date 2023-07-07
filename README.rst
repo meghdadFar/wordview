@@ -17,7 +17,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
 offer a framework on top of Wordview for enterprise use under a commercial license. See this page for
 more information about this framework.
 
-|text_analysis_cover|
+|cover|
 
 
 Usage
