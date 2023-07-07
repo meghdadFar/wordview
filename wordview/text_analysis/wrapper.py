@@ -219,15 +219,15 @@ class LabelStatsPlots:
             None
         """
         self.df = df
-        self.labels_fig = generate_label_plots(self.df, label_cols=label_columns)
+        self.label_columns = label_columns
 
-    def show_label_plots(self) -> None:
+    def show_label_plots(self, **kwargs) -> None:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
-            None
+            **kwargs: Keyword arguments to be passed to generate_label_plots().
 
         Returns:
             None
         """
-        self.labels_fig.show()
+        generate_label_plots(self.df, label_cols=self.label_columns, **kwargs).show()

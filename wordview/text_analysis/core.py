@@ -84,15 +84,15 @@ def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Sc
 
 
 def generate_label_plots(
-    df: pandas.DataFrame, label_cols: List[Tuple]
+    df: pandas.DataFrame, label_cols: List[Tuple], **kwargs
 ) -> plotly.graph_objects.Figure:
     """Generate histogram and bar plots for the labels in label_cols.
 
     Args:
-        figure (plotly.graph_objs.Figure): Figure object in which the plots are created.
         df (Pandas DataFrame): DataFrame that contains labels specified in label_cols.
         label_cols (list): list of tuples in the form of [('label_1', 'categorical/numerical'),
                            ('label_2', 'categorical/numerical'), ...]
+        **kwargs: Additional arguments to pass to the function.
 
     Returns:
         plotly.graph_objects.Figure
@@ -133,6 +133,7 @@ def generate_label_plots(
             df, label_col=label_cols[2][0], label_type=label_cols[2][1]
         )
         figure.append_trace(lab_trace1, 1, 1)
+
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 1, 3)
     elif len(label_cols) == 4:
@@ -153,6 +154,7 @@ def generate_label_plots(
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 2, 1)
         figure.append_trace(lab_trace4, 2, 2)
+    figure.update_layout(**kwargs)
     return figure
 
 
@@ -171,19 +173,30 @@ def label_plot(
         trace (plotly.graph_objects.Histogram)
     """
     if label_type == "categorical":
-        values = df[label_col].unique().tolist()  # ['pos', 'neg', 'neutral']
-        counts = df[label_col].value_counts()  # 1212323
+        values = df[label_col].unique().tolist()  # E.g. ['pos', 'neg', 'neutral']
+        counts = df[label_col].value_counts()  # E.g. 1212323
         x = []
         y = []
         for v in values:
             x.append(v)
             y.append(counts[v])
-        trace = go.Bar(x=x, y=y, name=label_col)
+        trace = go.Bar(
+            x=x,
+            y=y,
+            name=label_col,
+            marker=dict(
+                color=y, coloraxis="coloraxis", line=dict(width=0.5, color="white")
+            ),
+        )
     elif label_type == "numerical":
         trace = go.Histogram(
             x=df[label_col],
             name=label_col,
-            marker=dict(line=dict(width=0.5, color="white")),
+            marker=dict(
+                color=df[label_col],
+                coloraxis="coloraxis",
+                line=dict(width=0.5, color="white"),
+            ),
         )
     else:
         raise ValueError(
