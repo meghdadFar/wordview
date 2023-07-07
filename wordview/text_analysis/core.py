@@ -92,7 +92,8 @@ def generate_label_plots(
         df (Pandas DataFrame): DataFrame that contains labels specified in label_cols.
         label_cols (list): list of tuples in the form of [('label_1', 'categorical/numerical'),
                            ('label_2', 'categorical/numerical'), ...]
-        **kwargs: Additional arguments to pass to the function.
+        **kwargs: Additional arguments to pass to plotly.Figure.update_layout(). For more details
+                  see https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout
 
     Returns:
         plotly.graph_objects.Figure

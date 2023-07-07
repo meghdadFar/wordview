@@ -225,7 +225,8 @@ class LabelStatsPlots:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
-            **kwargs: Keyword arguments to be passed to generate_label_plots().
+            **kwargs: Additional arguments to be passed to generate_label_plots() to be used by plotly.Figure.update_layout(). For more details
+                  see https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout
 
         Returns:
             None
