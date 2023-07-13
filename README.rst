@@ -17,7 +17,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__. We, however,
 offer a framework on top of Wordview for enterprise use under a commercial license. See this page for
 more information about this framework.
 
-|text_analysis_cover|
+|cover|
 
 
 Usage
@@ -99,8 +99,4 @@ Contributing
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
-.. |cover| image:: docs/figs/abstract_cover_2.png
-.. |clustering_cover| image:: docs/figs/clustering_cover.png
-.. |text_analysis_cover| image:: docs/figs/text_analysis.png
-
-
+.. |cover| image:: docs/figs/cover.png

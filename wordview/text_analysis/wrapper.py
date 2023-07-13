@@ -50,11 +50,12 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    def create_dist_plots(self) -> Dict[str, go.Figure]:
+    def _create_dist_plots(self, **kwargs) -> Dict[str, go.Figure]:
         """Create distribution plots for items in `self.distributions`.
 
         Args:
-            None
+            **kwargs: Additional arguments to be passed to the plotly figure factory.
+                      For available settings see: https://plotly.com/python/reference/layout/
 
         Returns:
             Dictionary of distribution names to plotly go.Figure objects for that distribution.
@@ -68,9 +69,6 @@ class TextStatsPlots:
 
         if "word_frequency_zipf" in self.distributions:
             fig_w_freq = go.Figure()
-            # Alternative nice color scales that go together:
-            # Plotly3
-            # ice
             fig_w_freq.add_trace(
                 go.Scattergl(
                     x=self.analysis.zipf_x,
@@ -91,42 +89,41 @@ class TextStatsPlots:
                 )
             )
             res["word_frequency_zipf"] = fig_w_freq
-
-        dist_plot_setup = {
-            # 'paper_bgcolor': '#007A78',
-            "showlegend": False
-        }
+        dist_plot_settings = kwargs.get("plot_settings", {"showlegend": False})
         for _, fig in res.items():
-            fig.update_layout(dist_plot_setup)
+            fig.update_layout(dist_plot_settings)
 
         return res
 
-    def show_distplot(self, distribution: str) -> None:
+    def show_distplot(self, distribution: str, **kwargs) -> None:
         """Shows distribution plots for `dist`.
 
         Args:
             dist (str): The distribution for which the plot is to be shown.
                         Can be either of: doc_len" or "word_frequency_zipf.
+            **kwargs: Additional arguments to be passed to self._create_dist_plots and then plotly figure factory.
+                      For available settings see: https://plotly.com/python/reference/layout/
 
         Returns:
             None
         """
-        self.create_dist_plots()[distribution].show()
+        self._create_dist_plots(**kwargs)[distribution].show()
 
-    def create_pos_plots(
-        self, go_plot_settings: Dict = {}, wc_settings: Dict = {}
-    ) -> Dict[str, go.Figure]:
+    def _create_pos_plots(
+        self,
+        pos: str,
+        **kwargs,
+    ) -> go.Figure:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
         Args:
-            go_plot_settings (Dict): Color and other settings for the plotly.graph_objs figure.
-            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
+            pos (str): The POS tag for which the plot is to be shown.
 
         Returns:
             Dictionary of POS tags to plotly go.Figure objects.
 
         """
-        word_cloud_mandatory_settings = {
+        word_cloud_plot_mandatory_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -137,53 +134,39 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        word_cloud_setting = {**word_cloud_mandatory_settings, **go_plot_settings}
-        res = {}
-        if "NN" in self.pos_tags:
-            res["noun_cloud"] = go.Figure(
-                plotly_wordcloud(
-                    token_count_dic=self.analysis.nns, settings=wc_settings
-                )
+        plot_settings = kwargs.get("plot_settings", {})
+        plot_settings = {**word_cloud_plot_mandatory_settings, **plot_settings}
+        if pos == "NN" and "NN" in self.pos_tags:
+            return go.Figure(
+                plotly_wordcloud(token_count_dic=self.analysis.nns, **kwargs)
+            ).update_layout(plot_settings)
+        elif pos == "JJ" and "JJ" in self.pos_tags:
+            return go.Figure(
+                plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
+            ).update_layout(plot_settings)
+        elif pos == "VB" and "VB" in self.pos_tags:
+            return go.Figure(
+                plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
+            ).update_layout(plot_settings)
+        else:
+            raise ValueError(
+                f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
             )
-        if "JJ" in self.pos_tags:
-            res["adj_cloud"] = go.Figure(
-                plotly_wordcloud(
-                    token_count_dic=self.analysis.jjs, settings=wc_settings
-                )
-            )
-        if "VB" in self.pos_tags:
-            res["verb_cloud"] = go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.vs, settings=wc_settings)
-            )
-        for _, fig in res.items():
-            fig.update_layout(word_cloud_setting)
-        return res
 
-    def show_word_clouds(
-        self, pos: str, go_plot_settings: Dict = {}, wc_settings: Dict = {}
-    ) -> None:
+    def show_word_clouds(self, pos: str, **kwargs) -> None:
         """Shows POS word clouds.
 
         Args:
             pos (str): Type of POS. Can be any of: [NN, JJ, VB].
-            go_plot_settings (Dict): Color and other settings for the word clouds.
-            wc_settings (Dict): Color, font and other settings for wordcloud.WordCloud.
+            **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
+              This includes:
+                - plot_settings: Dictionary of form: for self._create_pos_plots(). For available settings see: https://plotly.com/python/reference/layout/.
+                - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
 
         Returns:
             None
         """
-        if pos == "NN":
-            self.create_pos_plots(
-                go_plot_settings=go_plot_settings, wc_settings=wc_settings
-            )["noun_cloud"].show()
-        if pos == "JJ":
-            self.create_pos_plots(
-                go_plot_settings=go_plot_settings,
-            )["adj_cloud"].show()
-        if pos == "VB":
-            self.create_pos_plots(
-                go_plot_settings=go_plot_settings,
-            )["verb_cloud"].show()
+        self._create_pos_plots(pos=pos, **kwargs).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
@@ -236,15 +219,16 @@ class LabelStatsPlots:
             None
         """
         self.df = df
-        self.labels_fig = generate_label_plots(self.df, label_cols=label_columns)
+        self.label_columns = label_columns
 
-    def show_label_plots(self) -> None:
+    def show_label_plots(self, **kwargs) -> None:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
-            None
+            **kwargs: Additional arguments to be passed to generate_label_plots() to be used by plotly.Figure.update_layout(). For more details
+                  see https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout
 
         Returns:
             None
         """
-        self.labels_fig.show()
+        generate_label_plots(self.df, label_cols=self.label_columns, **kwargs).show()

@@ -241,7 +241,31 @@ class MWE(object):
 
 
 class HigherOrderMWEExtractor:
+    """Extract higher order MWEs from a list of tokens based on a given pattern."""
+
     def __init__(self, tokens: list[str], pattern: str) -> None:
+        """Initializes a new instance of HigherOrderMWEExtractor class.
+
+        Args:
+            tokens: A list of tokens.
+            pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
+
+        Examples of user-defined patterns:
+        - NP: {<DT>?<JJ>*<NN>} # Noun phrase
+        - VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
+        - PP: {<IN><NP>} # Prepositional phrase
+
+        You can use multiple and/or nested patterns, separated by a newline character:
+        pattern = '''
+        NP: {<DT>?<JJ>*<NN>} # Noun phrase
+        PROPN: {<NNP>+} # Proper noun
+        ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
+        ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase
+        '''
+
+        In this case, patterns of a clause are executed in order.  An earlier
+        pattern may introduce a chunk boundary that prevents a later pattern from executing.
+        """
         self.tokens = tokens
         self.pattern = pattern
         self._validate_input()
@@ -270,29 +294,12 @@ class HigherOrderMWEExtractor:
         """
         Extract variable-length MWE from tokenized input, using a user-defined POS regex pattern.
 
-        Parameters:
-            tokens (list[str]): A list of tuples containing the word and its corresponding part-of-speech tag.
-            pattern (str): A string containing a user-defined pattern for nltk.RegexpParser.
+        Args:
+            None
 
         Returns:
             match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by pattern label.
                                                     An empty list if none were found.
-
-        Examples of user-defined patterns:
-        - NP: {<DT>?<JJ>*<NN>} # Noun phrase
-        - VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
-        - PP: {<IN><NP>} # Prepositional phrase
-
-        You can use multiple and/or nested patterns, separated by a newline character:
-        pattern = '''
-        NP: {<DT>?<JJ>*<NN>} # Noun phrase
-        PROPN: {<NNP>+} # Proper noun
-        ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
-        ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase
-        '''
-
-        In this case, patterns of a clause are executed in order.  An earlier
-        pattern may introduce a chunk boundary that prevents a later pattern from executing.
         """
 
         tagged_tokens: list[tuple[str, str]] = get_pos_tags(self.tokens)

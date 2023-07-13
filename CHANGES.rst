@@ -1,3 +1,12 @@
+Version 0.4.2
+-------------
+- Better encapsulation.
+- Overall improvement and fix of several inconsistencies in docstring.
+- Allow quite a few plot configurations via kwargs.
+- Rm old code from the demo notebook.
+- Change cover.
+- Optimize figure creation.
+
 Version 0.4.1
 -------------
 - Update precommit hooks mypy and black versions

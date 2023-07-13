@@ -48,7 +48,7 @@ class NormalDistAnomalies(object):
             ].apply(lambda x: dist.pdf(x))
         else:
             logger.error(
-                "The provided values cannot be gaussanized. Please consider using another anomaly detection method."
+                "The provided values cannot be gaussianized. Please consider using another anomaly detection method."
             )
 
     def anomalous_items(
