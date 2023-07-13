@@ -54,7 +54,7 @@ environment:
    # Disable Poetry's environment creation, since we already have created one
    poetry config virtualenvs.create false
 
-Use Poetry to install dev (and main) dependencies:
+Use Poetry to install dev (and main) dependencies and download NLTK data:
 
 .. code:: bash
 
