@@ -47,8 +47,8 @@ Using this feature, you can have an overview of your text data in terms of vario
 See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
 
-Label Analysis
-**************
+Analysis of Labels
+******************
 Wordview calculates several statistics for labels in labeled datasets whether they are at document or sequence level.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
