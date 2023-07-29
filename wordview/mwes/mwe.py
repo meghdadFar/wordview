@@ -323,3 +323,12 @@ class HigherOrderMWEExtractor:
             label: dict(Counter(match_list)) for label, match_list in matches.items()
         }
         return matches_counter
+
+    # def extract_higher_order_mwes():
+    #     """Measures the association between components of higher order MWE candidates.
+
+    #     Args:
+    #         None
+    #     Returns:
+    #         None
+    #     """
