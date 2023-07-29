@@ -6,6 +6,7 @@ import string
 from typing import List, Dict
 
 class DataFrameReader:
+    """Reads a dataframe column and returns sentences."""
     def __init__(self, dataframe, column_name):
         if column_name not in dataframe.columns:
             raise ValueError(f"'{column_name}' not found in the dataframe.")
@@ -20,6 +21,21 @@ class DataFrameReader:
 
 
 class NgramExtractor:
+    """Extracts n-grams from a dataframe.
+    
+    Example:
+    >>> df = pd.DataFrame({
+    ...     'text': [
+    ...         'This is a sample sentence. Here is another one!',
+    ...         'Another sample sentence here. And yet another one.',
+    ...         'Yet another sample! This continues.'
+    ...     ]
+    ... })
+    >>> extractor = NgramExtractor(df, 'text')
+    >>> extractor.extract_ngrams()
+    >>> ngram_counts = extractor.get_ngram_counts()
+    >>> print(ngram_counts)
+    """
     def __init__(self, dataframe, column_name):
         self.reader = DataFrameReader(dataframe, column_name)
         self.ngram_counts = defaultdict(int)
@@ -40,8 +56,10 @@ class NgramExtractor:
         
         Args:
             None
+        
         Returns:
             ngram_counts (Dict[str, int]): A dictionary of n-grams and their counts.
+            E.g. {'This': 2, 'is': 2, 'a': 1, 'sample': 3}
         """
         return dict(self.ngram_counts)
 
