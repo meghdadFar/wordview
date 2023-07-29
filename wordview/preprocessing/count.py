@@ -37,12 +37,20 @@ class NgramExtractor:
     >>> print(ngram_counts)
     """
     def __init__(self, dataframe, column_name):
+        """Initializes a new instance of NgramExtractor class.
+        
+        Args:
+            dataframe (pandas.DataFrame): A dataframe containing the text column.
+            column_name (str): The name of the text column.
+
+        Returns:
+            None
+        """
         self.reader = DataFrameReader(dataframe, column_name)
         self.ngram_counts = defaultdict(int)
 
     def extract_ngrams(self):
         for sentence in self.reader.get_sentences():
-            # Tokenize and remove punctuations
             tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
             
             for n in range(1, 5):
