@@ -1,6 +1,6 @@
 import json
 from collections import Counter
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 import pandas
 import tqdm
@@ -20,7 +20,8 @@ class MWE(object):
         self,
         df: pandas.DataFrame,
         text_column: str,
-        mwe_types: list[str] = ["NC"],
+        mwe_types: list[str] = ["NC", "JNC"],
+        mwe_patterns: List[nltk.RegexpParser] = [],
         tokenize=False,
     ) -> None:
         """Initialize a new MWE object with the given df, text_column and mwe_types.
