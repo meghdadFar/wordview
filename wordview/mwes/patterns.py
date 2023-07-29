@@ -3,9 +3,9 @@ from typing import List, Dict
 
 
 class ENPatterns:
+    patterns: Dict[str, List[str]] = {}
     def __init__(self,
                  mwe_types=['LVC', 'NC2', 'NC3', 'ANC2', 'ANC3', 'VPC']):
-        self.patterns: Dict[str, List[str]] = {}
         if 'LVC' in mwe_types:
             self.patterns['LVC'] = [
                     'LVC: {<VB|VBP><DT><\\w+>}',
