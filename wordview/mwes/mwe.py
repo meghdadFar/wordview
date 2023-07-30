@@ -32,7 +32,7 @@ class MWEFromSentence:
         # Tokenize the sentence
         tokens = word_tokenize(sentence)
         # Chunking
-        self.mwe_candidates = MWEExtractor(tokens, self.mwe_patterns).extract_mwe_candidates()
+        self.mwe_candidates = MWEExtractor(tokens, self.mwe_patterns)._extract_mwe_candidates()
         # TODO Measure association & return MWEs
         return None
         
@@ -87,7 +87,7 @@ class MWEExtractor:
                 'Input argument "pattern" must be a non-zero length string.'
             )
 
-    def extract_mwe_candidates(self) -> dict:
+    def _extract_mwe_candidates(self) -> dict:
         """
         Extract variable-length MWE from tokenized input, using a user-defined POS regex pattern.
 
