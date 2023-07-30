@@ -7,7 +7,7 @@ import tqdm
 from nltk import RegexpParser, word_tokenize
 
 from wordview import logger
-from wordview.mwes.am import calculate_am
+# from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview.mwes.patterns import ENPatterns, DEPatterns
 
@@ -119,6 +119,9 @@ class MWEExtractor:
             label: dict(Counter(match_list)) for label, match_list in matches.items()
         }
         return matches_counter
+    
+    # def measure_candidate_association(count_dict: Dict[str, int], ):
+
 
 if __name__ == "__main__":
     sentence = "I will take a walk and give a speech. The coffee shop near the swimming pool sells red apples."
