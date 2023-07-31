@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 import pandas as pd
-from wordview.mwes.mwe import MWE, MWEExtractor
+from wordview.mwes.mwe import MWE, MWEFromTokens
 import nltk
 
 
@@ -93,33 +93,33 @@ class TestHigherOrderMWEExtraction:
         tokens = "this is a string"
         pattern = "NP: {<DT>?<JJ>*<NN>}"
         with pytest.raises(TypeError):
-            mwe_extractor = MWEExtractor(tokens, pattern)   
+            mwe_extractor = MWEFromTokens(tokens, pattern)   
     
     def test_extract_higher_order_mwes_empty_tokens(self):
         tokens = []
         pattern = "NP: {<DT>?<JJ>*<NN>}"
         with pytest.raises(ValueError):
-            mwe_extractor = MWEExtractor(tokens, pattern)   
+            mwe_extractor = MWEFromTokens(tokens, pattern)   
 
     def test_extract_higher_order_mwes_wrong_type_pattern(self, tagged_sentence_fixture):
         pattern = 1
         with pytest.raises(TypeError):
-            mwe_extractor = MWEExtractor(tagged_sentence_fixture, pattern)
+            mwe_extractor = MWEFromTokens(tagged_sentence_fixture, pattern)
 
     def test_extract_higher_order_mwes_empty_pattern(self, tagged_sentence_fixture):
         pattern = ""
         with pytest.raises(ValueError):
-            mwe_extractor = MWEExtractor(tagged_sentence_fixture, pattern)
+            mwe_extractor = MWEFromTokens(tagged_sentence_fixture, pattern)
 
     def test_extract_higher_order_mwes_incorrect_pattern(self, tagged_sentence_fixture):
         pattern = "{<DT>?<JJ>*<NN>}"
-        mwe_extractor = MWEExtractor(tagged_sentence_fixture, pattern)
+        mwe_extractor = MWEFromTokens(tagged_sentence_fixture, pattern)
         with pytest.raises(ValueError):
             mwe_extractor._extract_mwe_candidates()
     
     def test_extract_higher_order_mwes_single_pattern(self, tagged_sentence_fixture):
         pattern = "NP: {<DT>?<JJ>+<NN>}"
-        mwe_extractor = MWEExtractor(tagged_sentence_fixture, pattern)
+        mwe_extractor = MWEFromTokens(tagged_sentence_fixture, pattern)
         expected = {'NP': {'quick brown': 1, 'the lazy dog': 2}}
         actual = mwe_extractor._extract_mwe_candidates()
         assert expected == actual
@@ -135,7 +135,7 @@ class TestHigherOrderMWEExtraction:
             'ADJP': {'extremely lazy': 1},
             'ADVP': {'swiftly jumps': 1, 'attentively watches': 1}
         }
-        mwe_extractor = MWEExtractor(tagged_sentence_fixture, pattern)
+        mwe_extractor = MWEFromTokens(tagged_sentence_fixture, pattern)
         actual = mwe_extractor._extract_mwe_candidates()
         assert expected == actual
 
