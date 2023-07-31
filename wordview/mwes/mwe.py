@@ -4,7 +4,8 @@ from typing import Dict, Optional, List
 
 import pandas
 import tqdm
-from nltk import RegexpParser, word_tokenize
+from nltk import RegexpParser, word_tokenize, sent_tokenize
+
 
 from wordview import logger
 # from wordview.mwes.am import calculate_am
@@ -17,7 +18,9 @@ from wordview.mwes.am import PMICalculator
 class MWEFromTokens:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
-    def __init__(self, tokens: list[str], pattern: str) -> None:
+    def __init__(self, tokens: list[str],
+                 association_measure: PMICalculator,
+                 pattern: str) -> None:
         """Initializes a new instance of MWEExtractor class.
 
         Args:
@@ -40,8 +43,10 @@ class MWEFromTokens:
         In this case, patterns of a clause are executed in order.  An earlier
         pattern may introduce a chunk boundary that prevents a later pattern from executing.
         """
-        self.tokens = tokens
         self.pattern = pattern
+        self.association_measure = association_measure
+        
+        self.tokens = tokens
         self._validate_input()
         PMICalculator(ngram_count_source=counts)
 
@@ -98,28 +103,28 @@ class MWEFromTokens:
         }
         return matches_counter
     
-    def _measure_candidate_association(self,
-                                       count_dict: Dict[str, int],
-                                       association_measure: str = "PMI"):
+    def _extract_mwes(self, threshold: float = 1.0):
         for mwe_type, candidate_dict in self.mwe_candidates.items():
             for mwe_candidate, count_in_sentence in candidate_dict.items():
-                
-                pass
+                association = self.association_measure.compute_pmi(mwe_candidate)
+                if association > threshold:
+                    self.mwes[mwe_type][mwe_candidate] = association
 
-
-class MWEFromSentence:
-    def __init__(self, sentence: str,
-                 mwe_patterns
-                 ) -> None:
-        self.mwes = None
+# class MWEFromDocument:
+#     def __init__(self,
+#                  txt_document: str,
+#                  mwe_patterns: str,
+#                  ) -> None:
         
-        # Tokenize the sentence
-        tokens = word_tokenize(sentence)
-        self.mwes = MWEFromTokens(tokens, mwe_patterns)
+#         sentences = sent_tokenize(txt_document)
+#         # Tokenize the sentence
+#         tokens = word_tokenize(sentence)
+#         mwe_from_tokens = MWEFromTokens(tokens, mwe_patterns)
 
 
 class MWEFromCorpus:
-    def __init__(self, corpus: pandas.DataFrame,
+    def __init__(self,
+                 corpus: pandas.DataFrame,
                  text_column: str,
                  ngram_count_source=None,
                  ngram_count_file_path=None,
@@ -145,10 +150,21 @@ class MWEFromCorpus:
         # Create an association measure object, by passing ngram counts 
         pmi_calculator = PMICalculator(ngram_count_source=ngram_count_source,
                                        ngram_count_file_path=ngram_count_file_path)
+        
+        
+        for text in corpus[text_column]:
+            # mwe_from_document = MWEFromDocument(text, mwe_patterns)
+            # mwe_from_document.mwe_candidates = mwe_from_document._extract_mwe_candidates()
+            # mwe_from_document._measure_candidate_association(pmi_calculator)
+            # self.mwes.append(mwe_from_document)
 
+    def extract_mwes_from_document(txt_document):
+        sentences = sent_tokenize()
+        tokens = word_tokenize(sentence)
+        MWEFromTokens(tokens, mwe_patterns)
 
 
 
 if __name__ == "__main__":
     sentence = "I will take a walk and give a speech. The coffee shop near the swimming pool sells red apples."
-    print(MWEFromSentence(sentence, language="EN").mwe_candidates)
+    print(MWEFromDocument(sentence, language="EN").mwe_candidates)
