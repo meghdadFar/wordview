@@ -10,38 +10,15 @@ from wordview import logger
 # from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview.mwes.patterns import ENPatterns, DEPatterns
+from wordview.mwes.am import PMICalculator
 
 
-class MWEFromSentence:
-    def __init__(self, sentence: str,
-                 language: str = "EN") -> None:
-        self.language = language.upper()
-        self.mwe_patterns: str = ""
-        self.mwe_candidates = None
-        if language == "EN":
-            for _, value in ENPatterns().patterns.items():
-                for v in value:
-                    self.mwe_patterns += (v+"\n")
-        elif language == "DE":
-            for _, value in DEPatterns().patterns.items():
-                for v in value:
-                    self.mwe_patterns += (v+"\n")
-        else:
-            raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
-        
-        # Tokenize the sentence
-        tokens = word_tokenize(sentence)
-        # Chunking
-        self.mwe_candidates = MWEExtractor(tokens, self.mwe_patterns)._extract_mwe_candidates()
-        # TODO Measure association & return MWEs
-        return None
-        
 
 class MWEExtractor:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
     def __init__(self, tokens: list[str], pattern: str) -> None:
-        """Initializes a new instance of HigherOrderMWEExtractor class.
+        """Initializes a new instance of MWEExtractor class.
 
         Args:
             tokens: A list of tokens.
@@ -66,6 +43,7 @@ class MWEExtractor:
         self.tokens = tokens
         self.pattern = pattern
         self._validate_input()
+        PMICalculator(ngram_count_source=counts)
 
     def _validate_input(self) -> None:
         if not isinstance(self.tokens, list):
@@ -120,7 +98,74 @@ class MWEExtractor:
         }
         return matches_counter
     
-    # def measure_candidate_association(count_dict: Dict[str, int], ):
+    def _measure_candidate_association(self,
+                                       count_dict: Dict[str, int],
+                                       association_measure: str = "PMI"):
+        for mwe_type, candidate_dict in self.mwe_candidates.items():
+            for mwe_candidate, count_in_sentence in candidate_dict.items():
+                
+                pass
+
+
+class MWEFromSentence:
+    def __init__(self, sentence: str,
+                 language: str = "EN") -> None:
+        self.language = language.upper()
+        self.mwe_patterns: str = ""
+        self.mwe_candidates = None
+        self.mwes = None
+        if language == "EN":
+            for _, value in ENPatterns().patterns.items():
+                for v in value:
+                    self.mwe_patterns += (v+"\n")
+        elif language == "DE":
+            for _, value in DEPatterns().patterns.items():
+                for v in value:
+                    self.mwe_patterns += (v+"\n")
+        else:
+            raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
+        
+        # Tokenize the sentence
+        tokens = word_tokenize(sentence)
+        # Chunking
+        self.mwe_candidates = MWEExtractor(tokens, self.mwe_patterns)._extract_mwe_candidates()
+        # TODO Measure association & return MWEs
+        self.mwes = self._measure_candidate_association(count_dict='', association_measure='PMI')
+        return None
+
+
+class MWEFromCorpus:
+    def __init__(self, corpus: pandas.DataFrame,
+                 text_column: str,
+                 language: str = "EN") -> None:
+        self.language = language.upper()
+        self.mwe_patterns: str = ""
+        # self.mwe_candidates = None
+        self.mwes = None
+
+        # Specify MWE patterns
+        if language == "EN":
+            for _, value in ENPatterns().patterns.items():
+                for v in value:
+                    self.mwe_patterns += (v+"\n")
+        elif language == "DE":
+            for _, value in DEPatterns().patterns.items():
+                for v in value:
+                    self.mwe_patterns += (v+"\n")
+        else:
+            raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
+        
+        # Specify the count source
+        
+
+        # Tokenize the sentence
+        tokens = word_tokenize(sentence)
+        # Chunking
+        self.mwe_candidates = MWEExtractor(tokens, self.mwe_patterns)._extract_mwe_candidates()
+        # TODO Measure association & return MWEs
+        self.mwes = self._measure_candidate_association(count_dict='', association_measure='PMI')
+        return None
+
 
 
 if __name__ == "__main__":
