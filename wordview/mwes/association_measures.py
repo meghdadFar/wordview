@@ -20,7 +20,7 @@ class PMICalculator:
             counts = pickle.load(f)
         return counts
 
-    def prob(self, ngram):
+    def _prob(self, ngram):
         return self.counts.get(ngram, 0) / self.total_count
 
     def compute_pmi(self, ngram_candidate):
@@ -28,9 +28,9 @@ class PMICalculator:
 
         p_denominator = 1
         for word in words:
-            p_denominator *= self.prob(word)
+            p_denominator *= self._prob(word)
 
-        p_ngram = self.prob(ngram_candidate)
+        p_ngram = self._prob(ngram_candidate)
 
         if p_denominator == 0 or p_ngram == 0:
             return float('-inf')
