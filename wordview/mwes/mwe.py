@@ -87,29 +87,24 @@ class MWEFromTokens:
             rule.split(":")[0].strip() for rule in self.pattern.split("\n") if rule
         ]
 
-        matches: dict[str, list[str]] = {label: [] for label in labels}
+        matches: dict[str, set] = {label: set() for label in labels}
 
         for subtree in parsed_tokens.subtrees():
             label = subtree.label()
             if label in matches:
-                matches[label].append(
+                matches[label].add(
                     " ".join(word for (word, tag) in subtree.leaves())
                 )
-
-        matches_counter: dict[str, dict[str, int]] = {
-            label: dict(Counter(match_list)) for label, match_list in matches.items()
-        }
-        return matches_counter
+        return matches
     
     def extract_mwes(self,
                      tokens: list[str],
                      threshold: float = 1.0):
-        mwe_candidates: dict[str, dict[str, int]] = self._extract_mwe_candidates(tokens=tokens)
         mwes: dict[str, dict[str, float]] = {}
-        for mwe_type, candidate_dict in mwe_candidates.items():
+        for mwe_type, candidate_set in self._extract_mwe_candidates(tokens=tokens).items():
             if mwe_type not in mwes:
                 mwes[mwe_type] = {}
-            for mwe_candidate, _ in candidate_dict.items():
+            for mwe_candidate in candidate_set:
                 association = self.association_measure.compute_association(mwe_candidate)
                 if association > threshold:
                     mwes[mwe_type][mwe_candidate] = association
