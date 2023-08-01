@@ -11,20 +11,19 @@ from wordview import logger
 # from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview.mwes.patterns import ENPatterns, DEPatterns
-from wordview.mwes.am import PMICalculator
+from wordview.mwes.association_measures import PMICalculator
 
 
 
 class MWEFromTokens:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
-    def __init__(self, tokens: list[str],
+    def __init__(self,
                  association_measure: PMICalculator,
                  pattern: str) -> None:
         """Initializes a new instance of MWEExtractor class.
 
         Args:
-            tokens: A list of tokens.
             pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
 
         Examples of user-defined patterns:
@@ -46,42 +45,41 @@ class MWEFromTokens:
         self.pattern = pattern
         self.association_measure = association_measure
         
-        self.tokens = tokens
         self._validate_input()
-        PMICalculator(ngram_count_source=counts)
 
-    def _validate_input(self) -> None:
-        if not isinstance(self.tokens, list):
-            raise TypeError(
-                f'Input argument "tokens" must be a list of string. Currently it is of type {type(self.tokens)} \
-                with a value of: {self.tokens}.'
-            )
-        if len(self.tokens) == 0:
-            raise ValueError(
-                'Input argument "tokens" must be a non-empty list of string.'
-            )
-        if not isinstance(self.pattern, str):
-            raise TypeError(
-                f'Input argument "pattern" must be a string. Currently it is of type {type(self.pattern)} \
-                with a value of: {self.pattern}.'
-            )
-        if len(self.pattern) == 0:
-            raise ValueError(
-                'Input argument "pattern" must be a non-zero length string.'
-            )
-
-    def _extract_mwe_candidates(self) -> dict:
+    def _extract_mwe_candidates(self,
+                                tokens: list[str]) -> dict:
         """
         Extract variable-length MWE from tokenized input, using a user-defined POS regex pattern.
 
         Args:
-            None
+            tokens (list[str]): A list of tokens from which mwe candidates are to be extracted.
 
         Returns:
             match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by pattern label.
                                                     An empty list if none were found.
         """
-        tagged_tokens: list[tuple[str, str]] = get_pos_tags(self.tokens)
+        def validate_input() -> None:
+            if not isinstance(tokens, list):
+                raise TypeError(
+                    f'Input argument "tokens" must be a list of string. Currently it is of type {type(self.tokens)} \
+                    with a value of: {self.tokens}.'
+                )
+            if len(tokens) == 0:
+                raise ValueError(
+                    'Input argument "tokens" must be a non-empty list of string.'
+                )
+            if not isinstance(self.pattern, str):
+                raise TypeError(
+                    f'Input argument "pattern" must be a string. Currently it is of type {type(self.pattern)} \
+                    with a value of: {self.pattern}.'
+                )
+            if len(self.pattern) == 0:
+                raise ValueError(
+                    'Input argument "pattern" must be a non-zero length string.'
+                )
+        validate_input()
+        tagged_tokens: list[tuple[str, str]] = get_pos_tags(tokens)
         parser = RegexpParser(self.pattern)
         parsed_tokens = parser.parse(tagged_tokens)
 
@@ -103,23 +101,16 @@ class MWEFromTokens:
         }
         return matches_counter
     
-    def _extract_mwes(self, threshold: float = 1.0):
-        for mwe_type, candidate_dict in self.mwe_candidates.items():
-            for mwe_candidate, count_in_sentence in candidate_dict.items():
-                association = self.association_measure.compute_pmi(mwe_candidate)
-                if association > threshold:
-                    self.mwes[mwe_type][mwe_candidate] = association
-
-# class MWEFromDocument:
-#     def __init__(self,
-#                  txt_document: str,
-#                  mwe_patterns: str,
-#                  ) -> None:
-        
-#         sentences = sent_tokenize(txt_document)
-#         # Tokenize the sentence
-#         tokens = word_tokenize(sentence)
-#         mwe_from_tokens = MWEFromTokens(tokens, mwe_patterns)
+    def extract_mwes(self,
+                     threshold: float = 1.0):
+        mwe_candidates: dict[str, dict[str, int]] = self._extract_mwe_candidates()
+        return mwe_candidates
+        # mwes = {}
+        # for mwe_type, candidate_dict in mwe_candidates.items():
+        #     for mwe_candidate, _ in candidate_dict.items():
+        #         association = self.association_measure.compute_pmi(mwe_candidate)
+        #         if association > threshold:
+        #             mwes[mwe_type][mwe_candidate] = association
 
 
 class MWEFromCorpus:
@@ -147,24 +138,25 @@ class MWEFromCorpus:
         else:
             raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
         
-        # Create an association measure object, by passing ngram counts 
-        pmi_calculator = PMICalculator(ngram_count_source=ngram_count_source,
-                                       ngram_count_file_path=ngram_count_file_path)
+        # Create an MWE extractor object
+        mwe_extractor = MWEFromTokens(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
+                                                                        ngram_count_file_path=ngram_count_file_path),
+                                        pattern=mwe_patterns)
+        
         
         
         for text in corpus[text_column]:
-            # mwe_from_document = MWEFromDocument(text, mwe_patterns)
-            # mwe_from_document.mwe_candidates = mwe_from_document._extract_mwe_candidates()
-            # mwe_from_document._measure_candidate_association(pmi_calculator)
-            # self.mwes.append(mwe_from_document)
-
-    def extract_mwes_from_document(txt_document):
-        sentences = sent_tokenize()
-        tokens = word_tokenize(sentence)
-        MWEFromTokens(tokens, mwe_patterns)
+            sentences = sent_tokenize()
+            for sentence in sentences:
+                tokens = word_tokenize(sentence)
+                print(mwe_extractor.extract_mwes(tokens))
 
 
 
 if __name__ == "__main__":
-    sentence = "I will take a walk and give a speech. The coffee shop near the swimming pool sells red apples."
+    # sentence = "I will take a walk and give a speech. The coffee shop near the swimming pool sells red apples."
+    import pandas as pd
+    imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
+    # print(imdb_train.head())
+    MWEFromCorpus(imdb_train, 'text', language='EN')
     print(MWEFromDocument(sentence, language="EN").mwe_candidates)

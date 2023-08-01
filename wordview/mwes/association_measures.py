@@ -23,7 +23,7 @@ class PMICalculator:
     def _prob(self, ngram):
         return self.counts.get(ngram, 0) / self.total_count
 
-    def compute_pmi(self, ngram_candidate):
+    def compute_association(self, ngram_candidate):
         words = ngram_candidate.split()
 
         p_denominator = 1
@@ -66,5 +66,5 @@ if __name__ == "__main__":
     calculator = PMICalculator(ngram_count_source=counts)
 
     ngram = 'coffee shop'
-    pmi_value = calculator.compute_pmi(ngram)
+    pmi_value = calculator.compute_association(ngram)
     print(f"PMI of '{ngram}': {pmi_value}")

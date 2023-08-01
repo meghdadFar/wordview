@@ -7,6 +7,8 @@ from typing import List, Dict, Optional
 import json
 import os
 import datetime
+from wordview import logger
+
 
 class DataFrameReader:
     """Reads a dataframe column and returns sentences."""
@@ -17,8 +19,12 @@ class DataFrameReader:
 
     def get_sentences(self):
         for text in self.data:
-            # Split the text into individual sentences
-            sentences = sent_tokenize(text)
+            try:
+                sentences = sent_tokenize(text)
+            except Exception as E:
+                logger.warning(f'Could not sentence tokenize text: {text}')
+                logger.warning(E)
+                continue
             for sentence in sentences:
                 yield sentence
 
@@ -62,8 +68,13 @@ class NgramExtractor:
             None
         """
         for sentence in self.reader.get_sentences():
-            tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
-            
+            try:
+                tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
+            except Exception as E:
+                logger.warning(f'Could not word tokenize sentence: {sentence}')
+                logger.warning(E)
+                continue
+
             for i in range(1, n+1):
                 for ngram in ngrams(tokens, i):
                     # Convert the n-gram tuple to a space-separated string
@@ -85,14 +96,12 @@ class NgramExtractor:
         directory = os.path.dirname(ngram_count_file_path)
         if directory:
             os.makedirs(directory, exist_ok=True)
-        
-        if os.path.exists(ngram_count_file_path):
+        file_path = ngram_count_file_path
+        if os.path.exists(file_path):
             if not overwrite:
                 base, ext = os.path.splitext(file_path)
                 timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
                 file_path = f"{base}_{timestamp}{ext}"
-            else:
-                file_path = ngram_count_file_path
         
         with open(file_path, 'w') as file:
             json.dump(self.ngram_counts,
@@ -103,19 +112,7 @@ class NgramExtractor:
         return dict(self.ngram_counts)
 
 if __name__ == "__main__":
-    df = pd.DataFrame({
-        'text': [
-            'This is a sample sentence. Here is another one!',
-            'Another sample sentence here. And yet another one.',
-            'Yet another sample! This continues.'
-        ]
-    })
-    imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
-
-    extractor = NgramExtractor(imdb_train, 'text')
+    imdb_train = pd.read_csv('data/IMDB_Dataset_sample.csv')
+    extractor = NgramExtractor(imdb_train, 'review')
     extractor.extract_ngrams()
-
-    ngram_counts = extractor.get_ngram_counts()
-    print(ngram_counts)
-    # for ngram, count in ngram_counts.items():
-        # print(f"{ngram}: {count}")
+    extractor.get_ngram_counts(ngram_count_file_path='data/ngram_counts.json')
