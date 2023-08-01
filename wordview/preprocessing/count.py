@@ -8,25 +8,7 @@ import json
 import os
 import datetime
 from wordview import logger
-
-
-class DataFrameReader:
-    """Reads a dataframe column and returns sentences."""
-    def __init__(self, dataframe, column_name):
-        if column_name not in dataframe.columns:
-            raise ValueError(f"'{column_name}' not found in the dataframe.")
-        self.data = dataframe[column_name]
-
-    def get_sentences(self):
-        for text in self.data:
-            try:
-                sentences = sent_tokenize(text)
-            except Exception as E:
-                logger.warning(f'Could not sentence tokenize text: {text}')
-                logger.warning(E)
-                continue
-            for sentence in sentences:
-                yield sentence
+from wordview.io.dataframe_reader import DataFrameReader
 
 
 class NgramExtractor:
@@ -71,8 +53,9 @@ class NgramExtractor:
             try:
                 tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
             except Exception as E:
-                logger.warning(f'Could not word tokenize sentence: {sentence}')
-                logger.warning(E)
+                logger.warning(f'Could not word tokenize sentence: {sentence}.\
+                               \n{E}.\
+                               \nSkipping this sentence.')
                 continue
 
             for i in range(1, n+1):
