@@ -2,7 +2,7 @@ import nltk
 from typing import List, Dict
 
 
-class ENPatterns:
+class ENMWEPatterns:
     patterns: Dict[str, List[str]] = {}
     def __init__(self,
                  mwe_types=['LVC', 'NC2', 'NC3', 'ANC2', 'ANC3', 'VPC']):
@@ -33,7 +33,7 @@ class ENPatterns:
                 ]
 
 
-class DEPatterns:
+class DEMWEPatterns:
     def __init__(self,
                     mwe_types=['LVC', 'NC2', 'NC3', 'ANC2', 'ANC3', 'VPC']):
         self.patterns: Dict[str, List[str]] = {}
@@ -88,7 +88,7 @@ class DEPatterns:
         return parsed_tree
 
 
-class DEPatterns:
+class DEMWEPatterns:
     def __init__(self) -> None:
         light_verb_patterns = [
             'LV: {<VB|VBP><DT><\\w+>}',
