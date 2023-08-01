@@ -10,6 +10,15 @@ class DataFrameReader:
         self.data = dataframe[column_name]
 
     def get_sentences(self):
+        """Returns a generator of sentences from the dataframe column.
+        An nltk.sent_tokenize is applied to each row of the dataframe column 
+        to extract sentences from the text at each row of the specified column i.e. `column_name`.
+
+        Args:
+            None
+        Returns:
+            A generator of sentences.
+        """
         for text in self.data:
             try:
                 sentences = sent_tokenize(text)
