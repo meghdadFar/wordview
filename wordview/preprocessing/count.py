@@ -3,7 +3,10 @@ from collections import defaultdict
 from nltk.util import ngrams
 from nltk.tokenize import sent_tokenize, word_tokenize
 import string
-from typing import List, Dict
+from typing import List, Dict, Optional
+import json
+import os
+import datetime
 
 class DataFrameReader:
     """Reads a dataframe column and returns sentences."""
@@ -59,7 +62,9 @@ class NgramExtractor:
                     ngram_str = ' '.join(ngram)
                     self.ngram_counts[ngram_str] += 1
 
-    def get_ngram_counts(self) -> Dict[str, int]:
+    def get_ngram_counts(self,
+                         ngram_count_file_path: Optional[str]=None,
+                         overwrite: bool = True) -> Dict[str, int]:
         """Returns a dictionary of n-grams and their counts.
         
         Args:
@@ -69,6 +74,22 @@ class NgramExtractor:
             ngram_counts (Dict[str, int]): A dictionary of n-grams and their counts.
             E.g. {'This': 2, 'is': 2, 'a': 1, 'sample': 3}
         """
+        directory = os.path.dirname(ngram_count_file_path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        
+        
+        if os.path.exists(ngram_count_file_path):
+            if not overwrite:
+                base, ext = os.path.splitext(file_path)
+                timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+                file_path = f"{base}_{timestamp}{ext}"
+            else:
+                file_path = ngram_count_file_path
+        
+        if ngram_count_file_path:
+            with open(ngram_count_file_path, 'w') as f:
+                json.dump(self.ngram_counts, f)
         return dict(self.ngram_counts)
 
 if __name__ == "__main__":
@@ -79,6 +100,7 @@ if __name__ == "__main__":
             'Yet another sample! This continues.'
         ]
     })
+    imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
 
     extractor = NgramExtractor(df, 'text')
     extractor.extract_ngrams()
