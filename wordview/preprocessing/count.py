@@ -52,12 +52,20 @@ class NgramExtractor:
         self.reader = DataFrameReader(dataframe, column_name)
         self.ngram_counts = defaultdict(int)
 
-    def extract_ngrams(self):
+    def extract_ngrams(self, n: int = 4):
+        """Extracts n-grams from the text column of the dataframe.
+        
+        Args:
+            n (int): The maximum number of words in an n-gram. Defaults to 4.
+        
+        Returns:
+            None
+        """
         for sentence in self.reader.get_sentences():
             tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
             
-            for n in range(1, 5):
-                for ngram in ngrams(tokens, n):
+            for i in range(1, n+1):
+                for ngram in ngrams(tokens, i):
                     # Convert the n-gram tuple to a space-separated string
                     ngram_str = ' '.join(ngram)
                     self.ngram_counts[ngram_str] += 1
@@ -78,7 +86,6 @@ class NgramExtractor:
         if directory:
             os.makedirs(directory, exist_ok=True)
         
-        
         if os.path.exists(ngram_count_file_path):
             if not overwrite:
                 base, ext = os.path.splitext(file_path)
@@ -87,9 +94,12 @@ class NgramExtractor:
             else:
                 file_path = ngram_count_file_path
         
-        if ngram_count_file_path:
-            with open(ngram_count_file_path, 'w') as f:
-                json.dump(self.ngram_counts, f)
+        with open(file_path, 'w') as file:
+            json.dump(self.ngram_counts,
+                      file,
+                      ensure_ascii=False,
+                      indent=4)
+
         return dict(self.ngram_counts)
 
 if __name__ == "__main__":
@@ -102,7 +112,7 @@ if __name__ == "__main__":
     })
     imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
 
-    extractor = NgramExtractor(df, 'text')
+    extractor = NgramExtractor(imdb_train, 'text')
     extractor.extract_ngrams()
 
     ngram_counts = extractor.get_ngram_counts()
