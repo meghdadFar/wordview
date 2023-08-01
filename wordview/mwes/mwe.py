@@ -3,6 +3,7 @@ from collections import Counter
 from typing import Dict, Optional, List
 
 import pandas
+import string
 import tqdm
 from nltk import RegexpParser, word_tokenize, sent_tokenize
 
@@ -12,6 +13,7 @@ from wordview import logger
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview.mwes.patterns import ENPatterns, DEPatterns
 from wordview.mwes.association_measures import PMICalculator
+from wordview.io.dataframe_reader import DataFrameReader
 
 
 
@@ -44,8 +46,6 @@ class MWEFromTokens:
         """
         self.pattern = pattern
         self.association_measure = association_measure
-        
-        self._validate_input()
 
     def _extract_mwe_candidates(self,
                                 tokens: list[str]) -> dict:
@@ -102,8 +102,9 @@ class MWEFromTokens:
         return matches_counter
     
     def extract_mwes(self,
+                     tokens: list[str],
                      threshold: float = 1.0):
-        mwe_candidates: dict[str, dict[str, int]] = self._extract_mwe_candidates()
+        mwe_candidates: dict[str, dict[str, int]] = self._extract_mwe_candidates(tokens=tokens)
         return mwe_candidates
         # mwes = {}
         # for mwe_type, candidate_dict in mwe_candidates.items():
@@ -123,7 +124,8 @@ class MWEFromCorpus:
         
         # Specify the language
         self.language = language.upper()
-        self.mwes = None
+        self.mwes = {}
+        self.reader = DataFrameReader(corpus, text_column)
 
         # Specify MWE patterns
         mwe_patterns: str = ""
@@ -142,21 +144,28 @@ class MWEFromCorpus:
         mwe_extractor = MWEFromTokens(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
                                                                         ngram_count_file_path=ngram_count_file_path),
                                         pattern=mwe_patterns)
-        
-        
-        
-        for text in corpus[text_column]:
-            sentences = sent_tokenize()
-            for sentence in sentences:
-                tokens = word_tokenize(sentence)
-                print(mwe_extractor.extract_mwes(tokens))
-
+        for sentence in self.reader.get_sentences():
+            try:
+                tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
+            except Exception as E:
+                logger.warning(f'Could not word tokenize sentence: {sentence}.\
+                               \n{E}.\
+                               \nSkipping this sentence.')
+                continue
+            if tokens:
+                returned_dict = mwe_extractor.extract_mwes(tokens=tokens)
+                for key, inner_dict in returned_dict.items():
+                    if key not in self.mwes:
+                        self.mwes[key] = {}
+                    self.mwes[key].update(inner_dict)
 
 
 if __name__ == "__main__":
-    # sentence = "I will take a walk and give a speech. The coffee shop near the swimming pool sells red apples."
     import pandas as pd
-    imdb_train = pd.read_csv('data/imdb_train_sample.tsv', sep='\t', names=['label', 'text'])
-    # print(imdb_train.head())
-    MWEFromCorpus(imdb_train, 'text', language='EN')
-    print(MWEFromDocument(sentence, language="EN").mwe_candidates)
+    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv')
+    mwe_from_corpus = MWEFromCorpus(imdb_corpus, 'review',
+                  ngram_count_file_path='data/ngram_counts.json',
+                  language='EN')
+    formatted_data = json.dumps(mwe_from_corpus.mwes, indent=4)
+    print(formatted_data)
+    
