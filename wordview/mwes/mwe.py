@@ -105,13 +105,15 @@ class MWEFromTokens:
                      tokens: list[str],
                      threshold: float = 1.0):
         mwe_candidates: dict[str, dict[str, int]] = self._extract_mwe_candidates(tokens=tokens)
-        return mwe_candidates
-        # mwes = {}
-        # for mwe_type, candidate_dict in mwe_candidates.items():
-        #     for mwe_candidate, _ in candidate_dict.items():
-        #         association = self.association_measure.compute_pmi(mwe_candidate)
-        #         if association > threshold:
-        #             mwes[mwe_type][mwe_candidate] = association
+        mwes: dict[str, dict[str, float]] = {}
+        for mwe_type, candidate_dict in mwe_candidates.items():
+            if mwe_type not in mwes:
+                mwes[mwe_type] = {}
+            for mwe_candidate, _ in candidate_dict.items():
+                association = self.association_measure.compute_association(mwe_candidate)
+                if association > threshold:
+                    mwes[mwe_type][mwe_candidate] = association
+        return mwes
 
 
 class MWEFromCorpus:
@@ -162,7 +164,7 @@ class MWEFromCorpus:
 
 if __name__ == "__main__":
     import pandas as pd
-    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv')
+    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv').sample(100)
     mwe_from_corpus = MWEFromCorpus(imdb_corpus, 'review',
                   ngram_count_file_path='data/ngram_counts.json',
                   language='EN')
