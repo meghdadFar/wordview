@@ -1,6 +1,7 @@
 import math
 import pickle
 from itertools import combinations
+import json
 
 class PMICalculator:
     
@@ -16,8 +17,8 @@ class PMICalculator:
         self.total_count = sum(self.counts.values())
 
     def _load_ngram_counts(self, count_file_path):
-        with open(count_file_path, 'rb') as f:
-            counts = pickle.load(f)
+        with open(count_file_path, 'r') as file:
+            counts = json.load(file)
         return counts
 
     def _prob(self, ngram):
