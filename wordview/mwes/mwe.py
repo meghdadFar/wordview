@@ -11,13 +11,13 @@ from nltk import RegexpParser, word_tokenize, sent_tokenize
 from wordview import logger
 # from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
-from wordview.mwes.patterns import ENPatterns, DEPatterns
+from wordview.mwes.patterns import EnMWEPatterns, DeMWEPatterns
 from wordview.mwes.association_measures import PMICalculator
 from wordview.io.dataframe_reader import DataFrameReader
 
 
 
-class MWEFromTokens:
+class MWEPatternAssociation:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
     def __init__(self,
@@ -111,34 +111,63 @@ class MWEFromTokens:
         return mwes
 
 
-class MWEFromCorpus:
+class MWE:
     def __init__(self,
                  corpus: pandas.DataFrame,
                  text_column: str,
                  ngram_count_source=None,
                  ngram_count_file_path=None,
-                 language: str = "EN") -> None:
+                 language: str = "EN", 
+                 custom_pattern: Optional[str] = None,
+                 only_custom_pattern: bool = False) -> None:
+        """Initializes a new instance of MWE class.
         
-        # Specify the language
+        Args:
+            corpus: A pandas DataFrame containing the corpus.
+            text_column: The name of the column containing the text  (corpus).
+            ngram_count_source: A dictionary containing ngram counts.
+            ngram_count_file_path: A path to a json file containing ngram counts.
+            language: The language of the corpus. Currently only 'EN' and 'DE' are supported.
+            custom_pattern: pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
+                Examples of user-defined patterns:
+                NP: {<DT>?<JJ>*<NN>} # Noun phrase
+                You can use multiple and/or nested patterns, separated by a newline character e.g.:
+                custom_pattern = '''
+                NP: {<DT>?<JJ>*<NN>} # Noun phrase
+                VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
+                PROPN: {<NNP>+} # Proper noun
+                ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
+                ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase'''
+            only_custom_pattern: If True, only the custom pattern will be used to extract MWEs, otherwise, the default patterns will be used as well.
+
+            Returns:
+                None
+        """
+        
         self.language = language.upper()
         self.mwes = {}
         self.reader = DataFrameReader(corpus, text_column)
 
-        # Specify MWE patterns
         mwe_patterns: str = ""
         if language == "EN":
-            for _, value in ENPatterns().patterns.items():
+            for _, value in EnMWEPatterns().patterns.items():
                 for v in value:
                     mwe_patterns += (v+"\n")
         elif language == "DE":
-            for _, value in DEPatterns().patterns.items():
+            for _, value in DeMWEPatterns().patterns.items():
                 for v in value:
                     mwe_patterns += (v+"\n")
         else:
             raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
         
-        # Create an MWE extractor object
-        mwe_extractor = MWEFromTokens(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
+        if custom_pattern:
+            if only_custom_pattern:
+                mwe_patterns = custom_pattern
+            else:
+                mwe_patterns += ("\n"+custom_pattern)
+        
+        # Create an MWEPatternAssociation extractor object
+        mwe_extractor = MWEPatternAssociation(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
                                                                         ngram_count_file_path=ngram_count_file_path),
                                         pattern=mwe_patterns)
         for sentence in self.reader.get_sentences():
@@ -159,10 +188,12 @@ class MWEFromCorpus:
 
 if __name__ == "__main__":
     import pandas as pd
-    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv').sample(100)
-    mwe_from_corpus = MWEFromCorpus(imdb_corpus, 'review',
+    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv').sample(500)
+    mwe_from_corpus = MWE(imdb_corpus, 'review',
                   ngram_count_file_path='data/ngram_counts.json',
                   language='EN')
-    formatted_data = json.dumps(mwe_from_corpus.mwes, indent=4)
-    print(formatted_data)
+    # formatted_data = json.dumps(mwe_from_corpus.mwes, indent=4)
+    # print(formatted_data)
+    json.dump(mwe_from_corpus.mwes, open('data/mwes.json', 'w'), indent=4)
+    
     
