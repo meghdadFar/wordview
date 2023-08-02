@@ -1,15 +1,13 @@
 import json
-from collections import Counter
-from typing import Dict, Optional, List
+from typing import Optional
 
 import pandas
 import string
-import tqdm
-from nltk import RegexpParser, word_tokenize, sent_tokenize
+from tqdm import tqdm
+from nltk import RegexpParser, word_tokenize
 
 
 from wordview import logger
-# from wordview.mwes.am import calculate_am
 from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
 from wordview.mwes.patterns import EnMWEPatterns, DeMWEPatterns
 from wordview.mwes.association_measures import PMICalculator
@@ -172,7 +170,7 @@ class MWE:
                                         pattern=mwe_patterns)
         
     def extract_mwes(self) -> dict[str, dict[str, float]]:
-        for sentence in self.reader.get_sentences():
+        for sentence in tqdm(self.reader.get_sentences()):
             try:
                 tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
             except Exception as E:
