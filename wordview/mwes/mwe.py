@@ -97,7 +97,7 @@ class MWEPatternAssociation:
                 )
         return matches
     
-    def extract_mwes(self,
+    def measure_candidate_association(self,
                      tokens: list[str],
                      threshold: float = 1.0):
         mwes: dict[str, dict[str, float]] = {}
@@ -143,10 +143,10 @@ class MWE:
             Returns:
                 None
         """
-        
         self.language = language.upper()
         self.mwes = {}
         self.reader = DataFrameReader(corpus, text_column)
+        self.mwe_extractor = None
 
         mwe_patterns: str = ""
         if language == "EN":
@@ -167,24 +167,26 @@ class MWE:
                 mwe_patterns += ("\n"+custom_pattern)
         
         # Create an MWEPatternAssociation extractor object
-        mwe_extractor = MWEPatternAssociation(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
+        self.mwe_extractor = MWEPatternAssociation(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
                                                                         ngram_count_file_path=ngram_count_file_path),
                                         pattern=mwe_patterns)
+        
+    def extract_mwes(self) -> dict[str, dict[str, float]]:
         for sentence in self.reader.get_sentences():
             try:
                 tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
             except Exception as E:
                 logger.warning(f'Could not word tokenize sentence: {sentence}.\
-                               \n{E}.\
-                               \nSkipping this sentence.')
+                            \n{E}.\
+                            \nSkipping this sentence.')
                 continue
             if tokens:
-                returned_dict = mwe_extractor.extract_mwes(tokens=tokens)
+                returned_dict = self.mwe_extractor.measure_candidate_association(tokens=tokens)
                 for key, inner_dict in returned_dict.items():
                     if key not in self.mwes:
                         self.mwes[key] = {}
                     self.mwes[key].update(inner_dict)
-
+        return self.mwes
 
 if __name__ == "__main__":
     import pandas as pd
@@ -192,8 +194,6 @@ if __name__ == "__main__":
     mwe_from_corpus = MWE(imdb_corpus, 'review',
                   ngram_count_file_path='data/ngram_counts.json',
                   language='EN')
-    # formatted_data = json.dumps(mwe_from_corpus.mwes, indent=4)
-    # print(formatted_data)
-    json.dump(mwe_from_corpus.mwes, open('data/mwes.json', 'w'), indent=4)
+    json.dump(mwe_from_corpus.extract_mwes(), open('data/mwes.json', 'w'), indent=4)
     
     
