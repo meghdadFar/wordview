@@ -161,13 +161,12 @@ class MWE:
             )
 
         if custom_patterns:
-            if not isinstance(custom_patterns, bool):
-                raise TypeError(
-                    f"custom_patterns must be a boolean. Currently it is of type {type(custom_patterns)} \
-                    with a value of: {custom_patterns}."
-                )
-
             if only_custom_patterns:
+                if not isinstance(only_custom_patterns, bool):
+                    raise TypeError(
+                        f"only_custom_patterns argument must be a boolean. Currently it is of type {type(only_custom_patterns)} \
+                        with a value of: {custom_patterns}."
+                    )
                 mwe_patterns = custom_patterns
             else:
                 mwe_patterns += "\n" + custom_patterns
