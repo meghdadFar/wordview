@@ -110,7 +110,7 @@ class MWEPatternAssociation:
 class MWE:
     def __init__(
         self,
-        corpus: pandas.DataFrame,
+        df: pandas.DataFrame,
         text_column: str,
         ngram_count_source=None,
         ngram_count_file_path=None,
@@ -143,7 +143,7 @@ class MWE:
         """
         self.language = language.upper()
         self.mwes: Dict[str, Dict[str, float]] = {}
-        self.reader = DataFrameReader(corpus, text_column)
+        self.reader = DataFrameReader(df, text_column)
         self.mwe_extractor = None
 
         mwe_patterns: str = ""
@@ -161,6 +161,12 @@ class MWE:
             )
 
         if custom_patterns:
+            if not isinstance(custom_patterns, bool):
+                raise TypeError(
+                    f"custom_patterns must be a boolean. Currently it is of type {type(custom_patterns)} \
+                    with a value of: {custom_patterns}."
+                )
+
             if only_custom_patterns:
                 mwe_patterns = custom_patterns
             else:
