@@ -1,30 +1,27 @@
 import json
-from typing import Optional
+import string
+from typing import Dict, Optional
 
 import pandas
-import string
-from tqdm import tqdm
 from nltk import RegexpParser, word_tokenize
-from tabulate import tabulate
-
+from tabulate import tabulate  # type: ignore
+from tqdm import tqdm
 
 from wordview import logger
-from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
-from wordview.mwes.patterns import EnMWEPatterns, DeMWEPatterns
-from wordview.mwes.association_measures import PMICalculator
 from wordview.io.dataframe_reader import DataFrameReader
-
+from wordview.mwes.association_measures import PMICalculator
+from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
+from wordview.mwes.patterns import DeMWEPatterns, EnMWEPatterns
 
 
 class MWEPatternAssociation:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
-    def __init__(self,
-                 association_measure: PMICalculator,
-                 pattern: str) -> None:
+    def __init__(self, association_measure: PMICalculator, pattern: str) -> None:
         """Initializes a new instance of MWEExtractor class.
 
         Args:
+            association_measure: An instance of an association measure class.
             pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
 
         Examples of user-defined patterns:
@@ -46,8 +43,7 @@ class MWEPatternAssociation:
         self.pattern = pattern
         self.association_measure = association_measure
 
-    def _extract_mwe_candidates(self,
-                                tokens: list[str]) -> dict:
+    def _extract_mwe_candidates(self, tokens: list[str]) -> dict:
         """
         Extract variable-length MWE from tokenized input, using a user-defined POS regex pattern.
 
@@ -58,6 +54,7 @@ class MWEPatternAssociation:
             match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by pattern label.
                                                     An empty list if none were found.
         """
+
         def validate_input() -> None:
             if not isinstance(tokens, list):
                 raise TypeError(
@@ -77,6 +74,7 @@ class MWEPatternAssociation:
                 raise ValueError(
                     'Input argument "pattern" must be a non-zero length string.'
                 )
+
         validate_input()
         tagged_tokens: list[tuple[str, str]] = get_pos_tags(tokens)
         parser = RegexpParser(self.pattern)
@@ -91,36 +89,38 @@ class MWEPatternAssociation:
         for subtree in parsed_tokens.subtrees():
             label = subtree.label()
             if label in matches:
-                matches[label].add(
-                    " ".join(word for (word, tag) in subtree.leaves())
-                )
+                matches[label].add(" ".join(word for (word, tag) in subtree.leaves()))
         return matches
-    
-    def measure_candidate_association(self,
-                     tokens: list[str],
-                     threshold: float = 1.0):
+
+    def measure_candidate_association(self, tokens: list[str], threshold: float = 1.0):
         mwes: dict[str, dict[str, float]] = {}
-        for mwe_type, candidate_set in self._extract_mwe_candidates(tokens=tokens).items():
+        for mwe_type, candidate_set in self._extract_mwe_candidates(
+            tokens=tokens
+        ).items():
             if mwe_type not in mwes:
                 mwes[mwe_type] = {}
             for mwe_candidate in candidate_set:
-                association = self.association_measure.compute_association(mwe_candidate)
+                association = self.association_measure.compute_association(
+                    mwe_candidate
+                )
                 if association > threshold:
                     mwes[mwe_type][mwe_candidate] = association
         return mwes
 
 
 class MWE:
-    def __init__(self,
-                 corpus: pandas.DataFrame,
-                 text_column: str,
-                 ngram_count_source=None,
-                 ngram_count_file_path=None,
-                 language: str = "EN", 
-                 custom_patterns: Optional[str] = None,
-                 only_custom_patterns: bool = False) -> None:
+    def __init__(
+        self,
+        corpus: pandas.DataFrame,
+        text_column: str,
+        ngram_count_source=None,
+        ngram_count_file_path=None,
+        language: str = "EN",
+        custom_patterns: Optional[str] = None,
+        only_custom_patterns: bool = False,
+    ) -> None:
         """Initializes a new instance of MWE class.
-        
+
         Args:
             corpus: A pandas DataFrame containing the corpus.
             text_column: The name of the column containing the text  (corpus).
@@ -143,7 +143,7 @@ class MWE:
                 None
         """
         self.language = language.upper()
-        self.mwes = {}
+        self.mwes: Dict[str, Dict[str, float]] = {}
         self.reader = DataFrameReader(corpus, text_column)
         self.mwe_extractor = None
 
@@ -151,44 +151,59 @@ class MWE:
         if language == "EN":
             for _, value in EnMWEPatterns().patterns.items():
                 for v in value:
-                    mwe_patterns += (v+"\n")
+                    mwe_patterns += v + "\n"
         elif language == "DE":
             for _, value in DeMWEPatterns().patterns.items():
                 for v in value:
-                    mwe_patterns += (v+"\n")
+                    mwe_patterns += v + "\n"
         else:
-            raise ValueError("Language not supported. Use 'EN' for English or 'DE' for German.")
-        
+            raise ValueError(
+                "Language not supported. Use 'EN' for English or 'DE' for German."
+            )
+
         if custom_patterns:
             if only_custom_patterns:
                 mwe_patterns = custom_patterns
             else:
-                mwe_patterns += ("\n"+custom_patterns)
-        
+                mwe_patterns += "\n" + custom_patterns
+
         # Create an MWEPatternAssociation extractor object
-        self.mwe_extractor = MWEPatternAssociation(association_measure=PMICalculator(ngram_count_source=ngram_count_source,
-                                                                        ngram_count_file_path=ngram_count_file_path),
-                                        pattern=mwe_patterns)
-        
-    def extract_mwes(self,
-                     sort: bool = True,
-                     top_n: Optional[int] = None,
-                     ) -> dict[str, dict[str, float]]:
+        self.mwe_extractor = MWEPatternAssociation(
+            association_measure=PMICalculator(
+                ngram_count_source=ngram_count_source,
+                ngram_count_file_path=ngram_count_file_path,
+            ),
+            pattern=mwe_patterns,
+        )
+
+    def extract_mwes(
+        self,
+        sort: bool = True,
+        top_n: Optional[int] = None,
+    ) -> dict[str, dict[str, float]]:
         for sentence in tqdm(self.reader.get_sentences()):
             try:
-                tokens = [word for word in word_tokenize(sentence) if word not in string.punctuation]
+                tokens = [
+                    word
+                    for word in word_tokenize(sentence)
+                    if word not in string.punctuation
+                ]
             except Exception as E:
-                logger.warning(f'Could not word tokenize sentence: {sentence}.\
+                logger.warning(
+                    f"Could not word tokenize sentence: {sentence}.\
                             \n{E}.\
-                            \nSkipping this sentence.')
+                            \nSkipping this sentence."
+                )
                 continue
             if tokens:
-                returned_dict = self.mwe_extractor.measure_candidate_association(tokens=tokens)
+                returned_dict = self.mwe_extractor.measure_candidate_association(  # type: ignore
+                    tokens=tokens
+                )
                 for key, inner_dict in returned_dict.items():
                     if key not in self.mwes:
                         self.mwes[key] = {}
                     self.mwes[key].update(inner_dict)
-        
+
         if sort:
             for key, inner_dict in self.mwes.items():
                 tmp = sorted(inner_dict.items(), key=lambda item: item[1], reverse=True)
@@ -197,7 +212,7 @@ class MWE:
                 self.mwes[key] = dict(tmp)
 
         return self.mwes
-    
+
     def print_mwe_table(self):
         sub_tables = []
         for section, values in self.mwes.items():
@@ -205,22 +220,26 @@ class MWE:
                 formatted_values = {k: "{:.2f}".format(v) for k, v in values.items()}
                 headers = [section, "Association"]
                 table_data = list(formatted_values.items())
-                table_str = tabulate(table_data, headers=headers, tablefmt="double_outline")
+                table_str = tabulate(
+                    table_data, headers=headers, tablefmt="double_outline"
+                )
                 sub_tables.append(table_str)
         final_table = "\n\n".join(sub_tables)
         print(final_table)
 
+
 if __name__ == "__main__":
     import pandas as pd
-    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv')
-    mwe_obj = MWE(imdb_corpus, 'review',
-                  ngram_count_file_path='data/ngram_counts.json',
-                  language='EN', 
-                  custom_patterns="NP: {<DT>?<JJ>*<NN>}",
-                  only_custom_patterns=False,
-                  )
-    mwes = mwe_obj.extract_mwes(sort=True, top_n=10)
-    json.dump(mwes, open('data/mwes.json', 'w'), indent=4)
-    mwe_obj.print_mwe_table()
 
-    
+    imdb_corpus = pd.read_csv("data/IMDB_Dataset_sample.csv")
+    mwe_obj = MWE(
+        imdb_corpus,
+        "review",
+        ngram_count_file_path="data/ngram_counts.json",
+        language="EN",
+        custom_patterns="NP: {<DT>?<JJ>*<NN>}",
+        only_custom_patterns=False,
+    )
+    mwes = mwe_obj.extract_mwes(sort=True, top_n=10)
+    json.dump(mwes, open("data/mwes.json", "w"), indent=4)
+    mwe_obj.print_mwe_table()
