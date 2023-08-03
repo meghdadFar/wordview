@@ -226,20 +226,3 @@ class MWE:
                 sub_tables.append(table_str)
         final_table = "\n\n".join(sub_tables)
         print(final_table)
-
-
-if __name__ == "__main__":
-    import pandas as pd
-
-    imdb_corpus = pd.read_csv("data/IMDB_Dataset_sample.csv")
-    mwe_obj = MWE(
-        imdb_corpus,
-        "review",
-        ngram_count_file_path="data/ngram_counts.json",
-        language="EN",
-        custom_patterns="NP: {<DT>?<JJ>*<NN>}",
-        only_custom_patterns=False,
-    )
-    mwes = mwe_obj.extract_mwes(sort=True, top_n=10)
-    json.dump(mwes, open("data/mwes.json", "w"), indent=4)
-    mwe_obj.print_mwe_table()
