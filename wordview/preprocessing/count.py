@@ -102,10 +102,3 @@ class NgramExtractor:
                 json.dump(self.ngram_counts, file, ensure_ascii=False, indent=4)
 
         return dict(self.ngram_counts)
-
-
-if __name__ == "__main__":
-    imdb_train = pd.read_csv("data/IMDB_Dataset_sample.csv")
-    extractor = NgramExtractor(imdb_train, "review")
-    extractor.extract_ngrams()
-    extractor.get_ngram_counts(ngram_count_file_path="data/ngram_counts.json")
