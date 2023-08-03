@@ -1,6 +1,9 @@
+import re
 import string
+from re import Match
 from typing import Dict, Optional
 
+import nltk
 import pandas
 from nltk import RegexpParser, word_tokenize
 from tabulate import tabulate  # type: ignore
@@ -9,8 +12,13 @@ from tqdm import tqdm
 from wordview import logger
 from wordview.io.dataframe_reader import DataFrameReader
 from wordview.mwes.association_measures import PMICalculator
-from wordview.mwes.mwe_utils import get_pos_tags
 from wordview.mwes.patterns import DeMWEPatterns, EnMWEPatterns
+
+
+# TODO use this function to ensure that the tokens are alphanumeric
+def is_alphanumeric_latinscript_multigram(word: str) -> Optional[Match[str]]:
+    match: Optional[Match] = re.match("[a-zA-Z0-9]{2,}", word)
+    return match
 
 
 class MWEPatternAssociation:
@@ -54,7 +62,12 @@ class MWEPatternAssociation:
                                                     An empty list if none were found.
         """
 
+        def get_pos_tags(tokens: list[str]) -> list[tuple[str, str]]:
+            pos_tags = nltk.pos_tag(tokens)
+            return pos_tags
+
         def validate_input() -> None:
+            """Validate input argument `tokens`."""
             if not isinstance(tokens, list):
                 raise TypeError(
                     f'Input argument "tokens" must be a list of string. Currently it is of type {type(self.tokens)} \
