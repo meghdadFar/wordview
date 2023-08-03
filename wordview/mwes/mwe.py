@@ -202,8 +202,9 @@ class MWE:
         sub_tables = []
         for section, values in self.mwes.items():
             if values:
+                formatted_values = {k: "{:.2f}".format(v) for k, v in values.items()}
                 headers = [section, "Association"]
-                table_data = list(values.items())
+                table_data = list(formatted_values.items())
                 table_str = tabulate(table_data, headers=headers, tablefmt="double_outline")
                 sub_tables.append(table_str)
         final_table = "\n\n".join(sub_tables)
@@ -211,7 +212,7 @@ class MWE:
 
 if __name__ == "__main__":
     import pandas as pd
-    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv').sample(10)
+    imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv')
     mwe_obj = MWE(imdb_corpus, 'review',
                   ngram_count_file_path='data/ngram_counts.json',
                   language='EN', 
