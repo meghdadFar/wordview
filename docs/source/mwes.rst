@@ -29,90 +29,92 @@ the documentation.
     
 
 The above returns the results in a dictionary, that in this example we stored in `mwes.json` file.
-You can also return the result in a nice tabulate table for a better overview:
+You can also return the result in a table:
 
-..  code::python
+..  code:: python
 
-mwe_obj.print_mwe_table()
-
-╔═════════════════════════╦═══════════════╗
-║ LVC                     ║   Association ║
-╠═════════════════════════╬═══════════════╣
-║ SHOOT the binding       ║       26.0248 ║
-║ achieve this elusive    ║       24.7009 ║
-║ manipulate the wildlife ║       24.4398 ║
-║ offset the darker       ║       24.0248 ║
-║ remove the bindings     ║       24.0248 ║
-║ Wish that Anthony       ║       23.8985 ║
-║ Add some French         ║       23.5016 ║
-║ grab a beer             ║       22.8247 ║
-║ steal the 42            ║       22.5012 ║
-║ invoke the spirit       ║       22.1179 ║
-╚═════════════════════════╩═══════════════╝
-
-╔══════════════════════╦═══════════════╗
-║ NC2                  ║   Association ║
-╠══════════════════════╬═══════════════╣
-║ tomato sauce         ║        20.74  ║
-║ sadahiv amrapurkar   ║        20.74  ║
-║ nihilism nothingness ║        20.74  ║
-║ Picket Fences        ║        20.74  ║
-║ gordon willis        ║        20.74  ║
-║ Smoking Barrels      ║        20.74  ║
-║ cargo bay            ║        19.74  ║
-║ deja vu              ║        19.74  ║
-║ cake frosting        ║        19.155 ║
-║ zoo souvenir         ║        19.155 ║
-╚══════════════════════╩═══════════════╝
-
-╔══════════════════════════════╦═══════════════╗
-║ ANC2                         ║   Association ║
-╠══════════════════════════════╬═══════════════╣
-║ lizardly snouts              ║        20.74  ║
-║ bite-sized chunks            ║        20.74  ║
-║ behind-the-scenes featurette ║        20.74  ║
-║ hidebound conservatives      ║        20.74  ║
-║ judicious pruning            ║        20.74  ║
-║ haggish airheads             ║        19.74  ║
-║ global warming               ║        19.74  ║
-║ substantial gauge            ║        19.74  ║
-║ unfinished château           ║        19.155 ║
-║ Ukrainian flags              ║        19.155 ║
-╚══════════════════════════════╩═══════════════╝
-
-╔═══════════════╦═══════════════╗
-║ VPC           ║   Association ║
-╠═══════════════╬═══════════════╣
-║ upside down   ║       12.6739 ║
-║ Stay away     ║       12.4897 ║
-║ put together. ║       11.6159 ║
-║ sit through   ║       10.9329 ║
-║ ratchet up    ║       10.8286 ║
-║ shoot'em up   ║       10.8286 ║
-║ rip off       ║       10.7192 ║
-║ hunt down     ║       10.6739 ║
-║ screw up      ║       10.4136 ║
-║ carve out     ║       10.4035 ║
-╚═══════════════╩═══════════════╝
-
-╔══════════════╦═══════════════╗
-║ NP           ║   Association ║
-╠══════════════╬═══════════════╣
-║ every penny  ║       12.78   ║
-║ THE END      ║       12.0676 ║
-║ A JOKE       ║       11.7858 ║
-║ A LOT        ║       11.0488 ║
-║ Either way   ║       11.0335 ║
-║ An absolute  ║       10.7176 ║
-║ half hour    ║       10.6477 ║
-║ no qualms    ║       10.4685 ║
-║ every cliche ║       10.4581 ║
-║ another user ║       10.3682 ║
-╚══════════════╩═══════════════╝
+    mwe_obj.print_mwe_table()
 
 
-Notice meany interesting entities are captured,
-without the need for any labeled data and supervised model. This can
-speed things up and save much costs in certain applications.
+.. code::
+
+    ╔═════════════════════════╦═══════════════╗
+    ║ LVC                     ║   Association ║
+    ╠═════════════════════════╬═══════════════╣
+    ║ SHOOT the binding       ║         26.02 ║
+    ║ achieve this elusive    ║         24.7  ║
+    ║ manipulate the wildlife ║         24.44 ║
+    ║ offset the darker       ║         24.02 ║
+    ║ remove the bindings     ║         24.02 ║
+    ║ Wish that Anthony       ║         23.9  ║
+    ║ Add some French         ║         23.5  ║
+    ║ grab a beer             ║         22.82 ║
+    ║ steal the 42            ║         22.5  ║
+    ║ invoke the spirit       ║         22.12 ║
+    ╚═════════════════════════╩═══════════════╝
+
+    ╔══════════════════════╦═══════════════╗
+    ║ NC2                  ║   Association ║
+    ╠══════════════════════╬═══════════════╣
+    ║ gordon willis        ║         20.74 ║
+    ║ Smoking Barrels      ║         20.74 ║
+    ║ sadahiv amrapurkar   ║         20.74 ║
+    ║ nihilism nothingness ║         20.74 ║
+    ║ tomato sauce         ║         20.74 ║
+    ║ Picket Fences        ║         20.74 ║
+    ║ deja vu              ║         19.74 ║
+    ║ cargo bay            ║         19.74 ║
+    ║ zoo souvenir         ║         19.16 ║
+    ║ cake frosting        ║         19.16 ║
+    ╚══════════════════════╩═══════════════╝
+
+    ╔══════════════════════════════╦═══════════════╗
+    ║ ANC2                         ║   Association ║
+    ╠══════════════════════════════╬═══════════════╣
+    ║ bite-sized chunks            ║         20.74 ║
+    ║ lizardly snouts              ║         20.74 ║
+    ║ behind-the-scenes featurette ║         20.74 ║
+    ║ hidebound conservatives      ║         20.74 ║
+    ║ judicious pruning            ║         20.74 ║
+    ║ substantial gauge            ║         19.74 ║
+    ║ haggish airheads             ║         19.74 ║
+    ║ global warming               ║         19.74 ║
+    ║ Ukrainian flags              ║         19.16 ║
+    ║ well-lit sights              ║         19.16 ║
+    ╚══════════════════════════════╩═══════════════╝
+
+    ╔═══════════════╦═══════════════╗
+    ║ VPC           ║   Association ║
+    ╠═══════════════╬═══════════════╣
+    ║ upside down   ║         12.67 ║
+    ║ Stay away     ║         12.49 ║
+    ║ put together. ║         11.62 ║
+    ║ sit through   ║         10.93 ║
+    ║ ratchet up    ║         10.83 ║
+    ║ shoot'em up   ║         10.83 ║
+    ║ rip off       ║         10.72 ║
+    ║ hunt down     ║         10.67 ║
+    ║ screw up      ║         10.41 ║
+    ║ scorch out    ║         10.4  ║
+    ╚═══════════════╩═══════════════╝
+
+    ╔══════════════╦═══════════════╗
+    ║ NP           ║   Association ║
+    ╠══════════════╬═══════════════╣
+    ║ every penny  ║         12.78 ║
+    ║ THE END      ║         12.07 ║
+    ║ A JOKE       ║         11.79 ║
+    ║ A LOT        ║         11.05 ║
+    ║ Either way   ║         11.03 ║
+    ║ An absolute  ║         10.72 ║
+    ║ half hour    ║         10.65 ║
+    ║ no qualms    ║         10.47 ║
+    ║ every cliche ║         10.46 ║
+    ║ another user ║         10.37 ║
+    ╚══════════════╩═══════════════╝
+
+Notice how many interesting entities are captured,
+without the need for any labeled data and supervised model.
+This can speed things up and save much costs in certain applications.
 
 
