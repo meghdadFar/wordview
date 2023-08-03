@@ -13,11 +13,19 @@ the documentation.
 
 .. code:: python
 
-   from wordview.mwes import MWE
+   # First we need to extract ngrams from the corpus
+   # If this was not done previously, e.g. when running other functions of Wordview, 
+   # you can do it as follows:
+   from wordview.preprocessing import NgramExtractor
    import pandas as pd
+   imdb_train = pd.read_csv("data/IMDB_Dataset_sample.csv")
+   extractor = NgramExtractor(imdb_train, "review")
+   extractor.extract_ngrams()
+   extractor.get_ngram_counts(ngram_count_file_path="data/ngram_counts.json")
+   
+   # Now we can extract MWEs
+   from wordview.mwes import MWE
    import json
-
-   imdb_corpus = pd.read_csv('data/IMDB_Dataset_sample.csv').sample(500)
    mwe_obj = MWE(imdb_corpus, 'review',
                   ngram_count_file_path='data/ngram_counts.json',
                   language='EN', 
