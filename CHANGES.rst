@@ -1,3 +1,13 @@
+Version 1.0.0
+-------------
+- Complete refactoring and upgrading of the MWE module.
+- Support for extracting variable length MWEs given a custom user syntactic patterns of POS tags.
+- Predefined patterns for extracting Light Verb Constructions (LVCs), 2-3 word Noun Compounds, 2-3 Adjective Noun Compounds, and 2-3 Verb Noun Compounds, and Verb Particle Constructions (VPCs).
+- Refactoring of the Association Measure module.
+- Move DataFrame reader to a separate preprocessing module so that it can support all modules easier.
+- Add support for extracting ngrams for MWE and also ngram analysis.
+
+
 Version 0.4.2
 -------------
 - Better encapsulation.
