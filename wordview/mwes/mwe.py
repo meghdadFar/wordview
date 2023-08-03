@@ -1,4 +1,3 @@
-import json
 import string
 from typing import Dict, Optional
 
@@ -10,7 +9,7 @@ from tqdm import tqdm
 from wordview import logger
 from wordview.io.dataframe_reader import DataFrameReader
 from wordview.mwes.association_measures import PMICalculator
-from wordview.mwes.mwe_utils import get_pos_tags, is_alphanumeric_latinscript_multigram
+from wordview.mwes.mwe_utils import get_pos_tags
 from wordview.mwes.patterns import DeMWEPatterns, EnMWEPatterns
 
 
