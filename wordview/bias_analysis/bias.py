@@ -1,7 +1,6 @@
 import string
 
 import bias_terms
-import pandas as pd
 from nltk import word_tokenize
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
@@ -41,18 +40,7 @@ class BiasDetector:
         avg_sentiment = sum(sentiments) / len(sentiments) if sentiments else 0
         return avg_sentiment
 
-    def detect_bias(self, language="en"):
-        gender_categories = bias_terms.get_terms(language, "gender")
-        racial_categories = bias_terms.get_terms(language, "racial")
-        religion_categories = bias_terms.get_terms(language, "religion")
-
-        return {
-            "gender": self.detect_bias_category(bias_category=gender_categories),
-            "racial": self.detect_bias_category(bias_category=racial_categories),
-            "religion": self.detect_bias_category(bias_category=religion_categories),
-        }
-
-    def detect_bias_category(self, bias_category):
+    def _detect_bias_category(self, bias_category):
         biases = {}
         for category_type, category_terms in bias_category.items():
             category_type_avg_sentiment = 0
@@ -83,22 +71,69 @@ class BiasDetector:
                 (category_type_avg_sentiment / n) if n > 0 else "-inf"
             )
             biases[category_type] = category_type_avg_sentiment
-
         return biases
+
+    def detect_bias(self, language="en"):
+        gender_categories = bias_terms.get_terms(language, "gender")
+        racial_categories = bias_terms.get_terms(language, "racial")
+        religion_categories = bias_terms.get_terms(language, "religion")
+
+        return {
+            "gender": self._detect_bias_category(bias_category=gender_categories),
+            "racial": self._detect_bias_category(bias_category=racial_categories),
+            "religion": self._detect_bias_category(bias_category=religion_categories),
+        }
 
 
 if __name__ == "__main__":
-    df = pd.DataFrame(
+    import json
+
+    import pandas as pd
+
+    gender_bias_df = pd.DataFrame(
         {
-            "text": [
-                "man is talented",
-                "she can be hard working",
-                "he is always reliable",
+            "texts": [
+                "She is too emotional to lead the team.",
+                "Men can't be trusted with house chores.",
+                "Women aren't suited for technical roles.",
+                "He's a man, so he wouldn't understand.",
             ]
         }
     )
-    detector = BiasDetector(df, "text")
-    results_en = detector.detect_bias(language="en")
-    import json
 
+    religious_bias_df = pd.DataFrame(
+        {
+            "texts": [
+                "Muslims are too conservative.",
+                "Christians are always pushing their beliefs.",
+                "Jews are too focused on money.",
+                "Buddhists are detached from reality.",
+            ]
+        }
+    )
+
+    racial_bias_df = pd.DataFrame(
+        {
+            "texts": [
+                "Asians aren't innovative thinkers.",
+                "Black people can't be trusted.",
+                "White people lack cultural depth.",
+                "Hispanics are too lazy to work hard.",
+            ]
+        }
+    )
+
+    no_bias_df = pd.DataFrame(
+        {
+            "texts": [
+                "The sky is blue today.",
+                "Cats are often considered independent animals.",
+                "Mountains are breathtaking natural formations.",
+                "Coffee helps many people start their day.",
+            ]
+        }
+    )
+
+    detector = BiasDetector(no_bias_df, "texts")
+    results_en = detector.detect_bias(language="en")
     print(json.dumps(results_en, indent=4))
