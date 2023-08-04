@@ -48,7 +48,7 @@ class BiasDetector:
             for sentence in tqdm(self.reader.get_sentences()):
                 try:
                     tokens = [
-                        word
+                        word.lower()
                         for word in word_tokenize(sentence)
                         # TODO support languages other than English
                         if word not in string.punctuation
@@ -61,7 +61,9 @@ class BiasDetector:
                     )
                     continue
                 if tokens:
-                    intersection = set(tokens).intersection(category_terms)
+                    intersection = set(tokens).intersection(
+                        [cat_term.lower() for cat_term in category_terms]
+                    )
                     if intersection:
                         category_type_avg_sentiment += self._calculate_association(
                             category_terms=intersection, sentence=sentence
@@ -134,6 +136,6 @@ if __name__ == "__main__":
         }
     )
 
-    detector = BiasDetector(no_bias_df, "texts")
+    detector = BiasDetector(racial_bias_df, "texts")
     results_en = detector.detect_bias(language="en")
     print(json.dumps(results_en, indent=4))
