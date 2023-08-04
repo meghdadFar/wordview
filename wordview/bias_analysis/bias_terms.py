@@ -1,3 +1,6 @@
+# TODO Currently does not support multiword terms (e.g. African American).
+# TODO Change the intersection mechanism to fix this.
+
 gender_terms_en = {
     "male": [
         "man",
@@ -52,8 +55,16 @@ gender_terms_de = {
 racial_terms_en = {
     "white": ["white", "caucasian", "european", "anglo-saxon"],
     "black": ["black", "african", "afro", "afro-american", "negro"],
-    "asian": ["asian", "oriental", "chinese", "japanese", "korean", "vietnamese"],
-    "latino": ["latino", "hispanic", "latin", "mexican", "puerto rican"],
+    "asian": [
+        "asian",
+        "asians",
+        "oriental",
+        "chinese",
+        "japanese",
+        "korean",
+        "vietnamese",
+    ],
+    "latino": ["latino", "latinos", "hispanic", "latin", "mexican", "puerto rican"],
     "middle_eastern": [
         "arab",
         "persian",
