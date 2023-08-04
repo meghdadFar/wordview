@@ -3,8 +3,7 @@ import string
 import bias_terms
 import pandas as pd
 from nltk import word_tokenize
-from sentence_transformers import SentenceTransformer, util
-from sklearn.metrics.pairwise import cosine_similarity
+from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
 
