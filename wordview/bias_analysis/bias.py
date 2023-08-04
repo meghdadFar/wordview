@@ -1,7 +1,9 @@
 import string
 
 import bias_terms
+import plotly.graph_objects as go
 from nltk import word_tokenize
+from plotly.subplots import make_subplots
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
@@ -23,6 +25,7 @@ class BiasDetector:
             "distiluse-base-multilingual-cased-v2"
         )
         self.reader = DataFrameReader(df, text_column)
+        self.biases = {}
 
     def _calculate_association(self, sentence, category_terms):
         sentiments = []
@@ -35,7 +38,6 @@ class BiasDetector:
             )
             output = self.sentiment_model(**inputs)
             sentiment_class = output[0].argmax(1).item()
-            # print(f" >> Processing term '{term}' in text '{sentence}' - sentiment: {sentiment_class}")
             sentiments.append(sentiment_class)
         avg_sentiment = sum(sentiments) / len(sentiments) if sentiments else 0
         return avg_sentiment
@@ -75,16 +77,70 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def detect_bias(self, language="en"):
+    def _show_plot(self):
+        categories = list(self.biases.keys())
+        fig = make_subplots(rows=len(categories), cols=1, subplot_titles=categories)
+
+        colorscale = [
+            [0.0, "#8B0000"],  # Very Negative
+            [0.25, "#FF4500"],  # Negative
+            [0.5, "yellow"],  # Neutral
+            [0.75, "#ADFF2F"],  # Positive
+            [1.0, "#006400"],  # Very Positive
+        ]
+
+        for index, (category, sub_data) in enumerate(self.biases.items()):
+            labels = list(sub_data.keys())
+            values = [val if val != "-inf" else None for val in sub_data.values()]
+
+            heatmap = go.Heatmap(
+                z=[values],
+                x=labels,
+                zmin=0,
+                zmax=4,
+                colorscale=colorscale,
+                showscale=True,  # Show colorbar for each heatmap
+                colorbar_title="Bias Score",
+                colorbar=dict(
+                    tickvals=[0, 1, 2, 3, 4],
+                    ticktext=[
+                        "Very Negative",
+                        "Negative",
+                        "Neutral",
+                        "Positive",
+                        "Very Positive",
+                    ],
+                ),
+                zauto=False,  # Prevents auto scaling
+            )
+
+            fig.add_trace(heatmap, row=index + 1, col=1)
+            fig.update_yaxes(showgrid=False, showticklabels=False)
+            fig.update_xaxes(
+                showgrid=False,
+            )
+
+        fig.update_layout(
+            title="Bias Scores Across Categories",
+            width=1200,  # Fixed width
+            height=300 * len(categories),  # Adjust height based on number of categories
+        )
+        fig.show()
+
+    def detect_bias(self, show_plot: bool = False, language="en"):
         gender_categories = bias_terms.get_terms(language, "gender")
         racial_categories = bias_terms.get_terms(language, "racial")
         religion_categories = bias_terms.get_terms(language, "religion")
 
-        return {
+        self.biases = {
             "gender": self._detect_bias_category(bias_category=gender_categories),
             "racial": self._detect_bias_category(bias_category=racial_categories),
             "religion": self._detect_bias_category(bias_category=religion_categories),
         }
+        if show_plot:
+            self._show_plot()
+
+        return self.biases
 
 
 if __name__ == "__main__":
@@ -137,5 +193,5 @@ if __name__ == "__main__":
     )
 
     detector = BiasDetector(racial_bias_df, "texts")
-    results_en = detector.detect_bias(language="en")
+    results_en = detector.detect_bias(show_plot=True)
     print(json.dumps(results_en, indent=4))
