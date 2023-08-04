@@ -99,8 +99,8 @@ class BiasDetector:
                 zmin=0,
                 zmax=4,
                 colorscale=colorscale,
-                showscale=True,  # Show colorbar for each heatmap
-                colorbar_title="Bias Score",
+                showscale=True,
+                colorbar_title="Bias",
                 colorbar=dict(
                     tickvals=[0, 1, 2, 3, 4],
                     ticktext=[
