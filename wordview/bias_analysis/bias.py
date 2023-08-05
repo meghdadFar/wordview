@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from nltk import word_tokenize
 from plotly.subplots import make_subplots
 from sentence_transformers import SentenceTransformer
+from tabulate import tabulate  # type: ignore
 from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
 
@@ -88,7 +89,6 @@ class BiasDetector:
             cols=1,
             subplot_titles=[cat.capitalize() for cat in categories],
         )
-
         colorscale = [
             [0.0, "#8B0000"],  # Very Negative
             [0.25, "#FF4500"],  # Negative
@@ -96,7 +96,6 @@ class BiasDetector:
             [0.75, "#ADFF2F"],  # Positive
             [1.0, "#006400"],  # Very Positive
         ]
-
         for index, (category, sub_data) in enumerate(self.biases.items()):
             labels = list(sub_data.keys())
             labels = [label.capitalize() for label in labels]
@@ -122,13 +121,11 @@ class BiasDetector:
                 ),
                 zauto=False,  # Prevents auto scaling
             )
-
             fig.add_trace(heatmap, row=index + 1, col=1)
             fig.update_yaxes(showgrid=False, showticklabels=False)
             fig.update_xaxes(
                 showgrid=False,
             )
-
         fig.update_layout(
             title="Bias Scores Across Categories",
             title_font_size=18,  # Increase title font size
@@ -138,6 +135,36 @@ class BiasDetector:
             plot_bgcolor="white",  # Set background color to white
         )
         fig.show()
+
+    def print_bias_table(self):
+        def sentiment_to_bias(val):
+            if val == "-inf":
+                return "Unknown"
+            elif val == 0:
+                return "Very Negative"
+            elif val == 1:
+                return "Negative"
+            elif val == 2:
+                return "Neutral"
+            elif val == 3:
+                return "Positive"
+            elif val == 4:
+                return "Very Positive"
+
+        sub_tables = []
+        for section, values in self.biases.items():
+            if values:
+                formatted_values = {
+                    k.capitalize(): sentiment_to_bias(v) for k, v in values.items()
+                }
+                headers = [section.capitalize(), "Bias"]
+                table_data = list(formatted_values.items())
+                table_str = tabulate(
+                    table_data, headers=headers, tablefmt="double_outline"
+                )
+                sub_tables.append(table_str)
+        final_table = "\n\n".join(sub_tables)
+        print(final_table)
 
     def detect_bias(self, show_plot: bool = False, language="en"):
         gender_categories = bias_terms.get_terms(language, "gender")
@@ -182,3 +209,4 @@ if __name__ == "__main__":
     detector = BiasDetector(biased_df, "text")
     results_en = detector.detect_bias(show_plot=True)
     print(json.dumps(results_en, indent=4))
+    detector.print_bias_table()
