@@ -1,11 +1,16 @@
 # TODO Currently does not support multiword terms (e.g. African American, Middle Eastern, Puerto Rican).
 # TODO Change the intersection mechanism to add support for multiword terms.
 
+# TODO Currently stemming is not applied to make the matches. For instance, Asian --> Asians etc.
+# TODO For some of the words, keywords are added, but this has to be more systematically fixed.
+
 gender_terms_en = {
     "male": [
         "man",
+        "men",
         "male",
         "boy",
+        "boys",
         "he",
         "his",
         "him",
@@ -17,8 +22,10 @@ gender_terms_en = {
     ],
     "female": [
         "woman",
+        "women",
         "female",
         "girl",
+        "girls",
         "she",
         "her",
         "hers",
@@ -79,14 +86,14 @@ racial_terms_de = {
 religion_terms_en = {
     "christian": [
         "christian",
-        "catholic",
+        "christians" "catholic",
         "protestant",
         "baptist",
         "methodist",
         "evangelical",
     ],
-    "muslim": ["muslim", "islamic", "sunnah", "shiite", "sufi"],
-    "jew": ["jew", "jewish", "hebrew", "yiddish", "zionist"],
+    "muslim": ["muslim", "muslims" "islamic", "sunnah", "shiite", "sufi"],
+    "jew": ["jew", "jews" "jewish", "hebrew", "yiddish", "zionist"],
     "hindu": ["hindu", "hinduism"],
     "buddhist": ["buddhist", "buddha", "dharma"],
     "atheist": ["atheist", "agnostic", "non-believer", "secular"],
@@ -94,7 +101,7 @@ religion_terms_en = {
 
 religion_terms_de = {
     "christian": ["Christ", "katholisch", "protestantisch", "evangelisch"],
-    "muslim": ["Muslim", "islamisch", "Sunni", "Shiite"],
+    "muslim": ["Muslim", "Muslims" "islamisch", "Sunni", "Shiite"],
     "jew": ["Jude", "jüdisch", "Hebräer"],
     "hindu": ["Hindu"],
     "buddhist": ["Buddhist", "Buddha"],
