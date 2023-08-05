@@ -72,7 +72,18 @@ racial_terms_en = {
         "vietnamese",
     ],
     "latino": ["latino", "latinos", "hispanic", "latin", "mexican"],
-    "indian": ["indian", "hindustani", "bharati"],
+    "indian": ["indian", "indians", "hindustani", "bharati"],
+    "middle_eastern": [
+        "arab",
+        "arabs",
+        "persian",
+        "iranian",
+        "iranians",
+        "persians",
+        "saudi",
+        "emirati",
+        "iraqi",
+    ],
 }
 
 racial_terms_de = {
@@ -81,12 +92,14 @@ racial_terms_de = {
     "asian": ["asiatisch", "chinesisch", "japanisch", "koreanisch", "vietnamesisch"],
     "latino": ["lateinamerikanisch", "hispanisch", "mexikanisch"],
     "indian": ["indisch"],
+    "middle_eastern": ["arabisch", "persisch", "iranisch", "iraner"],
 }
 
 religion_terms_en = {
     "christian": [
         "christian",
-        "christians" "catholic",
+        "christians",
+        "catholic",
         "protestant",
         "baptist",
         "methodist",
@@ -96,7 +109,7 @@ religion_terms_en = {
     "jew": ["jew", "jews", "jewish", "hebrew", "yiddish", "zionist"],
     "hindu": ["hindu", "hinduism"],
     "buddhist": ["buddhist", "buddha", "dharma"],
-    "atheist": ["atheist", "agnostic", "non-believer", "secular"],
+    "atheist": ["atheist", "atheists", "agnostic", "non-believer", "secular"],
 }
 
 religion_terms_de = {
