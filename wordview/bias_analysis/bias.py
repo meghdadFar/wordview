@@ -82,7 +82,7 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def _show_plot(self):
+    def show_plot(self):
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
@@ -166,7 +166,7 @@ class BiasDetector:
         final_table = "\n\n".join(sub_tables)
         print(final_table)
 
-    def detect_bias(self, show_plot: bool = False, language="en"):
+    def detect_bias(self, language="en"):
         gender_categories = bias_terms.get_terms(language, "gender")
         racial_categories = bias_terms.get_terms(language, "racial")
         religion_categories = bias_terms.get_terms(language, "religion")
@@ -176,9 +176,6 @@ class BiasDetector:
             "racial": self._detect_bias_category(bias_category=racial_categories),
             "religion": self._detect_bias_category(bias_category=religion_categories),
         }
-        if show_plot:
-            self._show_plot()
-
         return self.biases
 
 
@@ -207,6 +204,7 @@ if __name__ == "__main__":
     )
 
     detector = BiasDetector(biased_df, "text")
-    results_en = detector.detect_bias(show_plot=True)
+    results_en = detector.detect_bias()
     print(json.dumps(results_en, indent=4))
     detector.print_bias_table()
+    detector.show_plot()
