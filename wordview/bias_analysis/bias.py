@@ -177,35 +177,3 @@ class BiasDetector:
             "religion": self._detect_bias_category(bias_category=religion_categories),
         }
         return self.biases
-
-
-if __name__ == "__main__":
-    import json
-
-    import pandas as pd
-
-    biased_df = pd.DataFrame(
-        {
-            "text": [
-                # Gender
-                "He is always so successful because men are naturally gifted.",
-                "She is too emotional to lead; women cannot handle pressure.",
-                # Racial
-                "Asians are brilliant at mathematics.",
-                "Black people are not fit for this kind of job.",
-                "Indian food is too spicy, and their traditions are too complex to understand.",
-                "Latinos are one of the many ethnic groups in the region.",  # neutral
-                # Religious
-                "Christians are the only ones who know the true path to salvation.",
-                "Muslims cannot be trusted in our community.",
-                "Atheists often have a logical and evidence-based approach to understanding the world.",
-            ]
-        }
-    )
-
-    bias_detector = BiasDetector(biased_df, "text")
-    results_en = bias_detector.detect_bias()
-    json.dump(results_en, open("data/bias_en.json", "w"), indent=4)
-    # print(json.dumps(results_en, indent=4))
-    bias_detector.print_bias_table()
-    bias_detector.show_plot()
