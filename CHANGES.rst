@@ -1,3 +1,12 @@
+Version 1.1.0
+-------------
+- Add bias detection and analysis feature (based on sentiment analysis)
+- Include 3 bias categories: race, religion, and gender.
+- Include an initial set of key terms for each bias category.
+- Add function to visualize bias analysis in a plot.
+- Add function to visualize bias analysis in a tables.
+
+
 Version 1.0.0
 -------------
 - Complete refactoring and upgrading of the MWE module.
