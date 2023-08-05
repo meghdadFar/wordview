@@ -67,9 +67,13 @@ class BiasDetector:
                         [cat_term.lower() for cat_term in category_terms]
                     )
                     if intersection:
-                        category_type_avg_sentiment += self._calculate_association(
+                        association_result = self._calculate_association(
                             category_terms=intersection, sentence=sentence
                         )
+                        print(
+                            f"> Category type: {category_type}\n\tcategory terms: {category_terms}\n\tsentence: {sentence}\n\tassoociation: {association_result}\n--------------------"
+                        )
+                        category_type_avg_sentiment += association_result
                         n += 1
             category_type_avg_sentiment = (
                 (category_type_avg_sentiment / n) if n > 0 else "-inf"
@@ -79,7 +83,11 @@ class BiasDetector:
 
     def _show_plot(self):
         categories = list(self.biases.keys())
-        fig = make_subplots(rows=len(categories), cols=1, subplot_titles=categories)
+        fig = make_subplots(
+            rows=len(categories),
+            cols=1,
+            subplot_titles=[cat.capitalize() for cat in categories],
+        )
 
         colorscale = [
             [0.0, "#8B0000"],  # Very Negative
@@ -91,6 +99,7 @@ class BiasDetector:
 
         for index, (category, sub_data) in enumerate(self.biases.items()):
             labels = list(sub_data.keys())
+            labels = [label.capitalize() for label in labels]
             values = [val if val != "-inf" else None for val in sub_data.values()]
 
             heatmap = go.Heatmap(
@@ -122,8 +131,11 @@ class BiasDetector:
 
         fig.update_layout(
             title="Bias Scores Across Categories",
+            title_font_size=18,  # Increase title font size
+            title_x=0.5,  # Center main title
             width=1200,  # Fixed width
             height=300 * len(categories),  # Adjust height based on number of categories
+            plot_bgcolor="white",  # Set background color to white
         )
         fig.show()
 
@@ -148,50 +160,25 @@ if __name__ == "__main__":
 
     import pandas as pd
 
-    gender_bias_df = pd.DataFrame(
+    biased_df = pd.DataFrame(
         {
-            "texts": [
-                "She is too emotional to lead the team.",
-                "Men can't be trusted with house chores.",
-                "Women aren't suited for technical roles.",
-                "He's a man, so he wouldn't understand.",
+            "text": [
+                # Gender
+                "He is always so successful because men are naturally gifted.",
+                "She is too emotional to lead; women cannot handle pressure.",
+                # Racial
+                "Asians are brilliant at mathematics.",
+                "Black people are not fit for this kind of job.",
+                "Indian food is too spicy, and their traditions are too complex to understand.",
+                "Latinos are one of the many ethnic groups in the region.",  # neutral
+                # Religious
+                "Christians are the only ones who know the true path to salvation.",
+                "Muslims cannot be trusted in our community.",
+                "Atheists often have a logical and evidence-based approach to understanding the world.",
             ]
         }
     )
 
-    religious_bias_df = pd.DataFrame(
-        {
-            "texts": [
-                "Muslims are too conservative.",
-                "Christians are always pushing their beliefs.",
-                "Jews are too focused on money.",
-                "Buddhists are detached from reality.",
-            ]
-        }
-    )
-
-    racial_bias_df = pd.DataFrame(
-        {
-            "texts": [
-                "Asians aren't innovative thinkers.",
-                "Black people can't be trusted.",
-                "White people lack cultural depth.",
-                "Hispanics are too lazy to work hard.",
-            ]
-        }
-    )
-
-    no_bias_df = pd.DataFrame(
-        {
-            "texts": [
-                "The sky is blue today.",
-                "Cats are often considered independent animals.",
-                "Mountains are breathtaking natural formations.",
-                "Coffee helps many people start their day.",
-            ]
-        }
-    )
-
-    detector = BiasDetector(racial_bias_df, "texts")
+    detector = BiasDetector(biased_df, "text")
     results_en = detector.detect_bias(show_plot=True)
     print(json.dumps(results_en, indent=4))
