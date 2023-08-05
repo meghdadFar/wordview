@@ -1,5 +1,5 @@
-# TODO Currently does not support multiword terms (e.g. African American).
-# TODO Change the intersection mechanism to fix this.
+# TODO Currently does not support multiword terms (e.g. African American, Middle Eastern, Puerto Rican).
+# TODO Change the intersection mechanism to add support for multiword terms.
 
 gender_terms_en = {
     "male": [
@@ -64,16 +64,7 @@ racial_terms_en = {
         "korean",
         "vietnamese",
     ],
-    "latino": ["latino", "latinos", "hispanic", "latin", "mexican", "puerto rican"],
-    "middle_eastern": [
-        "arab",
-        "persian",
-        "middle eastern",
-        "saudi",
-        "emirati",
-        "iraqi",
-    ],
-    "native_american": ["native american", "indigenous", "navajo", "cherokee"],
+    "latino": ["latino", "latinos", "hispanic", "latin", "mexican"],
     "indian": ["indian", "hindustani", "bharati"],
 }
 
@@ -82,8 +73,6 @@ racial_terms_de = {
     "black": ["schwarz", "afrikanisch"],
     "asian": ["asiatisch", "chinesisch", "japanisch", "koreanisch", "vietnamesisch"],
     "latino": ["lateinamerikanisch", "hispanisch", "mexikanisch"],
-    "middle_eastern": ["arabisch", "persisch"],
-    "native_american": ["Ureinwohner", "indigen"],
     "indian": ["indisch"],
 }
 
@@ -101,9 +90,6 @@ religion_terms_en = {
     "hindu": ["hindu", "hinduism"],
     "buddhist": ["buddhist", "buddha", "dharma"],
     "atheist": ["atheist", "agnostic", "non-believer", "secular"],
-    "sikh": ["sikh", "sikhism", "guru"],
-    "bahai": ["bahai", "bahaullah"],
-    "shinto": ["shinto", "kami"],
 }
 
 religion_terms_de = {
@@ -113,9 +99,6 @@ religion_terms_de = {
     "hindu": ["Hindu"],
     "buddhist": ["Buddhist", "Buddha"],
     "atheist": ["Atheist", "Agnostiker", "säkular"],
-    "sikh": ["Sikh"],
-    "bahai": ["Bahai"],
-    "shinto": ["Shinto"],
 }
 
 
