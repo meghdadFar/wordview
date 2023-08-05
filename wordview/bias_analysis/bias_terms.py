@@ -33,6 +33,8 @@ gender_terms_en = {
         "lady",
         "gal",
     ],
+    "transgender": ["transgender", "trans"],
+    "nonbinary": ["non-binary", "nonbinary", "non-binary", "enby", "nb"],
 }
 
 gender_terms_de = {
@@ -57,6 +59,8 @@ gender_terms_de = {
         "Dame",
         "Mädel",
     ],
+    "transgender": ["transgender", "trans"],
+    "nonbinary": ["non-binary", "nonbinary", "non-binary", "enby", "nb"],
 }
 
 racial_terms_en = {
