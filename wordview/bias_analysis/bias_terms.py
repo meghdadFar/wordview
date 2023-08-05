@@ -92,8 +92,8 @@ religion_terms_en = {
         "methodist",
         "evangelical",
     ],
-    "muslim": ["muslim", "muslims" "islamic", "sunnah", "shiite", "sufi"],
-    "jew": ["jew", "jews" "jewish", "hebrew", "yiddish", "zionist"],
+    "muslim": ["muslim", "muslims", "islamic", "sunnah", "shiite", "sufi"],
+    "jew": ["jew", "jews", "jewish", "hebrew", "yiddish", "zionist"],
     "hindu": ["hindu", "hinduism"],
     "buddhist": ["buddhist", "buddha", "dharma"],
     "atheist": ["atheist", "agnostic", "non-believer", "secular"],
@@ -101,7 +101,7 @@ religion_terms_en = {
 
 religion_terms_de = {
     "christian": ["Christ", "katholisch", "protestantisch", "evangelisch"],
-    "muslim": ["Muslim", "Muslims" "islamisch", "Sunni", "Shiite"],
+    "muslim": ["Muslim", "Muslims", "islamisch", "Sunni", "Shiite"],
     "jew": ["Jude", "jüdisch", "Hebräer"],
     "hindu": ["Hindu"],
     "buddhist": ["Buddhist", "Buddha"],
