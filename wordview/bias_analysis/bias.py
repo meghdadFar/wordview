@@ -203,8 +203,9 @@ if __name__ == "__main__":
         }
     )
 
-    detector = BiasDetector(biased_df, "text")
-    results_en = detector.detect_bias()
-    print(json.dumps(results_en, indent=4))
-    detector.print_bias_table()
-    detector.show_plot()
+    bias_detector = BiasDetector(biased_df, "text")
+    results_en = bias_detector.detect_bias()
+    json.dump(results_en, open("data/bias_en.json", "w"), indent=4)
+    # print(json.dumps(results_en, indent=4))
+    bias_detector.print_bias_table()
+    bias_detector.show_plot()
