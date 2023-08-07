@@ -71,9 +71,6 @@ class BiasDetector:
                         association_result = self._calculate_association(
                             category_terms=intersection, sentence=sentence
                         )
-                        print(
-                            f"> Category type: {category_type}\n\tcategory terms: {category_terms}\n\tsentence: {sentence}\n\tassoociation: {association_result}\n--------------------"
-                        )
                         category_type_avg_sentiment += association_result
                         n += 1
             category_type_avg_sentiment = (
@@ -181,30 +178,30 @@ class BiasDetector:
         return self.biases
 
 
-if __name__ == "__main__":
-    import json
+# if __name__ == "__main__":
+#     import json
 
-    import pandas as pd
+#     import pandas as pd
 
-    biased_df = pd.DataFrame(
-        {
-            "text": [
-                # Gender
-                "He is always so successful because men are naturally gifted.",
-                "She is too emotional to lead; women cannot handle pressure.",
-                # Racial
-                "Asians are brilliant at mathematics.",
-                "Black people are not fit for this kind of job.",
-                "Indian food is too spicy, and their traditions are too complex to understand.",
-                "Latinos are one of the many ethnic groups in the region.",  # neutral
-                # Religious
-                "Christians are the only ones who know the true path to salvation.",
-                "Muslims cannot be trusted in our community.",
-                "Atheists often have a logical and evidence-based approach to understanding the world.",
-            ]
-        }
-    )
+#     biased_df = pd.DataFrame(
+#         {
+#             "text": [
+#                 # Gender
+#                 "He is always so successful because men are naturally gifted.",
+#                 "She is too emotional to lead; women cannot handle pressure.",
+#                 # Racial
+#                 "Asians are brilliant at mathematics.",
+#                 "Black people are not fit for this kind of job.",
+#                 "Indian food is too spicy, and their traditions are too complex to understand.",
+#                 "Latinos are one of the many ethnic groups in the region.",  # neutral
+#                 # Religious
+#                 "Christians are the only ones who know the true path to salvation.",
+#                 "Muslims cannot be trusted in our community.",
+#                 "Atheists often have a logical and evidence-based approach to understanding the world.",
+#             ]
+#         }
+#     )
 
-    bias_detector = BiasDetector(biased_df, "text")
-    results_en = bias_detector.detect_bias()
-    bias_detector.show_plot()
+#     bias_detector = BiasDetector(biased_df, "text")
+#     results_en = bias_detector.detect_bias()
+#     bias_detector.show_plot()
