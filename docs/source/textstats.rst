@@ -7,9 +7,11 @@ instantiate an object of ``TextStatsPlots`` using your dataset:
 
 
 .. code:: python
-
+   import pandas as pd
    from wordview.text_analysis import TextStatsPlots
-   ta = TextStatsPlots(df=imdb_train, text_column='text')
+   
+   imdb_train = pd.read_csv("data/IMDB_Dataset_sample.csv")
+   ta = TextStatsPlots(df=imdb_train, text_column='review')
 
 Overview
 ~~~~~~~~

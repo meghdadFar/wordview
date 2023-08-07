@@ -79,7 +79,7 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def show_plot(self):
+    def show_bias_plot(self):
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
@@ -115,8 +115,8 @@ class BiasDetector:
                         "Positive",
                         "Very Positive",
                     ],
-                    tickfont=dict(size=18),
-                    titlefont=dict(size=20),
+                    tickfont=dict(size=16),
+                    titlefont=dict(size=18),
                 ),
                 zauto=False,  # Prevents auto scaling
             )
@@ -125,14 +125,14 @@ class BiasDetector:
             fig.update_xaxes(showgrid=False, tickfont=dict(size=16))
         fig.update_layout(
             title="Bias Scores Across Categories",
-            title_font_size=24,  # Increase title font size
+            title_font_size=20,  # Increase title font size
             title_x=0.5,  # Center main title
-            width=1200,  # Fixed width
-            height=300 * len(categories),  # Adjust height based on number of categories
+            width=1000,  # Fixed width
+            height=250 * len(categories),  # Adjust height based on number of categories
             plot_bgcolor="white",  # Set background color to white
         )
         # Increase font size of subplot titles.
-        fig.update_annotations(font_size=20)
+        fig.update_annotations(font_size=18)
         fig.show()
 
     def print_bias_table(self):
