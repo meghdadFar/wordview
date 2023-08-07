@@ -1,5 +1,5 @@
-Wordview (Work In Progress)
-###########################
+Wordview
+########
 
 
 .. image:: https://img.shields.io/pypi/v/wordview
