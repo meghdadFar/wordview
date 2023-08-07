@@ -118,8 +118,8 @@ class BiasDetector:
                         "Positive",
                         "Very Positive",
                     ],
-                    tickfont=dict(size=16),
-                    titlefont=dict(size=18),
+                    tickfont=dict(size=18),
+                    titlefont=dict(size=20),
                 ),
                 zauto=False,  # Prevents auto scaling
             )
@@ -135,7 +135,7 @@ class BiasDetector:
             plot_bgcolor="white",  # Set background color to white
         )
         # Increase font size of subplot titles.
-        fig.update_annotations(font_size=18)
+        fig.update_annotations(font_size=20)
         fig.show()
 
     def print_bias_table(self):
