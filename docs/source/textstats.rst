@@ -1,15 +1,17 @@
 Text Stats
 ----------
 
-Wordview's provides an overview of your text data, as well as general statistics and different
+Wordview provides an overview of your text data, as well as general statistics and different
 distributions and plots via ``TextStatsPlots`` class. To get started, import and 
 instantiate an object of ``TextStatsPlots`` using your dataset:
 
 
 .. code:: python
-
+   import pandas as pd
    from wordview.text_analysis import TextStatsPlots
-   ta = TextStatsPlots(df=imdb_train, text_column='text')
+   
+   imdb_train = pd.read_csv("data/IMDB_Dataset_sample.csv")
+   ta = TextStatsPlots(df=imdb_train, text_column='review')
 
 Overview
 ~~~~~~~~
@@ -42,7 +44,7 @@ Distributions
 
 You can look into different distributions using the ``show_distplot``
 method. For instance, you can see the distribution of document lengths
-to decide for a sequence length in sequence models with a fixed input or
+to decide on a sequence length in sequence models with a fixed input or
 when you carry out mini-batch training.
 
 .. code:: python

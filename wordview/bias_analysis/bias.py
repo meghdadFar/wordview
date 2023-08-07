@@ -1,6 +1,5 @@
 import string
 
-import bias_terms
 import plotly.graph_objects as go
 from nltk import word_tokenize
 from plotly.subplots import make_subplots
@@ -10,6 +9,7 @@ from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
 
 from wordview import logger
+from wordview.bias_analysis import bias_terms
 from wordview.io.dataframe_reader import DataFrameReader
 
 
@@ -71,9 +71,6 @@ class BiasDetector:
                         association_result = self._calculate_association(
                             category_terms=intersection, sentence=sentence
                         )
-                        print(
-                            f"> Category type: {category_type}\n\tcategory terms: {category_terms}\n\tsentence: {sentence}\n\tassoociation: {association_result}\n--------------------"
-                        )
                         category_type_avg_sentiment += association_result
                         n += 1
             category_type_avg_sentiment = (
@@ -82,7 +79,7 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def show_plot(self):
+    def show_bias_plot(self):
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
@@ -118,22 +115,24 @@ class BiasDetector:
                         "Positive",
                         "Very Positive",
                     ],
+                    tickfont=dict(size=16),
+                    titlefont=dict(size=18),
                 ),
                 zauto=False,  # Prevents auto scaling
             )
             fig.add_trace(heatmap, row=index + 1, col=1)
             fig.update_yaxes(showgrid=False, showticklabels=False)
-            fig.update_xaxes(
-                showgrid=False,
-            )
+            fig.update_xaxes(showgrid=False, tickfont=dict(size=16))
         fig.update_layout(
             title="Bias Scores Across Categories",
-            title_font_size=18,  # Increase title font size
+            title_font_size=20,  # Increase title font size
             title_x=0.5,  # Center main title
-            width=1200,  # Fixed width
-            height=300 * len(categories),  # Adjust height based on number of categories
+            width=1000,  # Fixed width
+            height=250 * len(categories),  # Adjust height based on number of categories
             plot_bgcolor="white",  # Set background color to white
         )
+        # Increase font size of subplot titles.
+        fig.update_annotations(font_size=18)
         fig.show()
 
     def print_bias_table(self):

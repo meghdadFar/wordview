@@ -1,3 +1,9 @@
+Version 1.1.1
+-------------
+- Fix minor bugs in bias analysis.
+- Improve fonts and minor details in bias analysis plots.
+
+
 Version 1.1.0
 -------------
 - Add bias detection and analysis feature (based on sentiment analysis)

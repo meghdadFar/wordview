@@ -11,7 +11,7 @@ Wordview (Work In Progress)
 .. image:: https://img.shields.io/pypi/dm/wordview
    :alt: PyPI - Downloads
 
-Wordview is a Python package for Exploratory Data Analysis (EDA) and Feature Extraction for text.
+Wordview is a Python package for Exploratory Data Analysis (EDA) of text.
 Wordview's Python API is open-source and available under the `MIT
 license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
@@ -51,24 +51,25 @@ Wordview calculates several statistics for labels in labeled datasets whether th
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
 
-Feature Extraction
-###################
-
-Wordview has various functionalities for feature extraction from text, including Multiword Expressions (MWEs), clusters, anomalies and 
-outliers, and more. See the following sections as well as the linked documentation page in each section for details.
-
-Multiword Expressions
-*********************
-
+Extraction & Analysis of Multiword Expressions
+**********************************************
 Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
 application in different areas including: parsing, language models,
 language generation, terminology extraction, and topic models. Wordview can extract different types of MWEs from text.
 See `MWEs documentation page <./docs/source/mwes.rst>`__ for usage and examples.
 
-Anomalies and Outliers
-**********************
 
+Bias Analysis
+**************
+In the rapidly evolving realm of Natural Language Processing (NLP), downstream models are as unbiased and fair as the data on which they are trained.
+Wordview Bias Analysis module is designed to assist in the rigorous task of ensuring that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
+By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.
+See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage and examples.
+
+
+Analysis of Anomalies and Outliers
+**********************************
 Anomalies and outliers have wide applications in Machine Learning. While in
 some cases, you can capture them and remove them from the data to improve the
 performance of a downstream ML model, in other cases, they become the data points
@@ -78,8 +79,10 @@ Wordview offers several anomaly and outlier detection functions.
 See `anomalies documentation page <./docs/source/anomalies.rst>`__ for usage and examples.
 
 
-Clusters
-*********
+
+
+Cluster Analysis
+****************
 Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
 Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. See
 `wordview`'s `clustering documentation page <./docs/source/clustering.rst>`__ for usage and examples.
