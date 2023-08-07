@@ -1,6 +1,5 @@
 import string
 
-import bias_terms
 import plotly.graph_objects as go
 from nltk import word_tokenize
 from plotly.subplots import make_subplots
@@ -10,6 +9,7 @@ from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
 
 from wordview import logger
+from wordview.bias_analysis import bias_terms
 from wordview.io.dataframe_reader import DataFrameReader
 
 
