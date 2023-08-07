@@ -118,22 +118,24 @@ class BiasDetector:
                         "Positive",
                         "Very Positive",
                     ],
+                    tickfont=dict(size=16),
+                    titlefont=dict(size=18),
                 ),
                 zauto=False,  # Prevents auto scaling
             )
             fig.add_trace(heatmap, row=index + 1, col=1)
             fig.update_yaxes(showgrid=False, showticklabels=False)
-            fig.update_xaxes(
-                showgrid=False,
-            )
+            fig.update_xaxes(showgrid=False, tickfont=dict(size=16))
         fig.update_layout(
             title="Bias Scores Across Categories",
-            title_font_size=18,  # Increase title font size
+            title_font_size=24,  # Increase title font size
             title_x=0.5,  # Center main title
             width=1200,  # Fixed width
             height=300 * len(categories),  # Adjust height based on number of categories
             plot_bgcolor="white",  # Set background color to white
         )
+        # Increase font size of subplot titles.
+        fig.update_annotations(font_size=18)
         fig.show()
 
     def print_bias_table(self):
@@ -177,3 +179,32 @@ class BiasDetector:
             "religion": self._detect_bias_category(bias_category=religion_categories),
         }
         return self.biases
+
+
+if __name__ == "__main__":
+    import json
+
+    import pandas as pd
+
+    biased_df = pd.DataFrame(
+        {
+            "text": [
+                # Gender
+                "He is always so successful because men are naturally gifted.",
+                "She is too emotional to lead; women cannot handle pressure.",
+                # Racial
+                "Asians are brilliant at mathematics.",
+                "Black people are not fit for this kind of job.",
+                "Indian food is too spicy, and their traditions are too complex to understand.",
+                "Latinos are one of the many ethnic groups in the region.",  # neutral
+                # Religious
+                "Christians are the only ones who know the true path to salvation.",
+                "Muslims cannot be trusted in our community.",
+                "Atheists often have a logical and evidence-based approach to understanding the world.",
+            ]
+        }
+    )
+
+    bias_detector = BiasDetector(biased_df, "text")
+    results_en = bias_detector.detect_bias()
+    bias_detector.show_plot()
