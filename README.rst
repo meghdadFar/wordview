@@ -7,10 +7,10 @@
 .. image:: https://img.shields.io/pypi/dm/wordview
    :alt: PyPI - Downloads
 
-https://img.shields.io/librariesio/release/pypi/wordview
+.. image:: https://img.shields.io/librariesio/release/pypi/wordview
    :alt: Dependencies
 
-https://img.shields.io/pypi/l/wordview
+.. image:: https://img.shields.io/pypi/l/wordview
    :alt: License
 
 Wordview
