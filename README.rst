@@ -1,9 +1,19 @@
-.. raw:: html
++-----------------------------------------------------------+----------------------------------------------------+
+|.. image:: https://img.shields.io/pypi/v/wordview          |  .. image:: https://img.shields.io/pypi/v/wordview  | 
+|   :alt: PyPI                                              |      :alt: PyPI                                     |
++-----------------------------------------------------------+----------------------------------------------------+
 
-   <div style="display: flex;">
-       <a href="<URL_1>"><img src=https://img.shields.io/pypi/v/wordview alt="Badge 1"></a>
-   </div>
+.. image:: https://img.shields.io/pypi/v/wordview
+   :alt: PyPI
 
+.. image:: https://img.shields.io/pypi/dm/wordview
+   :alt: PyPI - Downloads
+
+.. image:: https://img.shields.io/librariesio/release/pypi/wordview
+   :alt: Dependencies
+
+.. image:: https://img.shields.io/pypi/l/wordview
+   :alt: License
 
 
 Wordview
