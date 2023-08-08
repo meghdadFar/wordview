@@ -1,7 +1,7 @@
 
 |pic1| any text |pic2|
 
-.. |pic1| https://img.shields.io/pypi/v/wordview
+.. |pic1| image:: https://img.shields.io/pypi/v/wordview
    :width: 45%
 
 .. |pic2| image:: https://img.shields.io/pypi/dm/wordview
