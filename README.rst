@@ -4,7 +4,7 @@
 .. |pic1| https://img.shields.io/pypi/v/wordview
    :width: 45%
 
-.. |pic2| .. image:: https://img.shields.io/pypi/dm/wordview
+.. |pic2| image:: https://img.shields.io/pypi/dm/wordview
    :width: 45%
 
 Wordview
