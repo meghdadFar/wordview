@@ -1,19 +1,19 @@
 
 .. image:: https://img.shields.io/pypi/v/wordview
    :alt: PyPI
-   :width: 50 %
+   :width: 20 %
 
 .. image:: https://img.shields.io/pypi/dm/wordview
    :alt: PyPI - Downloads
-   :width: 50 %
+   :width: 20 %
 
 .. image:: https://img.shields.io/librariesio/release/pypi/wordview
    :alt: Dependencies
-   :width: 50 %
+   :width: 20 %
 
 .. image:: https://img.shields.io/pypi/l/wordview
    :alt: License
-   :width: 50 %
+   :width: 20 %
 
 Wordview
 ########
