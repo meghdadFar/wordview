@@ -1,3 +1,9 @@
+.. raw:: html
+
+   <div style="display: flex;">
+       <a href="<URL_1>"><img src=https://img.shields.io/pypi/v/wordview alt="Badge 1"></a>
+   </div>
+
 .. image:: https://img.shields.io/pypi/v/wordview
    :alt: PyPI
 
