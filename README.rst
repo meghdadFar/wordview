@@ -1,8 +1,3 @@
-Wordview
-########
-Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data. It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
-
-
 .. image:: https://img.shields.io/pypi/v/wordview
    :alt: PyPI
 
@@ -12,12 +7,11 @@ Wordview is a Python package for Exploratory Data Analysis of text and provides 
 .. image:: https://img.shields.io/pypi/dm/wordview
    :alt: PyPI - Downloads
 
-Wordview is a Python package for Exploratory Data Analysis (EDA) of text.
-Wordview's Python API is open-source and available under the `MIT
-license <https://en.wikipedia.org/wiki/MIT_License>`__.
+Wordview
+########
+Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data. It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Wordview's Python API is open-source and available under the `MIT license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 |cover|
-
 
 Usage
 ######
