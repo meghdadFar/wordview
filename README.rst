@@ -1,5 +1,6 @@
 Wordview
 ########
+Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data. It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
 
 
 .. image:: https://img.shields.io/pypi/v/wordview
@@ -28,15 +29,6 @@ Install the package via ``pip``:
 To explore various features and functionalities, consult the documentation pages. The following sections
 present a high-level description of Wordview's features and functionalities. For details, tutorials and worked examples, corresponding 
 documentation pages are linked in each section.
-
-
-Exploratory Data Analysis (EDA)
-###############################
-
-Wordview presents many statistics about your data in form of plots and tables allowing you to 
-have both a high-level and detailed overview of your data. For instance, which languages
-are present in your dataset, how many unique words and unique words are there in your dataset, what percentage 
-of them are Adjectives, Nouns or Verbs, what are the most common POS tags, etc. Wordview also provides several statistics for labels in labeled datasets.
 
 
 Text Analysis
