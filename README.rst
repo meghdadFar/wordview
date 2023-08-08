@@ -1,11 +1,11 @@
 
-|pic1| |pic2|
+|pic1|               pic2|
 
 .. |pic1| image:: https://img.shields.io/pypi/v/wordview
-   :width: 45%
+   :width: 10%
 
 .. |pic2| image:: https://img.shields.io/pypi/dm/wordview
-   :width: 45%
+   :width: 10%
 
 Wordview
 ########
