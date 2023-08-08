@@ -1,4 +1,12 @@
 
+|pic1| any text |pic2|
+
+.. |pic1| https://img.shields.io/pypi/v/wordview
+   :width: 45%
+
+.. |pic2| .. image:: https://img.shields.io/pypi/dm/wordview
+   :width: 45%
+
 Wordview
 ########
 Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data. It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Wordview's Python API is open-source and available under the `MIT license <https://en.wikipedia.org/wiki/MIT_License>`__.
