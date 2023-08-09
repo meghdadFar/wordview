@@ -40,7 +40,12 @@ See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usa
 
 Analysis of Labels
 ******************
-Wordview calculates several statistics for labels in labeled datasets whether they are at document or sequence level.
+In the realm of Natural Language Processing (NLP), the proper analysis and understanding of labels within datasets can provide valuable insights, ensuring that models are trained on balanced and representative data.
+Recognizing this, Wordview is engineered to compute an array of statistics tailored for labeled datasets.
+These statistics cater to both document and sequence levels, providing a holistic view of the dataset's structure.
+By diving deep into the intricacies of the labels, Wordview offers an enriched perspective, helping researchers and practitioners identify
+potential biases, discrepancies, or areas of interest,
+which are essential for creating robust and effective models.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
 
