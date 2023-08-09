@@ -17,7 +17,7 @@ Wordview's Python API is open-source and available under the `MIT license <https
 |cover|
 
 Usage
-######
+*****
 
 Install the package via ``pip``:
 
