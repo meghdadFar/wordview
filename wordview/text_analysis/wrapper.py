@@ -125,7 +125,8 @@ class TextStatsPlots:
     def _create_pos_plots(
         self,
         pos: str,
-        **kwargs,
+        layout_settings: Dict[str, Any] = {},
+        plot_settings: Dict[str, Any] = {},
     ) -> go.Figure:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
@@ -136,7 +137,7 @@ class TextStatsPlots:
             Dictionary of POS tags to plotly go.Figure objects.
 
         """
-        word_cloud_plot_mandatory_settings = {
+        word_cloud_layout_fixed_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -147,26 +148,32 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        plot_settings = kwargs.get("plot_settings", {})
-        plot_settings = {**word_cloud_plot_mandatory_settings, **plot_settings}
+        layout_settings = layout_settings
+        layout_settings.update(word_cloud_layout_fixed_settings)
+
         if pos == "NN" and "NN" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.nns, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.nns, plot_settings)
+            ).update_layout(layout_settings)
         elif pos == "JJ" and "JJ" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.jjs, plot_settings)
+            ).update_layout(layout_settings)
         elif pos == "VB" and "VB" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.vs, plot_settings)
+            ).update_layout(layout_settings)
         else:
             raise ValueError(
                 f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
             )
 
-    def show_word_clouds(self, pos: str, **kwargs) -> None:
+    def show_word_clouds(
+        self,
+        pos: str,
+        layout_settings: Dict[str, Any] = {},
+        plot_settings: Dict[str, str] = {},
+    ) -> None:
         """Shows POS word clouds.
 
         Args:
@@ -179,7 +186,7 @@ class TextStatsPlots:
         Returns:
             None
         """
-        self._create_pos_plots(pos=pos, **kwargs).show()
+        self._create_pos_plots(pos, layout_settings, plot_settings).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
