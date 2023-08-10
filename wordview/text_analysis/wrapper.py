@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 import pandas
 import plotly.figure_factory as ff
@@ -50,52 +50,12 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    def _create_dist_plots(self, **kwargs) -> Dict[str, go.Figure]:
-        """Create distribution plots for items in `self.distributions`.
-
-        Args:
-            **kwargs: Additional arguments to be passed to the plotly figure factory.
-                      For available settings see: https://plotly.com/python/reference/layout/
-
-        Returns:
-            Dictionary of distribution names to plotly go.Figure objects for that distribution.
-        """
-        res = {}
-        if "doc_len" in self.distributions:
-            fig_doc_len_dist = ff.create_distplot(
-                [self.analysis.doc_lengths], group_labels=["distplot"], colors=["blue"]
-            )
-            res["doc_len"] = fig_doc_len_dist
-
-        if "word_frequency_zipf" in self.distributions:
-            fig_w_freq = go.Figure()
-            fig_w_freq.add_trace(
-                go.Scattergl(
-                    x=self.analysis.zipf_x,
-                    y=self.analysis.zipf_y_emp,
-                    mode="markers",
-                    marker=dict(
-                        color=self.analysis.zipf_x,
-                        colorscale="Tealgrn",
-                    ),
-                )
-            )
-            fig_w_freq.add_trace(
-                go.Scattergl(
-                    x=self.analysis.zipf_x,
-                    y=self.analysis.zipf_y_theory,
-                    mode="markers",
-                    marker=dict(color=self.analysis.zipf_x, colorscale="Reds"),
-                )
-            )
-            res["word_frequency_zipf"] = fig_w_freq
-        dist_plot_settings = kwargs.get("plot_settings", {"showlegend": False})
-        for _, fig in res.items():
-            fig.update_layout(dist_plot_settings)
-
-        return res
-
-    def show_distplot(self, distribution: str, **kwargs) -> None:
+    def show_distplot(
+        self,
+        distribution: str,
+        layout_settings: Dict[str, str] = {},
+        plot_settings: Dict[str, str] = {},
+    ) -> None:
         """Shows distribution plots for `dist`.
 
         Args:
@@ -107,12 +67,66 @@ class TextStatsPlots:
         Returns:
             None
         """
-        self._create_dist_plots(**kwargs)[distribution].show()
+        if distribution not in self.distributions:
+            raise ValueError(
+                f"Invalid distribution. Available distributions are: {self.distributions}"
+            )
+        if distribution == "doc_len":
+            self._create_doc_len_plot(layout_settings, plot_settings).show()
+        elif distribution == "word_frequency_zipf":
+            self._create_word_freq_zipf_plot(layout_settings, plot_settings).show()
+
+    def _create_doc_len_plot(
+        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
+    ) -> go.Figure:
+        res = ff.create_distplot(
+            [self.analysis.doc_lengths],
+            group_labels=["distplot"],
+            colors=[plot_settings.get("color", "blue")],
+        )
+        tmp_layout_settings = layout_settings
+        tmp_layout_settings.update({"showlegend": False})
+        res.update_layout(tmp_layout_settings)
+        return res
+
+    def _create_word_freq_zipf_plot(
+        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
+    ) -> go.Figure:
+        res = go.Figure()
+        res.add_trace(
+            go.Scattergl(
+                x=self.analysis.zipf_x,
+                y=self.analysis.zipf_y_emp,
+                mode=plot_settings.get("mode", "markers"),
+                marker=dict(
+                    color=self.analysis.zipf_x,
+                    colorscale=plot_settings.get(
+                        "emperical_zipf_colorscale", "Tealgrn"
+                    ),
+                ),
+            )
+        )
+        res.add_trace(
+            go.Scattergl(
+                x=self.analysis.zipf_x,
+                y=self.analysis.zipf_y_theory,
+                mode=plot_settings.get("mode", "markers"),
+                marker=dict(
+                    color=self.analysis.zipf_x,
+                    colorscale=plot_settings.get("theoritical_zipf_colorscale", "Reds"),
+                ),
+            )
+        )
+        tmp_layout_settings = layout_settings
+        tmp_layout_settings.update({"showlegend": False})
+        res.update_layout(tmp_layout_settings)
+        return res
 
     def _create_pos_plots(
         self,
         pos: str,
-        **kwargs,
+        layout_settings: Dict[str, Any] = {},
+        plot_settings: Dict[str, Any] = {},
     ) -> go.Figure:
         """Create plots for the POS tags specified in items in `self.pos_tags`.
 
@@ -123,7 +137,7 @@ class TextStatsPlots:
             Dictionary of POS tags to plotly go.Figure objects.
 
         """
-        word_cloud_plot_mandatory_settings = {
+        word_cloud_layout_fixed_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
             "yaxis_showgrid": False,
@@ -134,26 +148,32 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        plot_settings = kwargs.get("plot_settings", {})
-        plot_settings = {**word_cloud_plot_mandatory_settings, **plot_settings}
+        layout_settings = layout_settings
+        layout_settings.update(word_cloud_layout_fixed_settings)
+
         if pos == "NN" and "NN" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.nns, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.nns, plot_settings)
+            ).update_layout(layout_settings)
         elif pos == "JJ" and "JJ" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.jjs, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.jjs, plot_settings)
+            ).update_layout(layout_settings)
         elif pos == "VB" and "VB" in self.pos_tags:
             return go.Figure(
-                plotly_wordcloud(token_count_dic=self.analysis.vs, **kwargs)
-            ).update_layout(plot_settings)
+                plotly_wordcloud(self.analysis.vs, plot_settings)
+            ).update_layout(layout_settings)
         else:
             raise ValueError(
                 f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
             )
 
-    def show_word_clouds(self, pos: str, **kwargs) -> None:
+    def show_word_clouds(
+        self,
+        pos: str,
+        layout_settings: Dict[str, Any] = {},
+        plot_settings: Dict[str, str] = {},
+    ) -> None:
         """Shows POS word clouds.
 
         Args:
@@ -166,7 +186,7 @@ class TextStatsPlots:
         Returns:
             None
         """
-        self._create_pos_plots(pos=pos, **kwargs).show()
+        self._create_pos_plots(pos, layout_settings, plot_settings).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
@@ -221,7 +241,7 @@ class LabelStatsPlots:
         self.df = df
         self.label_columns = label_columns
 
-    def show_label_plots(self, **kwargs) -> None:
+    def show_label_plots(self, layout_settings: Dict[str, Any] = {}) -> None:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
@@ -231,4 +251,4 @@ class LabelStatsPlots:
         Returns:
             None
         """
-        generate_label_plots(self.df, label_cols=self.label_columns, **kwargs).show()
+        generate_label_plots(self.df, self.label_columns, layout_settings).show()

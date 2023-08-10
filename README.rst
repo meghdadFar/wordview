@@ -1,24 +1,23 @@
 
 .. image:: https://img.shields.io/pypi/v/wordview
-   :alt: PyPI
-
+   :alt: PyPI - Version
 .. image:: https://img.shields.io/pypi/dm/wordview
    :alt: PyPI - Downloads
-
 .. image:: https://img.shields.io/librariesio/release/pypi/wordview
    :alt: Dependencies
-
 .. image:: https://img.shields.io/pypi/l/wordview
    :alt: License
 
 Wordview
 ########
-Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data. It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Wordview's Python API is open-source and available under the `MIT license <https://en.wikipedia.org/wiki/MIT_License>`__.
+Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data.
+It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
+Wordview's Python API is open-source and available under the `MIT license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 |cover|
 
 Usage
-######
+*****
 
 Install the package via ``pip``:
 
@@ -31,14 +30,32 @@ documentation pages are linked in each section.
 
 Text Analysis
 *************
-Using this feature, you can have an overview of your text data in terms of various statistics, plots and distribution.
+Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics, plots, and distributions.
+It enables a rapid understanding of the underlying patterns present in your dataset.
+By visually representing the data's nuances, this feature can aid in making informed decisions for downstream applications.
+It's a step forward in ensuring that you have a grasp on the intricacies of your data before delving deeper into more complex tasks.
 See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
+.. image:: docs/figs/textanalysiscover.png
+   :alt: Text Analysis Cover
+   :width: 100%
+   :align: center
 
 Analysis of Labels
 ******************
-Wordview calculates several statistics for labels in labeled datasets whether they are at document or sequence level.
+In the realm of Natural Language Processing (NLP), the proper analysis and understanding of labels within datasets can provide valuable insights, ensuring that models are trained on balanced and representative data.
+Recognizing this, Wordview is engineered to compute an array of statistics tailored for labeled datasets.
+These statistics cater to both document and sequence levels, providing a holistic view of the dataset's structure.
+By diving deep into the intricacies of the labels, Wordview offers an enriched perspective, helping researchers and practitioners identify
+potential biases, discrepancies, or areas of interest,
+which are essential for creating robust and effective models.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
+
+.. image:: docs/figs/labels_peach.png
+   :alt: Text Analysis Cover
+   :width: 100%
+   :align: center
+
 
 
 Extraction & Analysis of Multiword Expressions
@@ -67,8 +84,6 @@ of interest where we endeavor to find them in order to shed light into our data.
 
 Wordview offers several anomaly and outlier detection functions.
 See `anomalies documentation page <./docs/source/anomalies.rst>`__ for usage and examples.
-
-
 
 
 Cluster Analysis

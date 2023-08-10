@@ -18,7 +18,9 @@ from wordcloud import WordCloud, get_single_color_func
 from wordview import logger
 
 
-def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Scattergl:
+def plotly_wordcloud(
+    token_count_dic: dict, plot_settings: Dict = {}
+) -> plotly.graph_objects.Scattergl:
     """Create a world cloud trace for plotly.
 
     Args:
@@ -28,12 +30,9 @@ def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Sc
     Returns:
         trace (plotly.graph_objects.Scatter)
     """
-    wc_settings: Dict = kwargs.get(
-        "wc_settings", {"color": "deepskyblue", "max_words": 100}
-    )
     wc = WordCloud(
-        color_func=get_single_color_func(wc_settings["color"]),
-        max_words=wc_settings["max_words"],
+        color_func=get_single_color_func(plot_settings.get("color", "deepskyblue")),
+        max_words=plot_settings.get("max_words", 100),
     )
     wc.generate_from_frequencies(token_count_dic)
     word_list = []
@@ -84,7 +83,7 @@ def plotly_wordcloud(token_count_dic: dict, **kwargs) -> plotly.graph_objects.Sc
 
 
 def generate_label_plots(
-    df: pandas.DataFrame, label_cols: List[Tuple], **kwargs
+    df: pandas.DataFrame, label_cols: List[Tuple], layout_settings: Dict = {}
 ) -> plotly.graph_objects.Figure:
     """Generate histogram and bar plots for the labels in label_cols.
 
@@ -140,22 +139,30 @@ def generate_label_plots(
     elif len(label_cols) == 4:
         figure = make_subplots(rows=2, cols=2)
         lab_trace1 = label_plot(
-            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+            df,
+            label_col=label_cols[0][0],
+            label_type=label_cols[0][1],
         )
         lab_trace2 = label_plot(
-            df, label_col=label_cols[1][0], label_type=label_cols[1][1]
+            df,
+            label_col=label_cols[1][0],
+            label_type=label_cols[1][1],
         )
         lab_trace3 = label_plot(
-            df, label_col=label_cols[2][0], label_type=label_cols[2][1]
+            df,
+            label_col=label_cols[2][0],
+            label_type=label_cols[2][1],
         )
         lab_trace4 = label_plot(
-            df, label_col=label_cols[3][0], label_type=label_cols[3][1]
+            df,
+            label_col=label_cols[3][0],
+            label_type=label_cols[3][1],
         )
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 2, 1)
         figure.append_trace(lab_trace4, 2, 2)
-    figure.update_layout(**kwargs)
+    figure.update_layout(layout_settings)
     return figure
 
 
