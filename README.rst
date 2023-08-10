@@ -51,6 +51,12 @@ potential biases, discrepancies, or areas of interest,
 which are essential for creating robust and effective models.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
+.. image:: docs/figs/labels_peach.png
+   :alt: Text Analysis Cover
+   :width: 100%
+   :align: center
+
+
 
 Extraction & Analysis of Multiword Expressions
 **********************************************
