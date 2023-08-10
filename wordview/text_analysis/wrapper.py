@@ -51,7 +51,10 @@ class TextStatsPlots:
         self.num_vbs = len(self.analysis.vs)
 
     def show_distplot(
-        self, distribution: str, layout_settings: Dict[str, str] = {}
+        self,
+        distribution: str,
+        layout_settings: Dict[str, str] = {},
+        plot_settings: Dict[str, str] = {},
     ) -> None:
         """Shows distribution plots for `dist`.
 
@@ -69,13 +72,17 @@ class TextStatsPlots:
                 f"Invalid distribution. Available distributions are: {self.distributions}"
             )
         if distribution == "doc_len":
-            self._create_doc_len_plot(layout_settings).show()
+            self._create_doc_len_plot(layout_settings, plot_settings).show()
         elif distribution == "word_frequency_zipf":
-            self._create_word_freq_zipf_plot(layout_settings).show()
+            self._create_word_freq_zipf_plot(layout_settings, plot_settings).show()
 
-    def _create_doc_len_plot(self, layout_settings: Dict[str, Any] = {}) -> go.Figure:
+    def _create_doc_len_plot(
+        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
+    ) -> go.Figure:
         res = ff.create_distplot(
-            [self.analysis.doc_lengths], group_labels=["distplot"], colors=["blue"]
+            [self.analysis.doc_lengths],
+            group_labels=["distplot"],
+            colors=[plot_settings.get("color", "blue")],
         )
         tmp_layout_settings = layout_settings
         tmp_layout_settings.update({"showlegend": False})
@@ -83,17 +90,19 @@ class TextStatsPlots:
         return res
 
     def _create_word_freq_zipf_plot(
-        self, layout_settings: Dict[str, Any] = {}
+        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
     ) -> go.Figure:
         res = go.Figure()
         res.add_trace(
             go.Scattergl(
                 x=self.analysis.zipf_x,
                 y=self.analysis.zipf_y_emp,
-                mode="markers",
+                mode=plot_settings.get("mode", "markers"),
                 marker=dict(
                     color=self.analysis.zipf_x,
-                    colorscale="Tealgrn",
+                    colorscale=plot_settings.get(
+                        "emperical_zipf_colorscale", "Tealgrn"
+                    ),
                 ),
             )
         )
@@ -101,8 +110,11 @@ class TextStatsPlots:
             go.Scattergl(
                 x=self.analysis.zipf_x,
                 y=self.analysis.zipf_y_theory,
-                mode="markers",
-                marker=dict(color=self.analysis.zipf_x, colorscale="Reds"),
+                mode=plot_settings.get("mode", "markers"),
+                marker=dict(
+                    color=self.analysis.zipf_x,
+                    colorscale=plot_settings.get("theoritical_zipf_colorscale", "Reds"),
+                ),
             )
         )
         tmp_layout_settings = layout_settings
