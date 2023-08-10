@@ -83,7 +83,7 @@ def plotly_wordcloud(
 
 
 def generate_label_plots(
-    df: pandas.DataFrame, label_cols: List[Tuple], **kwargs
+    df: pandas.DataFrame, label_cols: List[Tuple], layout_settings: Dict = {}
 ) -> plotly.graph_objects.Figure:
     """Generate histogram and bar plots for the labels in label_cols.
 
@@ -139,22 +139,30 @@ def generate_label_plots(
     elif len(label_cols) == 4:
         figure = make_subplots(rows=2, cols=2)
         lab_trace1 = label_plot(
-            df, label_col=label_cols[0][0], label_type=label_cols[0][1]
+            df,
+            label_col=label_cols[0][0],
+            label_type=label_cols[0][1],
         )
         lab_trace2 = label_plot(
-            df, label_col=label_cols[1][0], label_type=label_cols[1][1]
+            df,
+            label_col=label_cols[1][0],
+            label_type=label_cols[1][1],
         )
         lab_trace3 = label_plot(
-            df, label_col=label_cols[2][0], label_type=label_cols[2][1]
+            df,
+            label_col=label_cols[2][0],
+            label_type=label_cols[2][1],
         )
         lab_trace4 = label_plot(
-            df, label_col=label_cols[3][0], label_type=label_cols[3][1]
+            df,
+            label_col=label_cols[3][0],
+            label_type=label_cols[3][1],
         )
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 2, 1)
         figure.append_trace(lab_trace4, 2, 2)
-    figure.update_layout(**kwargs)
+    figure.update_layout(layout_settings)
     return figure
 
 

@@ -241,7 +241,7 @@ class LabelStatsPlots:
         self.df = df
         self.label_columns = label_columns
 
-    def show_label_plots(self, **kwargs) -> None:
+    def show_label_plots(self, layout_settings: Dict[str, Any] = {}) -> None:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
@@ -251,4 +251,4 @@ class LabelStatsPlots:
         Returns:
             None
         """
-        generate_label_plots(self.df, label_cols=self.label_columns, **kwargs).show()
+        generate_label_plots(self.df, self.label_columns, layout_settings).show()
