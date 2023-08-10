@@ -30,7 +30,10 @@ documentation pages are linked in each section.
 
 Text Analysis
 *************
-Using this feature, you can have an overview of your text data in terms of various statistics, plots and distribution.
+Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics, plots, and distributions.
+It enables a rapid understanding of the underlying patterns present in your dataset.
+By visually representing the data's nuances, this feature can aid in making informed decisions for downstream applications.
+It's a step forward in ensuring that you have a grasp on the intricacies of your data before delving deeper into more complex tasks.
 See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
 .. image:: docs/figs/textanalysiscover.png
