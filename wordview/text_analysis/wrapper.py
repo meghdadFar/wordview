@@ -50,53 +50,6 @@ class TextStatsPlots:
         self.num_jjs = len(self.analysis.jjs)
         self.num_vbs = len(self.analysis.vs)
 
-    # def _create_dist_plots(
-    #     self, layout_settings: Dict[str, Any] = {}
-    # ) -> Dict[str, go.Figure]:
-    #     """Create distribution plots for items in `self.distributions`.
-
-    #     Args:
-    #         **kwargs: Additional arguments to be passed to the plotly figure factory.
-    #                   For available settings see: https://plotly.com/python/reference/layout/
-
-    #     Returns:
-    #         Dictionary of distribution names to plotly go.Figure objects for that distribution.
-    #     """
-    #     res = {}
-    #     if "doc_len" in self.distributions:
-    #         fig_doc_len_dist = ff.create_distplot(
-    #             [self.analysis.doc_lengths], group_labels=["distplot"], colors=["blue"]
-    #         )
-    #         res["doc_len"] = fig_doc_len_dist
-
-    #     if "word_frequency_zipf" in self.distributions:
-    #         fig_w_freq = go.Figure()
-    #         fig_w_freq.add_trace(
-    #             go.Scattergl(
-    #                 x=self.analysis.zipf_x,
-    #                 y=self.analysis.zipf_y_emp,
-    #                 mode="markers",
-    #                 marker=dict(
-    #                     color=self.analysis.zipf_x,
-    #                     colorscale="Tealgrn",
-    #                 ),
-    #             )
-    #         )
-    #         fig_w_freq.add_trace(
-    #             go.Scattergl(
-    #                 x=self.analysis.zipf_x,
-    #                 y=self.analysis.zipf_y_theory,
-    #                 mode="markers",
-    #                 marker=dict(color=self.analysis.zipf_x, colorscale="Reds"),
-    #             )
-    #         )
-    #         res["word_frequency_zipf"] = fig_w_freq
-    #     tmp_layout_settings = layout_settings
-    #     tmp_layout_settings.update({"showlegend": False})
-    #     for _, fig in res.items():
-    #         fig.update_layout(tmp_layout_settings)
-    #     return res
-
     def show_distplot(
         self, distribution: str, layout_settings: Dict[str, str] = {}
     ) -> None:
