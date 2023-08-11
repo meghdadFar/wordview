@@ -1,8 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 import pandas as pd
-from wordview.mwes.mwe import MWE, MWEPatternAssociation
-import nltk
+from wordview.mwes.mwe import MWE
 
 
 @pytest.fixture
@@ -64,11 +63,11 @@ def dummy_text_pandas_with_no_noun_compund():
 dummy_pos_tags_without_noun_compund = [("no", "XXX"),("sequence", "XXX"),("of", "XXX"),("nouns", "XXX"),("in", "XXX"),("this", "XXX"),("one", "XXX")]
 
 
-@pytest.fixture
-def tagged_sentence_fixture():
-    sentence = "The very quick brown fox swiftly jumps over the lazy dog that is extremely lazy while John Doe attentively watches the lazy dog."
-    tokens = nltk.word_tokenize(sentence)
-    return tokens
+# @pytest.fixture
+# def tagged_sentence_fixture():
+#     sentence = "The very quick brown fox swiftly jumps over the lazy dog that is extremely lazy while John Doe attentively watches the lazy dog."
+#     tokens = nltk.word_tokenize(sentence)
+#     return tokens
 
 
 class TestMweInitialisation:
