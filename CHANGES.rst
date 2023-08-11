@@ -1,3 +1,10 @@
+Version 1.1.2
+-------------
+- Automatic check and download of NLTK missing resources. 
+- Rm CI step for downloading NLTK resources.
+- Facilitate configuration of plots for Text & Label Analysis plots, by creating new and more clear arguments.
+
+
 Version 1.1.1
 -------------
 - Fix minor bugs in bias analysis.
