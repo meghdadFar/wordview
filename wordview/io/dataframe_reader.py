@@ -1,6 +1,9 @@
 from nltk.tokenize import sent_tokenize
 
+from bin.nltk_resources import check_nltk_resources
 from wordview import logger
+
+check_nltk_resources()
 
 
 class DataFrameReader:

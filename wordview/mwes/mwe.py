@@ -9,6 +9,7 @@ from nltk import RegexpParser, word_tokenize
 from tabulate import tabulate  # type: ignore
 from tqdm import tqdm
 
+from bin.nltk_resources import check_nltk_resources
 from wordview import logger
 from wordview.io.dataframe_reader import DataFrameReader
 from wordview.mwes.association_measures import PMICalculator
@@ -19,6 +20,9 @@ from wordview.mwes.patterns import DeMWEPatterns, EnMWEPatterns
 def is_alphanumeric_latinscript_multigram(word: str) -> Optional[Match[str]]:
     match: Optional[Match] = re.match("[a-zA-Z0-9]{2,}", word)
     return match
+
+
+check_nltk_resources()
 
 
 class MWEPatternAssociation:

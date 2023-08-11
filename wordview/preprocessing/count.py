@@ -9,8 +9,11 @@ import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 
+from bin.nltk_resources import check_nltk_resources
 from wordview import logger
 from wordview.io.dataframe_reader import DataFrameReader
+
+check_nltk_resources()
 
 
 class NgramExtractor:

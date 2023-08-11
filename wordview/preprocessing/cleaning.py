@@ -3,6 +3,10 @@ from typing import Dict, Set
 
 from nltk import word_tokenize
 
+from bin.nltk_resources import check_nltk_resources
+
+check_nltk_resources()
+
 
 def clean_text(
     text: str,
