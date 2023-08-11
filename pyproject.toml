@@ -34,7 +34,6 @@ jupyter = "1.0.0"
 [tool.poetry.scripts]
 nltk_download_script = "bin.nltk_resources.py.check_nltk_resources"
 
-
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
