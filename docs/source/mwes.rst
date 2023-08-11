@@ -18,8 +18,8 @@ the documentation.
    # you can do it as follows:
    from wordview.preprocessing import NgramExtractor
    import pandas as pd
-   imdb_train = pd.read_csv("data/IMDB_Dataset_sample.csv")
-   extractor = NgramExtractor(imdb_train, "review")
+   imdb_corpus = pd.read_csv("data/IMDB_Dataset_sample.csv")
+   extractor = NgramExtractor(imdb_corpus, "review")
    extractor.extract_ngrams()
    extractor.get_ngram_counts(ngram_count_file_path="data/ngram_counts.json")
    
