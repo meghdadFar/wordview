@@ -1,5 +1,6 @@
 import nltk
 import os
+from wordview import logger
 
 
 def check_nltk_resources():
@@ -13,6 +14,7 @@ def check_nltk_resources():
 
     for path, package in resources.items():
         if not os.path.exists(os.path.join(nltk_data_path, path)):
+            logger.info(f"Downloading NLTK resource: {package}")
             nltk.download(package)
         else:
             pass
