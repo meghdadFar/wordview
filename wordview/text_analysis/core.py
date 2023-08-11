@@ -15,7 +15,10 @@ from plotly.subplots import make_subplots
 from tqdm import tqdm
 from wordcloud import WordCloud, get_single_color_func
 
+from bin.nltk_resources import check_nltk_resources
 from wordview import logger
+
+check_nltk_resources()
 
 
 def plotly_wordcloud(

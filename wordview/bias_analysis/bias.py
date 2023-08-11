@@ -8,9 +8,12 @@ from tabulate import tabulate  # type: ignore
 from tqdm import tqdm
 from transformers import BertForSequenceClassification, BertTokenizer
 
+from bin.nltk_resources import check_nltk_resources
 from wordview import logger
 from wordview.bias_analysis import bias_terms
 from wordview.io.dataframe_reader import DataFrameReader
+
+check_nltk_resources()
 
 
 class BiasDetector:
