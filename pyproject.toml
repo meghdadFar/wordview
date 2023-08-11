@@ -32,7 +32,8 @@ sphinx-rtd-theme = "1.2.1"
 jupyter = "1.0.0"
 
 [tool.poetry.scripts]
-nltk_download_script = "bin.downloads:download_nltk_req"
+nltk_download_script = "bin.nltk_resources.py.check_nltk_resources"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
