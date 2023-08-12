@@ -1,4 +1,5 @@
 import string
+from typing import Optional, Union
 
 import plotly.graph_objects as go
 from nltk import word_tokenize
@@ -82,20 +83,29 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def show_bias_plot(self):
+    def show_bias_plot(self, colorscale: Optional[Union[str, list[list]]] = None):
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
             cols=1,
             subplot_titles=[cat.capitalize() for cat in categories],
         )
-        colorscale = [
-            [0.0, "#8B0000"],  # Very Negative
-            [0.25, "#FF4500"],  # Negative
-            [0.5, "yellow"],  # Neutral
-            [0.75, "#ADFF2F"],  # Positive
-            [1.0, "#006400"],  # Very Positive
-        ]
+        if colorscale is None:
+            scopecolorscale = [
+                [0.0, "#8B0000"],  # Very Negative
+                [0.25, "#FF4500"],  # Negative
+                [0.5, "yellow"],  # Neutral
+                [0.75, "#ADFF2F"],  # Positive
+                [1.0, "#006400"],  # Very Positive
+            ]
+        elif isinstance(colorscale, str) or isinstance(colorscale, list):
+            scopecolorscale = colorscale  # type: ignore
+        else:
+            raise ValueError(
+                f"Invalid colorscale value: {colorscale}.\
+                    \nMust be a string or list of lists."
+            )
+
         for index, (category, sub_data) in enumerate(self.biases.items()):
             labels = list(sub_data.keys())
             labels = [label.capitalize() for label in labels]
@@ -106,7 +116,7 @@ class BiasDetector:
                 x=labels,
                 zmin=0,
                 zmax=4,
-                colorscale=colorscale,
+                colorscale=scopecolorscale,
                 showscale=True,
                 colorbar_title="Bias",
                 colorbar=dict(
