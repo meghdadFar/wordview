@@ -74,7 +74,8 @@ See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage 
 
 .. image:: docs/figs/bias_cyan.png
    :alt: Text Analysis Cover
-   :width: 70%
+   :width: 100%
+   :scale: 50%
    :align: center
 
 
