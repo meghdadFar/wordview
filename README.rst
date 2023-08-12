@@ -56,8 +56,6 @@ See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage 
    :width: 100%
    :align: center
 
-
-
 Extraction & Analysis of Multiword Expressions
 **********************************************
 Multiword Expressions (MWEs) are phrases that can be treated as a single
@@ -76,7 +74,7 @@ See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage 
 
 .. image:: docs/figs/bias_cyan.png
    :alt: Text Analysis Cover
-   :width: 100%
+   :width: 70%
    :align: center
 
 
