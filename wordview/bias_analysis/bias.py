@@ -128,10 +128,18 @@ class BiasDetector:
                 For a full list of possible options, see:
                 https://plotly.com/python/reference/layout/
 
-            font_settings: A dictionary of font sizes for color bar, tick, title and subtitle fonts.
+            font_settings: A dictionary of font sizes for color bar, sub-categories, and subtitles.
+                Defaults = {
+                        "colorbar_tick_font": {"size": 16},
+                        "colorbar_title_font": {"size": 18},
+                        "bias_subcategory_font": {"size": 16},
+                        "category_titles": {"size": 18},
+                    }
+
+        Returns:
+            None
 
         """
-        print(font_settings)
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
