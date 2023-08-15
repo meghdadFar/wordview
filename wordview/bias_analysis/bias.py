@@ -90,7 +90,7 @@ class BiasDetector:
         font_settings: Dict = {
             "colorbar_tick_font": {"size": 16},
             "colorbar_title_font": {"size": 18},
-            "bias_category_xaxis_font": {"size": 16},
+            "bias_subcategory_font": {"size": 16},
             "title_font": {"size": 20},
             "category_titles": {"size": 18},
         },
@@ -130,7 +130,6 @@ class BiasDetector:
                 https://plotly.com/python/reference/layout/
 
             font_settings: A dictionary of font sizes for color bar, tick, title and subtitle fonts.
-
 
         """
         categories = list(self.biases.keys())
@@ -177,21 +176,24 @@ class BiasDetector:
                         "Positive",
                         "Very Positive",
                     ],
-                    tickfont=dict(size=16),
-                    titlefont=dict(size=18),
+                    tickfont=font_settings["colorbar_tick_font"],
+                    titlefont=font_settings["colorbar_title_font"],
                 ),
                 zauto=False,  # Prevents auto scaling
             )
             fig.add_trace(heatmap, row=index + 1, col=1)
             fig.update_yaxes(showgrid=False, showticklabels=False)
-            fig.update_xaxes(showgrid=False, tickfont=dict(size=16))
+            fig.update_xaxes(
+                showgrid=False, tickfont=font_settings["bias_subcategory_font"]
+            )
         if layout_settings is not None:
             fig.update_layout(layout_settings)
         else:
             fig.update_layout(
                 title="Bias Scores Across Categories",
-                # title_font_size=20,  # Increase title font size
-                title_font=dict(size=20),  # Increase title font size
+                title_font_size=font_settings["title_font"][
+                    "size"
+                ],  # Increase title font size
                 title_x=0.5,  # Center main title
                 width=1000,  # Fixed width
                 height=250
@@ -199,7 +201,7 @@ class BiasDetector:
                 plot_bgcolor="white",  # Set background color to white
             )
         # Increase font size of subplot titles.
-        fig.update_annotations(font=dict(size=18))
+        fig.update_annotations(font=font_settings["category_titles"])
         fig.show()
 
     def print_bias_table(self):
