@@ -1,5 +1,5 @@
 import string
-from typing import Optional, Union
+from typing import Dict, Optional, Union
 
 import plotly.graph_objects as go
 from nltk import word_tokenize
@@ -83,7 +83,56 @@ class BiasDetector:
             biases[category_type] = category_type_avg_sentiment
         return biases
 
-    def show_bias_plot(self, colorscale: Optional[Union[str, list[list]]] = None):
+    def show_bias_plot(
+        self,
+        colorscale: Optional[Union[str, list[list]]] = None,
+        layout_settings: Optional[dict] = None,
+        font_settings: Dict = {
+            "colorbar_tick_font": {"size": 16},
+            "colorbar_title_font": {"size": 18},
+            "bias_category_xaxis_font": {"size": 16},
+            "title_font": {"size": 20},
+            "category_titles": {"size": 18},
+        },
+    ):
+        """
+        Displays a plotly heatmap of the bias scores for each category.
+
+        Args:
+            colorscale: The colorscale to use for the heatmap.
+                If not provided, the default colorscale is used.
+                You can define a custom colorscale by providing a list of lists of the form:
+                    cyan_scopecolorscale = [
+                        [0.0, "#E0FFFF"],  # Lightest Cyan
+                        [0.25, "#B3E4E4"],  # Lighter Cyan
+                        [0.5, "#66C2C2"],   # Neutral Cyan
+                        [0.75, "#339999"],  # Darker Cyan
+                        [1.0, "#006666"],   # Darkest Cyan
+                    ]
+                Or you can use one of the built-in colorscales by providing a string.
+                Example of available colorscales are:'aggrnyl', 'agsunset', 'algae', 'amp',
+                'armyrose', 'balance', 'blackbody', 'bluered', 'blues', 'blugrn', 'bluyl',
+                'brbg','brwnyl', 'bugn', 'bupu', 'burg', 'burgyl', 'cividis', 'curl'
+
+                You can reverse a colorscale by appending an '_r' to it, e.g.
+                'algae_r'
+                # See here for a full list:
+                # https://plotly.com/python/builtin-colorscales/
+
+            layout_settings: A dictionary of layout settings to apply to the plot.
+                If not provided, the default layout settings are used.
+                Example:
+                    layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                    'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                    'hovermode': 'y'
+                    }
+                For a full list of possible options, see:
+                https://plotly.com/python/reference/layout/
+
+            font_settings: A dictionary of font sizes for color bar, tick, title and subtitle fonts.
+
+
+        """
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
@@ -136,16 +185,21 @@ class BiasDetector:
             fig.add_trace(heatmap, row=index + 1, col=1)
             fig.update_yaxes(showgrid=False, showticklabels=False)
             fig.update_xaxes(showgrid=False, tickfont=dict(size=16))
-        fig.update_layout(
-            title="Bias Scores Across Categories",
-            title_font_size=20,  # Increase title font size
-            title_x=0.5,  # Center main title
-            width=1000,  # Fixed width
-            height=250 * len(categories),  # Adjust height based on number of categories
-            plot_bgcolor="white",  # Set background color to white
-        )
+        if layout_settings is not None:
+            fig.update_layout(layout_settings)
+        else:
+            fig.update_layout(
+                title="Bias Scores Across Categories",
+                # title_font_size=20,  # Increase title font size
+                title_font=dict(size=20),  # Increase title font size
+                title_x=0.5,  # Center main title
+                width=1000,  # Fixed width
+                height=250
+                * len(categories),  # Adjust height based on number of categories
+                plot_bgcolor="white",  # Set background color to white
+            )
         # Increase font size of subplot titles.
-        fig.update_annotations(font_size=18)
+        fig.update_annotations(font=dict(size=18))
         fig.show()
 
     def print_bias_table(self):
