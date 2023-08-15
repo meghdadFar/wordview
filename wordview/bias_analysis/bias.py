@@ -91,7 +91,6 @@ class BiasDetector:
             "colorbar_tick_font": {"size": 16},
             "colorbar_title_font": {"size": 18},
             "bias_subcategory_font": {"size": 16},
-            "title_font": {"size": 20},
             "category_titles": {"size": 18},
         },
     ):
@@ -132,6 +131,7 @@ class BiasDetector:
             font_settings: A dictionary of font sizes for color bar, tick, title and subtitle fonts.
 
         """
+        print(font_settings)
         categories = list(self.biases.keys())
         fig = make_subplots(
             rows=len(categories),
@@ -191,9 +191,7 @@ class BiasDetector:
         else:
             fig.update_layout(
                 title="Bias Scores Across Categories",
-                title_font_size=font_settings["title_font"][
-                    "size"
-                ],  # Increase title font size
+                title_font_size=20,
                 title_x=0.5,  # Center main title
                 width=1000,  # Fixed width
                 height=250
