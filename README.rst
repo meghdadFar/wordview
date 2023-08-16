@@ -66,7 +66,7 @@ See `MWEs documentation page <./docs/source/mwes.rst>`__ for usage and examples.
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="docs/figs/mwescover.png" alt="MWWsImage" style="width: 50%; height: auto;">
+       <img src="docs/figs/mwescover.png" alt="MWWsImage" style="width: 70%; height: auto;">
    </div>
 
 Bias Analysis
