@@ -17,12 +17,8 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    
    textstats
    labels
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Feature Extraction:
-   
    mwes
+   bias
    anomalies
    clustering
 
