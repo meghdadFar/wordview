@@ -52,7 +52,6 @@ which are essential for creating robust and effective models.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
 .. image:: docs/figs/labels_peach.png
-   :alt: Text Analysis Cover
    :width: 100%
    :align: center
 
@@ -72,10 +71,11 @@ Wordview Bias Analysis module is designed to assist in the rigorous task of ensu
 By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.
 See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage and examples.
 
-.. image:: docs/figs/bias_cyan.png
-   :alt: Text Analysis Cover
-   :width: 100%
-   :align: center
+.. raw:: html
+
+   <div style="text-align: center;">
+       <img src="docs/figs/bias_burg.png" alt="Image">
+   </div>
 
 
 Analysis of Anomalies and Outliers
