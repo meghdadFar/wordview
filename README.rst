@@ -74,7 +74,7 @@ See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage 
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="docs/figs/bias_burg.png" alt="Image">
+       <img src="docs/figs/bias_burg.png" alt="Image" style="width: 50%;">
    </div>
 
 
