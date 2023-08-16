@@ -103,9 +103,11 @@ def generate_label_plots(
 
     if len(label_cols) == 1:
         # with titles
-        # figure = make_subplots(rows=1, cols=1,subplot_titles=("Plot 1"))
+        figure = make_subplots(
+            rows=1, cols=1, subplot_titles=([label_cols[0][0].capitalize()])
+        )
         # w/o titles
-        figure = make_subplots(rows=1, cols=1)
+        # figure = make_subplots(rows=1, cols=1)
         lab_trace1 = label_plot(
             df, label_col=label_cols[0][0], label_type=label_cols[0][1]
         )
@@ -113,7 +115,13 @@ def generate_label_plots(
         figure.update_yaxes(title_text="Count", row=2, col=2)
     elif len(label_cols) == 2:
         # with titles
-        # figure = make_subplots(rows=1, cols=2,subplot_titles=("Plot 1", "Plot 2"))
+        figure = make_subplots(
+            rows=1,
+            cols=2,
+            subplot_titles=(
+                [label_cols[0][0].capitalize(), label_cols[1][0].capitalize()]
+            ),
+        )
         # w/o titles
         figure = make_subplots(rows=1, cols=2)
         lab_trace1 = label_plot(
@@ -125,7 +133,18 @@ def generate_label_plots(
         figure.append_trace(lab_trace1, 1, 1)
         figure.append_trace(lab_trace2, 1, 2)
     elif len(label_cols) == 3:
-        figure = make_subplots(rows=1, cols=3)
+        [label_cols[0][0].capitalize(), label_cols[1][0].capitalize()]
+        figure = make_subplots(
+            rows=1,
+            cols=3,
+            subplot_titles=(
+                [
+                    label_cols[0][0].capitalize(),
+                    label_cols[1][0].capitalize(),
+                    label_cols[2][0].capitalize(),
+                ]
+            ),
+        )
         lab_trace1 = label_plot(
             df, label_col=label_cols[0][0], label_type=label_cols[0][1]
         )
@@ -136,11 +155,21 @@ def generate_label_plots(
             df, label_col=label_cols[2][0], label_type=label_cols[2][1]
         )
         figure.append_trace(lab_trace1, 1, 1)
-
         figure.append_trace(lab_trace2, 1, 2)
         figure.append_trace(lab_trace3, 1, 3)
     elif len(label_cols) == 4:
-        figure = make_subplots(rows=2, cols=2)
+        figure = make_subplots(
+            rows=2,
+            cols=2,
+            subplot_titles=(
+                [
+                    label_cols[0][0].capitalize(),
+                    label_cols[1][0].capitalize(),
+                    label_cols[2][0].capitalize(),
+                    label_cols[3][0].capitalize(),
+                ]
+            ),
+        )
         lab_trace1 = label_plot(
             df,
             label_col=label_cols[0][0],
@@ -195,6 +224,7 @@ def label_plot(
             x=x,
             y=y,
             name=label_col,
+            showlegend=False,
             marker=dict(
                 color=y, coloraxis="coloraxis", line=dict(width=0.5, color="white")
             ),
@@ -203,6 +233,7 @@ def label_plot(
         trace = go.Histogram(
             x=df[label_col],
             name=label_col,
+            showlegend=False,
             marker=dict(
                 color=df[label_col],
                 coloraxis="coloraxis",
