@@ -63,6 +63,11 @@ application in different areas including: parsing, language models,
 language generation, terminology extraction, and topic models. Wordview can extract different types of MWEs from text.
 See `MWEs documentation page <./docs/source/mwes.rst>`__ for usage and examples.
 
+.. raw:: html
+
+   <div style="text-align: center;">
+       <img src="docs/figs/mwescover.png" alt="MWWsImage" style="width: 70%; height: auto;">
+   </div>
 
 Bias Analysis
 **************
@@ -74,7 +79,7 @@ See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage 
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="docs/figs/bias_green_black.png" alt="Image">
+       <img src="docs/figs/biascover.png" alt="BiasImage">
    </div>
 
 
