@@ -6,35 +6,9 @@ API
 Lists the API reference of public
 classes and functions.
 
-Anomaly Detection
------------------
 
-.. autoclass:: wordview.anomaly.NormalDistAnomalies
-   :members:
-
-   .. automethod:: __init__
-
-
-Clustering
-----------
-
-.. autoclass:: wordview.clustering.Cluster
-   :members:
-
-   .. automethod:: __init__
-
-
-Multiword Expressions
-----------------------
-
-.. autoclass:: wordview.mwes.MWE
-   :members:
-
-   .. automethod:: __init__
-
-
-Exploratory Text Analysis
--------------------------
+Text Analysis
+-------------
 
 .. autoclass:: wordview.text_analysis.TextStatsPlots
    :members:
@@ -42,8 +16,52 @@ Exploratory Text Analysis
    .. automethod:: __init__
 
 
+Label Analysis
+-------------
+
 .. autoclass:: wordview.text_analysis.LabelStatsPlots
    :members:
 
    .. automethod:: __init__
+
+
+
+Extraction & Analysis of Multiword Expressions
+----------------------------------------------
+
+.. autoclass:: wordview.mwes.MWE
+   :members:
+
+   .. automethod:: __init__
+
+
+Bias Analysis
+-------------
+
+.. autoclass:: wordview.bias_analysis.bias.BiasDetector
+   :members:
+
+   .. automethod:: __init__
+
+
+Cluster Analysis 
+----------------
+
+.. autoclass:: wordview.clustering.cluster.Cluster
+   :members:
+
+   .. automethod:: __init__
+
+
+Anomaly Analysis
+----------------
+
+.. autoclass:: wordview.anomaly.NormalDistAnomalies
+   :members:
+
+   .. automethod:: __init__
+
+
+
+
 
