@@ -26,7 +26,7 @@ check_nltk_resources()
 
 
 class MWE:
-    """Extract MWEs of type LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus"""
+    """Extract MWEs of type LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus."""
 
     def __init__(
         self,
@@ -105,6 +105,15 @@ class MWE:
         sort: bool = True,
         top_n: Optional[int] = None,
     ) -> dict[str, dict[str, float]]:
+        """Extract MWEs from the text corpus.
+
+        Args:
+            sort: If True, the MWEs will be sorted in descending order of association measure.
+            top_n: If provided, only the top n MWEs will be returned.
+
+        Returns:
+            A dictionary containing the MWEs and their association measures.
+        """
         for sentence in tqdm(self.reader.get_sentences()):
             try:
                 tokens = [
@@ -138,6 +147,14 @@ class MWE:
         return self.mwes
 
     def print_mwe_table(self):
+        """Prints a table of MWEs and their association measures.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         sub_tables = []
         for section, values in self.mwes.items():
             if values:
@@ -160,7 +177,7 @@ class MWEPatternAssociation:
 
         Args:
             association_measure: An instance of an association measure class.
-            pattern: A string pattern to match against the tokens.
+            custom_pattern: A string pattern to match against the tokens.
                      See the examples of the user-defined patterns below.
 
             Examples of user-defined patterns:
@@ -236,6 +253,15 @@ class MWEPatternAssociation:
         return matches
 
     def measure_candidate_association(self, tokens: list[str], threshold: float = 1.0):
+        """Measure the association of MWE candidates.
+
+        Args:
+            tokens: A list of tokens from which mwe candidates are to be extracted.
+            threshold: A threshold value for the association measure. Only MWEs with an association measure above this threshold will be returned.
+
+        Returns:
+            A dictionary containing the MWEs and their association measures.
+        """
         mwes: dict[str, dict[str, float]] = {}
         for mwe_type, candidate_set in self._extract_mwe_candidates(
             tokens=tokens
