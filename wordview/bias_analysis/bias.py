@@ -18,7 +18,19 @@ check_nltk_resources()
 
 
 class BiasDetector:
+    """Bias Detector class for detecting different bias categories in text."""
+
     def __init__(self, df, text_column):
+        """Initializes a BiasDetector object.
+
+        Args:
+            df: A pandas dataframe containing text data.
+            text_column: The name of the column containing text data.
+
+        Returns:
+            None
+
+        """
         # bert-base-multilingual-uncased-sentiment supports English, Dutch, German, French, Spanish, and Italian.
         self.sentiment_model = BertForSequenceClassification.from_pretrained(
             "nlptown/bert-base-multilingual-uncased-sentiment"
@@ -211,6 +223,15 @@ class BiasDetector:
         fig.show()
 
     def print_bias_table(self):
+        """Prints a table of the bias scores for each category.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
+
         def sentiment_to_bias(val):
             if val == "-inf":
                 return "Unknown"
@@ -240,7 +261,16 @@ class BiasDetector:
         final_table = "\n\n".join(sub_tables)
         print(final_table)
 
-    def detect_bias(self, language="en"):
+    def detect_bias(self, language: str = "en") -> Dict[str, Dict[str, float]]:
+        """Detects bias in the text data.
+
+        Args:
+            language: The language of the text data. Defaults to English.
+
+        Returns:
+            A dictionary of bias categories and subcategories and their associated bias scores.
+
+        """
         gender_categories = bias_terms.get_terms(language, "gender")
         racial_categories = bias_terms.get_terms(language, "racial")
         religion_categories = bias_terms.get_terms(language, "religion")
