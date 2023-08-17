@@ -72,7 +72,6 @@ Bias Analysis
 In the rapidly evolving realm of Natural Language Processing (NLP), downstream models are as unbiased and fair as the data on which they are trained.
 Wordview Bias Analysis module is designed to assist in the rigorous task of ensuring that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
 By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.
-See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage and examples.
 
 .. raw:: html
 
@@ -99,12 +98,10 @@ Despite it's ability to provide valuable insights into your data, you do not nee
 
 Utilities
 #########
-
 Wordview offers a number of utility functions that you can use for common pre and post processing tasks in NLP.
 
 Contributing
 ############
-
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
