@@ -11,10 +11,12 @@
 Wordview
 ########
 Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data.
-It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
-Wordview's Python API is open-source and available under the `MIT license <https://en.wikipedia.org/wiki/MIT_License>`__.
+It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Full documentation is available at `Wordview’s documentation page. <https://meghdadfar.github.io/wordview/>`__.
 
-|cover|
+.. image:: sphinx-docs/figs/cover.png
+   :alt: Wordview Cover
+   :width: 100%
+   :align: center
 
 Usage
 *****
@@ -36,7 +38,7 @@ By visually representing the data's nuances, this feature can aid in making info
 It's a step forward in ensuring that you have a grasp on the intricacies of your data before delving deeper into more complex tasks.
 See `text analysis documentation pages <./docs/source/textstats.rst>`__  for usage and examples.
 
-.. image:: docs/figs/textanalysiscover.png
+.. image:: sphinx-docs/figs/textanalysiscover.png
    :alt: Text Analysis Cover
    :width: 100%
    :align: center
@@ -51,7 +53,7 @@ potential biases, discrepancies, or areas of interest,
 which are essential for creating robust and effective models.
 See `label analysis documentation pages <./docs/source/labels.rst>`__ for usage and examples.
 
-.. image:: docs/figs/labels_peach.png
+.. image:: sphinx-docs/figs/labels_peach.png
    :width: 100%
    :align: center
 
@@ -66,7 +68,7 @@ See `MWEs documentation page <./docs/source/mwes.rst>`__ for usage and examples.
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="docs/figs/mwescover.png" alt="MWWsImage" style="width: 70%; height: auto;">
+       <img src="sphinx-docs/figs/mwescover.png" alt="MWWsImage" style="width: 70%; height: auto;">
    </div>
 
 Bias Analysis
@@ -79,7 +81,7 @@ See the `bias analysis documentation page <./docs/source/bias.rst>`__ for usage 
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="docs/figs/biascover.png" alt="BiasImage">
+       <img src="sphinx-docs/figs/biascover.png" alt="BiasImage">
    </div>
 
 
@@ -113,4 +115,3 @@ Contributing
 Thank you for contributing to wordview! We and the users of this repo
 appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
-.. |cover| image:: docs/figs/cover.png

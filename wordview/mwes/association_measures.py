@@ -1,6 +1,5 @@
 import json
 import math
-from typing import Dict
 
 
 class PMICalculator:
@@ -25,7 +24,7 @@ class PMICalculator:
 
         self.total_count = sum(self.counts.values())
 
-    def _load_ngram_counts(self, count_file_path) -> Dict[str, int]:
+    def _load_ngram_counts(self, count_file_path) -> dict[str, int]:
         with open(count_file_path, "r") as file:
             counts = json.load(file)
         return counts
@@ -33,7 +32,17 @@ class PMICalculator:
     def _prob(self, ngram) -> float:
         return self.counts.get(ngram, 0) / self.total_count
 
-    def compute_association(self, ngram) -> float:
+    def compute_association(self, ngram: str) -> float:
+        """Computes the association measure (AM)  --currently only in terms of
+        PMI, of an n-gram candidate.
+
+        Args:
+            ngram: A string containing the n-gram candidate.
+
+        Returns:
+            The association measure of the n-gram candidate.
+
+        """
         words = ngram.split()
 
         p_denominator = 1.0
