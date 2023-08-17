@@ -1,5 +1,5 @@
 import string
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 import plotly.graph_objects as go
 from nltk import word_tokenize
@@ -99,7 +99,7 @@ class BiasDetector:
         self,
         colorscale: Optional[Union[str, list[list]]] = None,
         layout_settings: Optional[dict] = None,
-        font_settings: Dict = {
+        font_settings: dict = {
             "colorbar_tick_font": {"size": 16},
             "colorbar_title_font": {"size": 18},
             "bias_subcategory_font": {"size": 16},
@@ -261,7 +261,7 @@ class BiasDetector:
         final_table = "\n\n".join(sub_tables)
         print(final_table)
 
-    def detect_bias(self, language: str = "en") -> Dict[str, Dict[str, float]]:
+    def detect_bias(self, language: str = "en") -> dict[str, dict[str, float]]:
         """Detects bias in the text data.
 
         Args:

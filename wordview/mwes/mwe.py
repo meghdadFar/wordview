@@ -1,7 +1,7 @@
 import re
 import string
 from re import Match
-from typing import Dict, Optional
+from typing import Optional
 
 import nltk
 import pandas
@@ -25,33 +25,160 @@ def is_alphanumeric_latinscript_multigram(word: str) -> Optional[Match[str]]:
 check_nltk_resources()
 
 
+class MWE:
+    """Extract MWEs of type LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus"""
+
+    def __init__(
+        self,
+        df: pandas.DataFrame,
+        text_column: str,
+        ngram_count_source=None,
+        ngram_count_file_path=None,
+        language: str = "EN",
+        custom_patterns: Optional[str] = None,
+        only_custom_patterns: bool = False,
+    ) -> None:
+        """Initializes a new instance of MWE class.
+
+        Args:
+            df: A pandas DataFrame containing the text corpus.
+            text_column: The name of the column containing the text.
+            ngram_count_source: A dictionary containing ngram counts.
+            ngram_count_file_path: A path to a json file containing ngram counts.
+            language: The language of the corpus. Currently only 'EN' and 'DE' are supported. Defaults = 'EN'.
+            custom_pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
+                Examples of user-defined patterns:
+                NP: {<DT>?<JJ>*<NN>} # Noun phrase
+                You can use multiple and/or nested patterns, separated by a newline character e.g.:
+                custom_pattern = '''
+                NP: {<DT>?<JJ>*<NN>} # Noun phrase
+                VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
+                PROPN: {<NNP>+} # Proper noun
+                ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
+                ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase'''
+            only_custom_pattern: If True, only the custom pattern will be used to extract MWEs, otherwise, the default patterns will be used as well.
+
+            Returns:
+                None
+        """
+        self.language = language.upper()
+        self.mwes: dict[str, dict[str, float]] = {}
+        self.reader = DataFrameReader(df, text_column)
+        self.mwe_extractor = None
+
+        mwe_patterns: str = ""
+        if language == "EN":
+            for _, value in EnMWEPatterns().patterns.items():
+                for v in value:
+                    mwe_patterns += v + "\n"
+        elif language == "DE":
+            for _, value in DeMWEPatterns().patterns.items():
+                for v in value:
+                    mwe_patterns += v + "\n"
+        else:
+            raise ValueError(
+                "Language not supported. Use 'EN' for English or 'DE' for German."
+            )
+
+        if custom_patterns:
+            if only_custom_patterns:
+                if not isinstance(only_custom_patterns, bool):
+                    raise TypeError(
+                        f"only_custom_patterns argument must be a boolean. Currently it is of type {type(only_custom_patterns)} \
+                        with a value of: {custom_patterns}."
+                    )
+                mwe_patterns = custom_patterns
+            else:
+                mwe_patterns += "\n" + custom_patterns
+
+        # Create an MWEPatternAssociation extractor object
+        self.mwe_extractor = MWEPatternAssociation(
+            association_measure=PMICalculator(
+                ngram_count_source=ngram_count_source,
+                ngram_count_file_path=ngram_count_file_path,
+            ),
+            custom_pattern=mwe_patterns,
+        )
+
+    def extract_mwes(
+        self,
+        sort: bool = True,
+        top_n: Optional[int] = None,
+    ) -> dict[str, dict[str, float]]:
+        for sentence in tqdm(self.reader.get_sentences()):
+            try:
+                tokens = [
+                    word
+                    for word in word_tokenize(sentence)
+                    if word not in string.punctuation
+                ]
+            except Exception as E:
+                logger.warning(
+                    f"Could not word tokenize sentence: {sentence}.\
+                            \n{E}.\
+                            \nSkipping this sentence."
+                )
+                continue
+            if tokens:
+                returned_dict = self.mwe_extractor.measure_candidate_association(  # type: ignore
+                    tokens=tokens
+                )
+                for key, inner_dict in returned_dict.items():
+                    if key not in self.mwes:
+                        self.mwes[key] = {}
+                    self.mwes[key].update(inner_dict)
+
+        if sort:
+            for key, inner_dict in self.mwes.items():
+                tmp = sorted(inner_dict.items(), key=lambda item: item[1], reverse=True)
+                if top_n:
+                    tmp = tmp[:top_n]
+                self.mwes[key] = dict(tmp)
+
+        return self.mwes
+
+    def print_mwe_table(self):
+        sub_tables = []
+        for section, values in self.mwes.items():
+            if values:
+                formatted_values = {k: "{:.2f}".format(v) for k, v in values.items()}
+                headers = [section, "Association"]
+                table_data = list(formatted_values.items())
+                table_str = tabulate(
+                    table_data, headers=headers, tablefmt="double_outline"
+                )
+                sub_tables.append(table_str)
+        final_table = "\n\n".join(sub_tables)
+        print(final_table)
+
+
 class MWEPatternAssociation:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
-    def __init__(self, association_measure: PMICalculator, pattern: str) -> None:
+    def __init__(self, association_measure: PMICalculator, custom_pattern: str) -> None:
         """Initializes a new instance of MWEExtractor class.
 
         Args:
             association_measure: An instance of an association measure class.
-            pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
+            pattern: A string pattern to match against the tokens.
+                     See the examples of the user-defined patterns below.
 
-        Examples of user-defined patterns:
-        - NP: {<DT>?<JJ>*<NN>} # Noun phrase
-        - VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
-        - PP: {<IN><NP>} # Prepositional phrase
+            Examples of user-defined patterns:
+            - NP: {<DT>?<JJ>*<NN>} # Noun phrase
+            - VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
+            - PP: {<IN><NP>} # Prepositional phrase
 
-        You can use multiple and/or nested patterns, separated by a newline character:
-        pattern = '''
-        NP: {<DT>?<JJ>*<NN>} # Noun phrase
-        PROPN: {<NNP>+} # Proper noun
-        ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
-        ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase
-        '''
-
-        In this case, patterns of a clause are executed in order.  An earlier
-        pattern may introduce a chunk boundary that prevents a later pattern from executing.
+            You can use multiple and/or nested patterns, separated by a newline character:
+            pattern = '''
+            NP: {<DT>?<JJ>*<NN>} # Noun phrase
+            PROPN: {<NNP>+} # Proper noun
+            ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
+            ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase
+            '''
+            In this case, patterns of a clause are executed in order.  An earlier
+            pattern may introduce a chunk boundary that prevents a later pattern from executing.
         """
-        self.pattern = pattern
+        self.pattern = custom_pattern
         self.association_measure = association_measure
 
     def _extract_mwe_candidates(self, tokens: list[str]) -> dict:
@@ -122,128 +249,3 @@ class MWEPatternAssociation:
                 if association > threshold:
                     mwes[mwe_type][mwe_candidate] = association
         return mwes
-
-
-class MWE:
-    def __init__(
-        self,
-        df: pandas.DataFrame,
-        text_column: str,
-        ngram_count_source=None,
-        ngram_count_file_path=None,
-        language: str = "EN",
-        custom_patterns: Optional[str] = None,
-        only_custom_patterns: bool = False,
-    ) -> None:
-        """Initializes a new instance of MWE class.
-
-        Args:
-            corpus: A pandas DataFrame containing the corpus.
-            text_column: The name of the column containing the text  (corpus).
-            ngram_count_source: A dictionary containing ngram counts.
-            ngram_count_file_path: A path to a json file containing ngram counts.
-            language: The language of the corpus. Currently only 'EN' and 'DE' are supported.
-            custom_pattern: pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
-                Examples of user-defined patterns:
-                NP: {<DT>?<JJ>*<NN>} # Noun phrase
-                You can use multiple and/or nested patterns, separated by a newline character e.g.:
-                custom_pattern = '''
-                NP: {<DT>?<JJ>*<NN>} # Noun phrase
-                VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
-                PROPN: {<NNP>+} # Proper noun
-                ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
-                ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase'''
-            only_custom_pattern: If True, only the custom pattern will be used to extract MWEs, otherwise, the default patterns will be used as well.
-
-            Returns:
-                None
-        """
-        self.language = language.upper()
-        self.mwes: Dict[str, Dict[str, float]] = {}
-        self.reader = DataFrameReader(df, text_column)
-        self.mwe_extractor = None
-
-        mwe_patterns: str = ""
-        if language == "EN":
-            for _, value in EnMWEPatterns().patterns.items():
-                for v in value:
-                    mwe_patterns += v + "\n"
-        elif language == "DE":
-            for _, value in DeMWEPatterns().patterns.items():
-                for v in value:
-                    mwe_patterns += v + "\n"
-        else:
-            raise ValueError(
-                "Language not supported. Use 'EN' for English or 'DE' for German."
-            )
-
-        if custom_patterns:
-            if only_custom_patterns:
-                if not isinstance(only_custom_patterns, bool):
-                    raise TypeError(
-                        f"only_custom_patterns argument must be a boolean. Currently it is of type {type(only_custom_patterns)} \
-                        with a value of: {custom_patterns}."
-                    )
-                mwe_patterns = custom_patterns
-            else:
-                mwe_patterns += "\n" + custom_patterns
-
-        # Create an MWEPatternAssociation extractor object
-        self.mwe_extractor = MWEPatternAssociation(
-            association_measure=PMICalculator(
-                ngram_count_source=ngram_count_source,
-                ngram_count_file_path=ngram_count_file_path,
-            ),
-            pattern=mwe_patterns,
-        )
-
-    def extract_mwes(
-        self,
-        sort: bool = True,
-        top_n: Optional[int] = None,
-    ) -> dict[str, dict[str, float]]:
-        for sentence in tqdm(self.reader.get_sentences()):
-            try:
-                tokens = [
-                    word
-                    for word in word_tokenize(sentence)
-                    if word not in string.punctuation
-                ]
-            except Exception as E:
-                logger.warning(
-                    f"Could not word tokenize sentence: {sentence}.\
-                            \n{E}.\
-                            \nSkipping this sentence."
-                )
-                continue
-            if tokens:
-                returned_dict = self.mwe_extractor.measure_candidate_association(  # type: ignore
-                    tokens=tokens
-                )
-                for key, inner_dict in returned_dict.items():
-                    if key not in self.mwes:
-                        self.mwes[key] = {}
-                    self.mwes[key].update(inner_dict)
-
-        if sort:
-            for key, inner_dict in self.mwes.items():
-                tmp = sorted(inner_dict.items(), key=lambda item: item[1], reverse=True)
-                if top_n:
-                    tmp = tmp[:top_n]
-                self.mwes[key] = dict(tmp)
-
-        return self.mwes
-
-    def print_mwe_table(self):
-        sub_tables = []
-        for section, values in self.mwes.items():
-            if values:
-                formatted_values = {k: "{:.2f}".format(v) for k, v in values.items()}
-                headers = [section, "Association"]
-                table_data = list(formatted_values.items())
-                table_str = tabulate(
-                    table_data, headers=headers, tablefmt="double_outline"
-                )
-                sub_tables.append(table_str)
-        final_table = "\n\n".join(sub_tables)
-        print(final_table)

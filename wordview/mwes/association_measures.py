@@ -1,6 +1,5 @@
 import json
 import math
-from typing import Dict
 
 
 class PMICalculator:
@@ -25,7 +24,7 @@ class PMICalculator:
 
         self.total_count = sum(self.counts.values())
 
-    def _load_ngram_counts(self, count_file_path) -> Dict[str, int]:
+    def _load_ngram_counts(self, count_file_path) -> dict[str, int]:
         with open(count_file_path, "r") as file:
             counts = json.load(file)
         return counts
