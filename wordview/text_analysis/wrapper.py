@@ -27,12 +27,12 @@ class TextStatsPlots:
         """Initialize a new TextStatsPlots object with the given arguments.
 
         Args:
-            df (pandas.DataFrame): DataFrame with a text_column that contains the corpus.
-            text_column (str): Specifies the column of DataFrame where text data resides.
-            distributions (Set): Set of distribution types to generate and plot. Available distributions are:
+            df: DataFrame with a text_column that contains the text corpus.
+            text_column: Specifies the column of DataFrame where text data resides.
+            distributions: Set of distribution types to generate and plot. Available distributions are:
                 doc_len: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
                 Default = {"doc_len", "word_frequency_zipf"}.
-            pos_tags (Set): = Set of POS tags for which world cloud is shown. Default = {"NN", "VB", "JJ"}.
+            pos_tags: = Set of target POS tags for downstream analysis. Default = {"NN", "VB", "JJ"}.
 
         Returns:
             None
@@ -56,13 +56,15 @@ class TextStatsPlots:
         layout_settings: Dict[str, str] = {},
         plot_settings: Dict[str, str] = {},
     ) -> None:
-        """Shows distribution plots for `dist`.
+        """Shows distribution plots for `distribution`.
 
         Args:
-            dist (str): The distribution for which the plot is to be shown.
-                        Can be either of: doc_len" or "word_frequency_zipf.
-            **kwargs: Additional arguments to be passed to self._create_dist_plots and then plotly figure factory.
-                      For available settings see: https://plotly.com/python/reference/layout/
+            distribution: The distribution for which the plot is to be shown. Supported distributions are:
+                "doc_len": document lengths.
+                "word_frequency_zipf": Zipfian word frequency distribution.
+            layout_settings: Dictionary of form: {"<layout_setting>": "<value>"} for plotly.Figure.update_layout().
+                             For available settings see: https://plotly.com/python/reference/layout/.
+            plot_settings:
 
         Returns:
             None
