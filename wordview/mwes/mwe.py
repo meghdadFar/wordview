@@ -129,7 +129,7 @@ class MWE:
                 )
                 continue
             if tokens:
-                returned_dict = self.mwe_extractor.measure_candidate_association(  # type: ignore
+                returned_dict = self.mwe_extractor._measure_candidate_association(  # type: ignore
                     tokens=tokens
                 )
                 for key, inner_dict in returned_dict.items():
@@ -252,7 +252,7 @@ class MWEPatternAssociation:
                 matches[label].add(" ".join(word for (word, tag) in subtree.leaves()))
         return matches
 
-    def measure_candidate_association(self, tokens: list[str], threshold: float = 1.0):
+    def _measure_candidate_association(self, tokens: list[str], threshold: float = 1.0):
         """Measure the association of MWE candidates.
 
         Args:
