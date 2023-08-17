@@ -62,9 +62,23 @@ class TextStatsPlots:
             distribution: The distribution for which the plot is to be shown. Supported distributions are:
                 "doc_len": document lengths.
                 "word_frequency_zipf": Zipfian word frequency distribution.
-            layout_settings: Dictionary of form: {"<layout_setting>": "<value>"} for plotly.Figure.update_layout().
-                             For available settings see: https://plotly.com/python/reference/layout/.
-            plot_settings:
+            layout_settings: To customize the plot layout. For example:
+                                layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                                                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                                                   'hovermode': 'y'
+                                                   }
+                                For a full list of possible options, see:
+                                https://plotly.com/python/reference/layout/
+
+            plot_settings: A dictionary of form: {"<plot_setting>": "<value>"} for each one of the supported plots.
+                To customize the plot colors and other attributes.
+                For example for word_frequency_zipf:
+                    plot_settings = {'theoritical_zipf_colorscale': 'Reds',
+                                    'emperical_zipf_colorscale': 'Greens',
+                                    'mode': 'markers'}
+                    And for doc_len:
+                    plot_settings = {'color': 'blue', 'showlegend': False}
+                You can pass all the attributes at once, and later the supported attributes will be extracted and used for each distribution type.
 
         Returns:
             None
@@ -127,18 +141,9 @@ class TextStatsPlots:
     def _create_pos_plots(
         self,
         pos: str,
-        layout_settings: Dict[str, Any] = {},
-        plot_settings: Dict[str, Any] = {},
+        layout_settings: dict[str, Any] = {},
+        plot_settings: dict[str, Any] = {},
     ) -> go.Figure:
-        """Create plots for the POS tags specified in items in `self.pos_tags`.
-
-        Args:
-            pos (str): The POS tag for which the plot is to be shown.
-
-        Returns:
-            Dictionary of POS tags to plotly go.Figure objects.
-
-        """
         word_cloud_layout_fixed_settings = {
             "showlegend": False,
             "xaxis_showgrid": False,
@@ -173,17 +178,21 @@ class TextStatsPlots:
     def show_word_clouds(
         self,
         pos: str,
-        layout_settings: Dict[str, Any] = {},
-        plot_settings: Dict[str, str] = {},
+        layout_settings: dict[str, Any] = {},
+        plot_settings: dict[str, str] = {},
     ) -> None:
         """Shows POS word clouds.
 
         Args:
-            pos (str): Type of POS. Can be any of: [NN, JJ, VB].
-            **kwargs: Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().
-            This includes:
-            - plot_settings: Dictionary of form: for self._create_pos_plots(). For available settings see: https://plotly.com/python/reference/layout/.
-            - wc_settings: Dictionary of form: {"color": "<color>", "max_words": int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.
+            pos: Type of POS. Can be any of: [NN, JJ, VB].
+            layout_settings: To customize the plot layout. For example:
+                layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                   'hovermode': 'y'
+                    }
+            plot_settings = To customize the plot colors and other attributes. For example:
+                {'color': 'darkgreen',
+                    'max_words': 200}
 
         Returns:
             None
@@ -217,7 +226,7 @@ class TextStatsPlots:
         print(table)
 
     def show_insights(self):
-        "Show topics, MWEs, clusters,"
+        """Prints insights about the dataset."""
         raise NotImplementedError
 
 
@@ -234,8 +243,8 @@ class LabelStatsPlots:
         """Initialize a new LabelStatsPlots object with the given arguments.
 
         Args:
-            df (pandas.DataFrame): DataFrame with one or more label column/s.
-            label_columns (List): List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).
+            df: DataFrame with one or more label column/s.
+            label_columns: List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).
 
         Returns:
             None
@@ -247,8 +256,15 @@ class LabelStatsPlots:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
-            **kwargs: Additional arguments to be passed to generate_label_plots() to be used by plotly.Figure.update_layout(). For more details
-                  see https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout
+            layout_settings: To customize the plot layout.
+            For example: layout_settings ={'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                   'hovermode': 'y',
+                   'coloraxis': {'colorscale': 'peach'},
+                   'coloraxis_showscale':True
+                  }
+            See here for a list of named color scales:
+            https://plotly.com/python/builtin-colorscales/
 
         Returns:
             None
