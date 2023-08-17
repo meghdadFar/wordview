@@ -92,6 +92,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#extraction-analysis-of-multiword-expressions">Extraction &amp; Analysis of Multiword Expressions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#wordview.mwes.MWE"><code class="docutils literal notranslate"><span class="pre">MWE</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.mwes.MWE.__init__"><code class="docutils literal notranslate"><span class="pre">MWE.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.mwes.MWE.extract_mwes"><code class="docutils literal notranslate"><span class="pre">MWE.extract_mwes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.mwes.MWE.print_mwe_table"><code class="docutils literal notranslate"><span class="pre">MWE.print_mwe_table()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -99,6 +101,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#bias-analysis">Bias Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#wordview.bias_analysis.bias.BiasDetector"><code class="docutils literal notranslate"><span class="pre">BiasDetector</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.bias_analysis.bias.BiasDetector.__init__"><code class="docutils literal notranslate"><span class="pre">BiasDetector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.bias_analysis.bias.BiasDetector.detect_bias"><code class="docutils literal notranslate"><span class="pre">BiasDetector.detect_bias()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.bias_analysis.bias.BiasDetector.print_bias_table"><code class="docutils literal notranslate"><span class="pre">BiasDetector.print_bias_table()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.bias_analysis.bias.BiasDetector.show_bias_plot"><code class="docutils literal notranslate"><span class="pre">BiasDetector.show_bias_plot()</span></code></a></li>
 </ul>
 </li>
@@ -165,12 +169,12 @@ classes and functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with a text_column that contains the corpus.</p></li>
-<li><p><strong>text_column</strong> (<em>str</em>) – Specifies the column of DataFrame where text data resides.</p></li>
-<li><p><strong>distributions</strong> (<em>Set</em>) – Set of distribution types to generate and plot. Available distributions are:
+<li><p><strong>df</strong> – DataFrame with a text_column that contains the text corpus.</p></li>
+<li><p><strong>text_column</strong> – Specifies the column of DataFrame where text data resides.</p></li>
+<li><p><strong>distributions</strong> – Set of distribution types to generate and plot. Available distributions are:
 doc_len: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
 Default = {“doc_len”, “word_frequency_zipf”}.</p></li>
-<li><p><strong>pos_tags</strong> (<em>Set</em>) – = Set of POS tags for which world cloud is shown. Default = {“NN”, “VB”, “JJ”}.</p></li>
+<li><p><strong>pos_tags</strong> – = Set of target POS tags for downstream analysis. Default = {“NN”, “VB”, “JJ”}.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -182,14 +186,37 @@ Default = {“doc_len”, “word_frequency_zipf”}.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.show_distplot">
 <span class="sig-name descname"><span class="pre">show_distplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_distplot" title="Permalink to this definition"></a></dt>
-<dd><p>Shows distribution plots for <cite>dist</cite>.</p>
+<dd><p>Shows distribution plots for <cite>distribution</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dist</strong> (<em>str</em>) – The distribution for which the plot is to be shown.
-Can be either of: doc_len” or “word_frequency_zipf.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments to be passed to self._create_dist_plots and then plotly figure factory.
-For available settings see: <a class="reference external" href="https://plotly.com/python/reference/layout/">https://plotly.com/python/reference/layout/</a></p></li>
+<li><p><strong>distribution</strong> – The distribution for which the plot is to be shown. Supported distributions are:
+“doc_len”: document lengths.
+“word_frequency_zipf”: Zipfian word frequency distribution.</p></li>
+<li><p><strong>layout_settings</strong> – <p>To customize the plot layout. For example:
+layout_settings = {‘plot_bgcolor’:’rgba(245, 245, 245, 1)’,</p>
+<blockquote>
+<div><p>’paper_bgcolor’: ‘rgba(255, 255, 255, 1)’,
+‘hovermode’: ‘y’
+}</p>
+</div></blockquote>
+<p>For a full list of possible options, see:
+<a class="reference external" href="https://plotly.com/python/reference/layout/">https://plotly.com/python/reference/layout/</a></p>
+</p></li>
+<li><p><strong>plot_settings</strong> – <p>A dictionary of form: {“&lt;plot_setting&gt;”: “&lt;value&gt;”} for each one of the supported plots.
+To customize the plot colors and other attributes.
+For example for word_frequency_zipf:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>plot_settings = {‘theoritical_zipf_colorscale’: ‘Reds’,</dt><dd><p>’emperical_zipf_colorscale’: ‘Greens’,
+‘mode’: ‘markers’}</p>
+</dd>
+</dl>
+<p>And for doc_len:
+plot_settings = {‘color’: ‘blue’, ‘showlegend’: False}</p>
+</div></blockquote>
+<p>You can pass all the attributes at once, and later the supported attributes will be extracted and used for each distribution type.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -201,7 +228,7 @@ For available settings see: <a class="reference external" href="https://plotly.c
 <dl class="py method">
 <dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.show_insights">
 <span class="sig-name descname"><span class="pre">show_insights</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_insights" title="Permalink to this definition"></a></dt>
-<dd><p>Show topics, MWEs, clusters,</p>
+<dd><p>Prints insights about the dataset.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -220,16 +247,27 @@ Number of verbs.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.show_word_clouds">
-<span class="sig-name descname"><span class="pre">show_word_clouds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_word_clouds" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">show_word_clouds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_word_clouds" title="Permalink to this definition"></a></dt>
 <dd><p>Shows POS word clouds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pos</strong> (<em>str</em>) – Type of POS. Can be any of: [NN, JJ, VB].</p></li>
-<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to self._create_pos_plots() and wordview.text_analysis.core.plotly_wordcloud().</p></li>
-<li><p><strong>includes</strong> (<em>This</em>) – </p></li>
-<li><p><strong>plot_settings</strong> (<em>-</em>) – Dictionary of form: for self._create_pos_plots(). For available settings see: <a class="reference external" href="https://plotly.com/python/reference/layout/">https://plotly.com/python/reference/layout/</a>.</p></li>
-<li><p><strong>wc_settings</strong> (<em>-</em>) – Dictionary of form: {“color”: “&lt;color&gt;”, “max_words”: int} for core.plotly_wordcloud(). Accepted values are color strings as usable by PIL/Pillow.</p></li>
+<li><p><strong>pos</strong> – Type of POS. Can be any of: [NN, JJ, VB].</p></li>
+<li><p><strong>layout_settings</strong> – <p>To customize the plot layout. For example:
+layout_settings = {‘plot_bgcolor’:’rgba(245, 245, 245, 1)’,</p>
+<blockquote>
+<div><p>’paper_bgcolor’: ‘rgba(255, 255, 255, 1)’,
+‘hovermode’: ‘y’</p>
+<blockquote>
+<div><p>}</p>
+</div></blockquote>
+</div></blockquote>
+</p></li>
+<li><p><strong>example</strong> (<em>plot_settings = To customize the plot colors and other attributes. For</em>) – <dl class="simple">
+<dt>{‘color’: ‘darkgreen’,</dt><dd><p>’max_words’: 200}</p>
+</dd>
+</dl>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -254,8 +292,8 @@ Number of verbs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame with one or more label column/s.</p></li>
-<li><p><strong>label_columns</strong> (<em>List</em>) – List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).</p></li>
+<li><p><strong>df</strong> – DataFrame with one or more label column/s.</p></li>
+<li><p><strong>label_columns</strong> – List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -270,8 +308,20 @@ Number of verbs.</p>
 <dd><p>Renders label plots for columns specified in <cite>self.label_columns</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kwargs</strong> – Additional arguments to be passed to generate_label_plots() to be used by plotly.Figure.update_layout(). For more details
-see <a class="reference external" href="https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout">https://plotly.com/python-api-reference/generated/plotly.graph_objects.Figure.html#plotly.graph_objects.Figure.update_layout</a></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layout_settings</strong> – To customize the plot layout.</p></li>
+<li><p><strong>example</strong> (<em>For</em>) – <dl class="simple">
+<dt>layout_settings ={‘plot_bgcolor’:’rgba(245, 245, 245, 1)’,</dt><dd><p>’paper_bgcolor’: ‘rgba(255, 255, 255, 1)’,
+‘hovermode’: ‘y’,
+‘coloraxis’: {‘colorscale’: ‘peach’},
+‘coloraxis_showscale’:True</p>
+</dd>
+</dl>
+<p>}</p>
+</p></li>
+<li><p><strong>scales</strong> (<em>See here for a list</em><em> of </em><em>named color</em>) – </p></li>
+<li><p><strong>https</strong> – //plotly.com/python/builtin-colorscales/</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -287,19 +337,20 @@ see <a class="reference external" href="https://plotly.com/python-api-reference/
 <dl class="py class">
 <dt class="sig sig-object py" id="wordview.mwes.MWE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wordview.mwes.</span></span><span class="sig-name descname"><span class="pre">MWE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ngram_count_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ngram_count_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'EN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_patterns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_custom_patterns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.mwes.MWE" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>Extract MWEs of type LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="wordview.mwes.MWE.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ngram_count_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ngram_count_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'EN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_patterns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_custom_patterns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#wordview.mwes.MWE.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initializes a new instance of MWE class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>corpus</strong> – A pandas DataFrame containing the corpus.</p></li>
-<li><p><strong>text_column</strong> – The name of the column containing the text  (corpus).</p></li>
+<li><p><strong>df</strong> – A pandas DataFrame containing the text corpus.</p></li>
+<li><p><strong>text_column</strong> – The name of the column containing the text.</p></li>
 <li><p><strong>ngram_count_source</strong> – A dictionary containing ngram counts.</p></li>
 <li><p><strong>ngram_count_file_path</strong> – A path to a json file containing ngram counts.</p></li>
-<li><p><strong>language</strong> – The language of the corpus. Currently only ‘EN’ and ‘DE’ are supported.</p></li>
-<li><p><strong>custom_pattern</strong> – pattern: A string pattern to match against the tokens. The pattern must be a string of the following form.
+<li><p><strong>language</strong> – The language of the corpus. Currently only ‘EN’ and ‘DE’ are supported. Defaults = ‘EN’.</p></li>
+<li><p><strong>custom_pattern</strong> – A string pattern to match against the tokens. The pattern must be a string of the following form.
 Examples of user-defined patterns:
 NP: {&lt;DT&gt;?&lt;JJ&gt;*&lt;NN&gt;} # Noun phrase
 You can use multiple and/or nested patterns, separated by a newline character e.g.:
@@ -316,6 +367,37 @@ ADVP: {&lt;RB.*&gt;+&lt;VB.*&gt;&lt;RB.*&gt;*} # Adverb phrase’’’</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.mwes.MWE.extract_mwes">
+<span class="sig-name descname"><span class="pre">extract_mwes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#wordview.mwes.MWE.extract_mwes" title="Permalink to this definition"></a></dt>
+<dd><p>Extract MWEs from the text corpus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sort</strong> – If True, the MWEs will be sorted in descending order of association measure.</p></li>
+<li><p><strong>top_n</strong> – If provided, only the top n MWEs will be returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the MWEs and their association measures.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.mwes.MWE.print_mwe_table">
+<span class="sig-name descname"><span class="pre">print_mwe_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wordview.mwes.MWE.print_mwe_table" title="Permalink to this definition"></a></dt>
+<dd><p>Prints a table of MWEs and their association measures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -324,14 +406,55 @@ ADVP: {&lt;RB.*&gt;+&lt;VB.*&gt;&lt;RB.*&gt;*} # Adverb phrase’’’</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="wordview.bias_analysis.bias.BiasDetector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wordview.bias_analysis.bias.</span></span><span class="sig-name descname"><span class="pre">BiasDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_column</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>Bias Detector class for detecting different bias categories in text.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="wordview.bias_analysis.bias.BiasDetector.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_column</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Initializes a BiasDetector object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – A pandas dataframe containing text data.</p></li>
+<li><p><strong>text_column</strong> – The name of the column containing text data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.bias_analysis.bias.BiasDetector.detect_bias">
+<span class="sig-name descname"><span class="pre">detect_bias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'en'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector.detect_bias" title="Permalink to this definition"></a></dt>
+<dd><p>Detects bias in the text data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>language</strong> – The language of the text data. Defaults to English.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of bias categories and subcategories and their associated bias scores.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.bias_analysis.bias.BiasDetector.print_bias_table">
+<span class="sig-name descname"><span class="pre">print_bias_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector.print_bias_table" title="Permalink to this definition"></a></dt>
+<dd><p>Prints a table of the bias scores for each category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wordview.bias_analysis.bias.BiasDetector.show_bias_plot">
-<span class="sig-name descname"><span class="pre">show_bias_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colorscale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'bias_subcategory_font':</span> <span class="pre">{'size':</span> <span class="pre">16},</span> <span class="pre">'category_titles':</span> <span class="pre">{'size':</span> <span class="pre">18},</span> <span class="pre">'colorbar_tick_font':</span> <span class="pre">{'size':</span> <span class="pre">16},</span> <span class="pre">'colorbar_title_font':</span> <span class="pre">{'size':</span> <span class="pre">18}}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector.show_bias_plot" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">show_bias_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colorscale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'bias_subcategory_font':</span> <span class="pre">{'size':</span> <span class="pre">16},</span> <span class="pre">'category_titles':</span> <span class="pre">{'size':</span> <span class="pre">18},</span> <span class="pre">'colorbar_tick_font':</span> <span class="pre">{'size':</span> <span class="pre">16},</span> <span class="pre">'colorbar_title_font':</span> <span class="pre">{'size':</span> <span class="pre">18}}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.bias_analysis.bias.BiasDetector.show_bias_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Displays a plotly heatmap of the bias scores for each category.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
