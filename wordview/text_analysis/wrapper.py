@@ -32,9 +32,9 @@ class TextStatsPlots:
             distributions: set of distribution types to generate and plot. Available distributions are: \n
                 `doc_len`: document lengths \n
                 `word_frequency_zipf`: Zipfian word frequency distribution. \n
-                Default = ``{"doc_len", "word_frequency_zipf"}`` \n
-            pos_tags: set of target POS tags for downstream analysis. \n
-                Default = ``{"NN", "VB", "JJ"}``
+                Default = ``{'doc_len', 'word_frequency_zipf'}`` \n
+            pos_tags: A set of target POS tags for downstream analysis. \n
+                Default = ``{'NN', 'VB', 'JJ'}``
 
         Returns:
             None
@@ -61,26 +61,33 @@ class TextStatsPlots:
         """Shows distribution plots for `distribution`.
 
         Args:
-            distribution: The distribution for which the plot is to be shown. Supported distributions are:
-                "doc_len": document lengths.
-                "word_frequency_zipf": Zipfian word frequency distribution.
-            layout_settings: To customize the plot layout. For example:
-                                layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
-                                                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
-                                                   'hovermode': 'y'
-                                                   }
-                                For a full list of possible options, see:
-                                https://plotly.com/python/reference/layout/
+            distribution: The distribution for which the plot is to be shown. Available distributions are: \n
+                `doc_len`: document lengths \n
+                `word_frequency_zipf`: Zipfian word frequency distribution. \n
+            layout_settings: To customize the plot layout. For example: \n
 
-            plot_settings: A dictionary of form: {"<plot_setting>": "<value>"} for each one of the supported plots.
-                To customize the plot colors and other attributes.
-                For example for word_frequency_zipf:
+                .. code-block:: python
+
+                    layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                                       'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                                       'hovermode': 'y'}
+
+                For a full list of possible options, see:
+                https://plotly.com/python/reference/layout/
+
+            plot_settings: A dictionary of form: ``{"<plot_setting>": "<value>"}`` for each one of the supported plots, in order to customize the plot colors and other attributes.
+                For example, for `word_frequency_zipf` and `doc_len` plots, you can, respectively pass:
+
+                .. code-block:: python
+
                     plot_settings = {'theoritical_zipf_colorscale': 'Reds',
-                                    'emperical_zipf_colorscale': 'Greens',
-                                    'mode': 'markers'}
-                    And for doc_len:
-                    plot_settings = {'color': 'blue', 'showlegend': False}
-                You can pass all the attributes at once, and later the supported attributes will be extracted and used for each distribution type.
+                                     'emperical_zipf_colorscale': 'Greens',
+                                     'mode': 'markers'}
+
+                    plot_settings = {'color': 'blue',
+                                     'showlegend': False}
+
+                You can pass all the attributes for different available distribution plots at once, but not all of them are supported across all plots. The supported attributes will be extracted and used for each distribution type.
 
         Returns:
             None
