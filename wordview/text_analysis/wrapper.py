@@ -30,9 +30,12 @@ class TextStatsPlots:
             df: DataFrame with a text_column that contains the text corpus.
             text_column: Specifies the column of DataFrame where text data resides.
             distributions: Set of distribution types to generate and plot. Available distributions are:
-                doc_len: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
-                Default = {"doc_len", "word_frequency_zipf"}.
-            pos_tags: = Set of target POS tags for downstream analysis. Default = {"NN", "VB", "JJ"}.
+                `doc_len`: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
+
+                 Default = `{"doc_len", "word_frequency_zipf"}`
+            pos_tags: = Set of target POS tags for downstream analysis.
+
+            Default = `{"NN", "VB", "JJ"}`
 
         Returns:
             None
