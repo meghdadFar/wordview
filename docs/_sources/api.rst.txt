@@ -17,7 +17,7 @@ Text Analysis
 
 
 Label Analysis
--------------
+--------------
 
 .. autoclass:: wordview.text_analysis.LabelStatsPlots
    :members:
