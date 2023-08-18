@@ -1,5 +1,5 @@
-Text Stats
-----------
+Text Analysis
+-------------
 
 Wordview provides an overview of your text data, as well as general statistics and different
 distributions and plots via ``TextStatsPlots`` class. To get started, import and 

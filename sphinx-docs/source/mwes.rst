@@ -1,5 +1,5 @@
-Multiword Expressions (MWEs)
-############################
+Analysis & Extraction of Multiword Expressions (MWEs)
+#####################################################
 
 Multiword Expressions (MWEs) are phrases that can be treated as a single
 semantic unit. E.g. *swimming pool* and *climate change*. MWEs have

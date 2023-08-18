@@ -1,5 +1,5 @@
-Anomalies & Outliers
-####################
+Analysis of Anomalies & Outliers
+################################
 
 Sometimes, anomalies find their way into the data and tamper with the
 quality of the downstream ML model. For instance, a classifier that is

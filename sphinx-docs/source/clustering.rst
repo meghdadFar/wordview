@@ -1,5 +1,5 @@
-Clustering
-##########
+Cluster Analysis
+################
 
 Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
 Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. ``wordview`` provide 
