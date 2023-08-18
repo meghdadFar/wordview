@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Tuple
 
 import pandas
 import plotly.figure_factory as ff
@@ -21,21 +21,20 @@ class TextStatsPlots:
         self,
         df: pandas.DataFrame,
         text_column: str,
-        distributions: Set = {"doc_len", "word_frequency_zipf"},
-        pos_tags: Set = {"NN", "VB", "JJ"},
+        distributions: set = {"doc_len", "word_frequency_zipf"},
+        pos_tags: set = {"NN", "VB", "JJ"},
     ) -> None:
         """Initialize a new TextStatsPlots object with the given arguments.
 
         Args:
             df: DataFrame with a text_column that contains the text corpus.
             text_column: Specifies the column of DataFrame where text data resides.
-            distributions: Set of distribution types to generate and plot. Available distributions are:
-                `doc_len`: document lengths, word_frequency_zipf: Zipfian word frequency distribution.
-
-                 Default = `{"doc_len", "word_frequency_zipf"}`
-            pos_tags: = Set of target POS tags for downstream analysis.
-
-            Default = `{"NN", "VB", "JJ"}`
+            distributions: set of distribution types to generate and plot. Available distributions are: \n
+                `doc_len`: document lengths \n
+                `word_frequency_zipf`: Zipfian word frequency distribution. \n
+                Default = ``{"doc_len", "word_frequency_zipf"}`` \n
+            pos_tags: set of target POS tags for downstream analysis. \n
+                Default = ``{"NN", "VB", "JJ"}``
 
         Returns:
             None
@@ -56,8 +55,8 @@ class TextStatsPlots:
     def show_distplot(
         self,
         distribution: str,
-        layout_settings: Dict[str, str] = {},
-        plot_settings: Dict[str, str] = {},
+        layout_settings: dict[str, str] = {},
+        plot_settings: dict[str, str] = {},
     ) -> None:
         """Shows distribution plots for `distribution`.
 
@@ -96,7 +95,7 @@ class TextStatsPlots:
             self._create_word_freq_zipf_plot(layout_settings, plot_settings).show()
 
     def _create_doc_len_plot(
-        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
+        self, layout_settings: dict[str, Any] = {}, plot_settings: dict[str, str] = {}
     ) -> go.Figure:
         res = ff.create_distplot(
             [self.analysis.doc_lengths],
@@ -109,7 +108,7 @@ class TextStatsPlots:
         return res
 
     def _create_word_freq_zipf_plot(
-        self, layout_settings: Dict[str, Any] = {}, plot_settings: Dict[str, str] = {}
+        self, layout_settings: dict[str, Any] = {}, plot_settings: dict[str, str] = {}
     ) -> go.Figure:
         res = go.Figure()
         res.add_trace(
@@ -241,13 +240,13 @@ class LabelStatsPlots:
     def __init__(
         self,
         df: pandas.DataFrame,
-        label_columns: List[Tuple],
+        label_columns: list[Tuple],
     ) -> None:
         """Initialize a new LabelStatsPlots object with the given arguments.
 
         Args:
             df: DataFrame with one or more label column/s.
-            label_columns: List of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).
+            label_columns: list of tuples (column_name, label_type) that specify a label column and its type (categorical or numerical).
 
         Returns:
             None
@@ -255,7 +254,7 @@ class LabelStatsPlots:
         self.df = df
         self.label_columns = label_columns
 
-    def show_label_plots(self, layout_settings: Dict[str, Any] = {}) -> None:
+    def show_label_plots(self, layout_settings: dict[str, Any] = {}) -> None:
         """Renders label plots for columns specified in `self.label_columns`.
 
         Args:
