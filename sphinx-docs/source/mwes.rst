@@ -39,13 +39,9 @@ the documentation.
 The above returns the results in a dictionary, that in this example we stored in `mwes.json` file.
 You can also return the result in a table:
 
-..  code:: python
+.. code-block:: python
 
     mwe_obj.print_mwe_table()
-
-
-.. code::
-
     ╔═════════════════════════╦═══════════════╗
     ║ LVC                     ║   Association ║
     ╠═════════════════════════╬═══════════════╣
@@ -60,7 +56,6 @@ You can also return the result in a table:
     ║ steal the 42            ║         22.5  ║
     ║ invoke the spirit       ║         22.12 ║
     ╚═════════════════════════╩═══════════════╝
-
     ╔══════════════════════╦═══════════════╗
     ║ NC2                  ║   Association ║
     ╠══════════════════════╬═══════════════╣
@@ -75,7 +70,6 @@ You can also return the result in a table:
     ║ zoo souvenir         ║         19.16 ║
     ║ cake frosting        ║         19.16 ║
     ╚══════════════════════╩═══════════════╝
-
     ╔══════════════════════════════╦═══════════════╗
     ║ ANC2                         ║   Association ║
     ╠══════════════════════════════╬═══════════════╣
@@ -90,7 +84,6 @@ You can also return the result in a table:
     ║ Ukrainian flags              ║         19.16 ║
     ║ well-lit sights              ║         19.16 ║
     ╚══════════════════════════════╩═══════════════╝
-
     ╔═══════════════╦═══════════════╗
     ║ VPC           ║   Association ║
     ╠═══════════════╬═══════════════╣
@@ -105,7 +98,6 @@ You can also return the result in a table:
     ║ screw up      ║         10.41 ║
     ║ scorch out    ║         10.4  ║
     ╚═══════════════╩═══════════════╝
-
     ╔══════════════╦═══════════════╗
     ║ NP           ║   Association ║
     ╠══════════════╬═══════════════╣
