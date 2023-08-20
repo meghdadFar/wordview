@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clustering &mdash; wordview &#34;1.1.2&#34; documentation</title>
+  <title>Cluster Analysis &mdash; wordview &#34;1.1.2&#34; documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Utilities" href="utilities.html" />
-    <link rel="prev" title="Anomalies &amp; Outliers" href="anomalies.html" /> 
+    <link rel="prev" title="Analysis of Anomalies &amp; Outliers" href="anomalies.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,12 +52,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA):</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mwes.html">Multiword Expressions (MWEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwes.html">Analysis &amp; Extraction of Multiword Expressions (MWEs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Anomalies &amp; Outliers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cluster Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities:</span></p>
 <ul>
@@ -87,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Clustering</li>
+      <li class="breadcrumb-item active">Cluster Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/clustering.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -97,13 +97,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="clustering">
-<h1>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading"></a></h1>
+  <section id="cluster-analysis">
+<h1>Cluster Analysis<a class="headerlink" href="#cluster-analysis" title="Permalink to this heading"></a></h1>
 <p>Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
-Despite it’s ability to provide valuable insights into your data, you do not need labeled data for clustering. <code class="docutils literal notranslate"><span class="pre">wordview</span></code> provide
+Despite it’s ability to provide valuable insights into your data, you do not need labeled data for clustering. Wordview provide
 a clustering API with options across vectorization models and clustering algorithms to ensure that the user has access to a wide
 experiment space in order to find the most suitable model for their purpose. See the following example to learn how you can get started with
-clustering in <code class="docutils literal notranslate"><span class="pre">wordview</span></code>.</p>
+clustering in Wordview.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wordview.clustering</span> <span class="kn">import</span> <span class="n">Cluster</span>
 <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Human machine interface for lab abc computer applications&quot;</span><span class="p">,</span>
@@ -127,7 +127,7 @@ clustering in <code class="docutils literal notranslate"><span class="pre">wordv
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="anomalies.html" class="btn btn-neutral float-left" title="Anomalies &amp; Outliers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="anomalies.html" class="btn btn-neutral float-left" title="Analysis of Anomalies &amp; Outliers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

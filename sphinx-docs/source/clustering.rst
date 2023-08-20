@@ -1,11 +1,11 @@
-Clustering
-##########
+Cluster Analysis
+################
 
 Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
-Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. ``wordview`` provide 
+Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering. Wordview provide 
 a clustering API with options across vectorization models and clustering algorithms to ensure that the user has access to a wide
 experiment space in order to find the most suitable model for their purpose. See the following example to learn how you can get started with
-clustering in ``wordview``.
+clustering in Wordview.
 
 .. code:: python
 

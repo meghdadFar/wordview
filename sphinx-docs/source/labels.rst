@@ -1,5 +1,5 @@
-Label Stats
------------
+Label Analysis
+##############
 
 Wordview provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
@@ -40,4 +40,4 @@ labels (e.g. Named Entity tags such as PER, LOC). Wordview offers
 functions to see the overall and document-level distribution of sequence
 labels.
 
-.. |labels| image:: ../figs/labels.png
+.. |labels| image:: ../figs/labels_peach.png

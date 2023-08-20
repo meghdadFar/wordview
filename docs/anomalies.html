@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anomalies &amp; Outliers &mdash; wordview &#34;1.1.2&#34; documentation</title>
+  <title>Analysis of Anomalies &amp; Outliers &mdash; wordview &#34;1.1.2&#34; documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Clustering" href="clustering.html" />
+    <link rel="next" title="Cluster Analysis" href="clustering.html" />
     <link rel="prev" title="Bias Analysis" href="bias.html" /> 
 </head>
 
@@ -52,12 +52,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA):</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mwes.html">Multiword Expressions (MWEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwes.html">Analysis &amp; Extraction of Multiword Expressions (MWEs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Anomalies &amp; Outliers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis of Anomalies &amp; Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities:</span></p>
 <ul>
@@ -87,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Anomalies &amp; Outliers</li>
+      <li class="breadcrumb-item active">Analysis of Anomalies &amp; Outliers</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/anomalies.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -97,8 +97,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="anomalies-outliers">
-<h1>Anomalies &amp; Outliers<a class="headerlink" href="#anomalies-outliers" title="Permalink to this heading"></a></h1>
+  <section id="analysis-of-anomalies-outliers">
+<h1>Analysis of Anomalies &amp; Outliers<a class="headerlink" href="#analysis-of-anomalies-outliers" title="Permalink to this heading"></a></h1>
 <p>Sometimes, anomalies find their way into the data and tamper with the
 quality of the downstream ML model. For instance, a classifier that is
 trained to classify input documents into N known classes, does not know
@@ -135,7 +135,7 @@ distribution of your data. See a worked example below.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="bias.html" class="btn btn-neutral float-left" title="Bias Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="clustering.html" class="btn btn-neutral float-right" title="Clustering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="clustering.html" class="btn btn-neutral float-right" title="Cluster Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
