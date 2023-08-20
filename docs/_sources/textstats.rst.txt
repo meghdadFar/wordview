@@ -1,5 +1,5 @@
 Text Analysis
--------------
+#############
 
 Wordview provides an overview of your text data, as well as general statistics and different
 distributions and plots via ``TextStatsPlots`` class. To get started, import and 
@@ -7,6 +7,7 @@ instantiate an object of ``TextStatsPlots`` using your dataset:
 
 
 .. code:: python
+
    import pandas as pd
    from wordview.text_analysis import TextStatsPlots
    
@@ -18,9 +19,10 @@ Overview
 Use the ``show_stats`` method to see a set of different statistics about
 of your dataset.
 
-.. code:: python
+.. code-block:: python
 
    ta.show_stats()
+   
    ┌───────────────────┬─────────┐
    │ Language/s        │ EN      │
    ├───────────────────┼─────────┤
@@ -39,9 +41,9 @@ of your dataset.
    │ Verbs             │ 15,241  │
    └───────────────────┴─────────┘
 
+
 Distributions
 ~~~~~~~~~~~~~
-
 You can look into different distributions using the ``show_distplot``
 method. For instance, you can see the distribution of document lengths
 to decide on a sequence length in sequence models with a fixed input or

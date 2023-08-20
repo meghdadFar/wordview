@@ -1,5 +1,5 @@
 Label Analysis
---------------
+##############
 
 Wordview provides several statistics for labels in labeled datasets.
 To use this feature, you can use ``LabelStatsPlots``.
