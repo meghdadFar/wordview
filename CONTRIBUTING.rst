@@ -1,7 +1,7 @@
 Contributing to wordview
 ========================
 
-Thank you for contributing to wordview! We and the users of this repo
+Thank you for contributing to Wordview! We and the users of this repo
 appreciate your efforts! Please follow the guidelines below to start contributing to Wordview.
 
 Start with a GitHub Issue
