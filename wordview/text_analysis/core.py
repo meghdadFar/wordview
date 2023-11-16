@@ -11,6 +11,7 @@ import plotly
 import plotly.graph_objs as go
 from langdetect import detect
 from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize
 from plotly.subplots import make_subplots
 from tqdm import tqdm
 from wordcloud import WordCloud, get_single_color_func
@@ -304,6 +305,7 @@ def do_txt_analysis(
     punctuations = set(string.punctuation)
 
     doc_lengths = []
+    sentence_lengths = []
     token_to_count_dict: Dict[str, int] = {}
     NNs: Dict[str, int] = {}
     JJs: Dict[str, int] = {}
@@ -317,6 +319,10 @@ def do_txt_analysis(
         try:
             tokens = text.lower().split(" ")
             doc_lengths.append(len(tokens))
+            sentences = sent_tokenize(text.lower())
+            for sentence in sentences:
+                sentence_tokens = sentence.split(" ")
+                sentence_lengths.append(len(sentence_tokens))
             if skip_stopwords_punc:
                 tokens = [
                     t for t in tokens if t not in stop_words and t not in punctuations
@@ -366,6 +372,7 @@ def do_txt_analysis(
 
     return TxtAnalysisFields(
         doc_lengths=doc_lengths,
+        sentence_lengths=sentence_lengths,
         zipf_x=x,
         zipf_y_emp=y_emperical,
         zipf_y_theory=y_theoritical,
@@ -385,6 +392,7 @@ class TxtAnalysisFields:
     def __init__(
         self,
         doc_lengths,
+        sentence_lengths,
         zipf_x,
         zipf_y_emp,
         zipf_y_theory,
@@ -399,6 +407,7 @@ class TxtAnalysisFields:
         token_to_count_dict,
     ):
         self.doc_lengths = doc_lengths
+        self.sentence_lengths = sentence_lengths
         self.zipf_x = zipf_x
         self.zipf_y_emp = zipf_y_emp
         self.zipf_y_theory = zipf_y_theory
