@@ -156,7 +156,7 @@ class TextStatsPlots:
         res = ff.create_distplot(
             [self.analysis.sentence_lengths],
             group_labels=["distplot"],
-            colors=[plot_settings.get("color", "blue")],
+            colors=[plot_settings.get("color", "midnightblue")],
         )
         tmp_layout_settings = layout_settings
         tmp_layout_settings.update({"showlegend": False})
