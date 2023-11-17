@@ -52,15 +52,24 @@ when you carry out mini-batch training.
 
 .. code:: python
 
-   ta.show_distplot(plot='doc_len')
+   ta.show_distplot(distribution='doc_len')
 
 |doclen|
+
+You can also see the distribution of sentence lengths to make better
+decisions about semantic composition functions and sentence embeddings.
+
+.. code:: python
+
+   ta.show_distplot(distribution='sentence_len')
+
+|sentencelen|
 
 Or, you can see the Zipf distribution of words:
 
 .. code:: python
 
-   ta.show_distplot(plot='word_frequency_zipf')
+   ta.show_distplot(distribution='word_frequency_zipf')
 
 |wordszipf|
 
@@ -90,3 +99,4 @@ use the ``show_word_clouds`` method.
 .. |adjs| image:: ../figs/adjectives.png
 .. |doclen| image:: ../figs/doclen.png
 .. |wordszipf| image:: ../figs/wordszipf.png
+.. |sentencelen| image:: ../figs/sentencelen.png

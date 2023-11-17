@@ -21,7 +21,7 @@ class TextStatsPlots:
         self,
         df: pandas.DataFrame,
         text_column: str,
-        distributions: set = {"doc_len", "word_frequency_zipf"},
+        distributions: set = {"doc_len", "word_frequency_zipf", "sentence_len"},
         pos_tags: set = {"NN", "VB", "JJ"},
     ) -> None:
         """Initialize a new TextStatsPlots object with the given arguments.
@@ -30,7 +30,8 @@ class TextStatsPlots:
             df: DataFrame with a text_column that contains the text corpus.
             text_column: Specifies the column of DataFrame where text data resides.
             distributions: set of distribution types to generate and plot. Available distributions are: \n
-                `doc_len`: document lengths \n
+                `doc_len`: Document lengths \n
+                `sentence_len`: Sentence lengths \n
                 `word_frequency_zipf`: Zipfian word frequency distribution. \n
                 Default = ``{'doc_len', 'word_frequency_zipf'}`` \n
             pos_tags: A set of target POS tags for downstream analysis. \n
@@ -100,6 +101,8 @@ class TextStatsPlots:
             self._create_doc_len_plot(layout_settings, plot_settings).show()
         elif distribution == "word_frequency_zipf":
             self._create_word_freq_zipf_plot(layout_settings, plot_settings).show()
+        elif distribution == "sentence_len":
+            self._create_sentence_len_plot(layout_settings, plot_settings).show()
 
     def _create_doc_len_plot(
         self, layout_settings: dict[str, Any] = {}, plot_settings: dict[str, str] = {}
@@ -141,6 +144,19 @@ class TextStatsPlots:
                     colorscale=plot_settings.get("theoritical_zipf_colorscale", "Reds"),
                 ),
             )
+        )
+        tmp_layout_settings = layout_settings
+        tmp_layout_settings.update({"showlegend": False})
+        res.update_layout(tmp_layout_settings)
+        return res
+
+    def _create_sentence_len_plot(
+        self, layout_settings: dict[str, Any] = {}, plot_settings: dict[str, str] = {}
+    ) -> go.Figure:
+        res = ff.create_distplot(
+            [self.analysis.sentence_lengths],
+            group_labels=["distplot"],
+            colors=[plot_settings.get("color", "midnightblue")],
         )
         tmp_layout_settings = layout_settings
         tmp_layout_settings.update({"showlegend": False})
