@@ -52,12 +52,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA):</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Stats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mwes.html">Multiword Expressions (MWEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwes.html">Analysis &amp; Extraction of Multiword Expressions (MWEs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Anomalies &amp; Outliers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities:</span></p>
 <ul>
@@ -66,8 +66,9 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to wordview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#environment-setup">Environment Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#start-with-a-github-issue">Start with a GitHub Issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-the-up-to-date-code">Get the Up to Date Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-your-dev-environment">Setup your Dev Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-quality">Code Quality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pull-request-pr">Pull Request (PR)</a></li>
@@ -106,38 +107,55 @@
              
   <section id="contributing-to-wordview">
 <h1>Contributing to wordview<a class="headerlink" href="#contributing-to-wordview" title="Permalink to this heading"></a></h1>
-<p>Writing a random text to be removed in order to test semantic versioning.</p>
-<p>Thank you for contributing to wordview! We and the users of this repo
-appreciate your efforts! If you spot a problem or you have a feature request
-or you wanted to suggest an improvement, please create an issue. Please
-first search the existing open and closed issues
-<a class="reference external" href="https://github.com/meghdadFar/wordview/issues">here</a>. If a related
-issue already exists, you can add your comment and avoid creating
-duplicate or very similar issues. If you come across an issue that you
-would like to work on, feel free to <a class="reference external" href="#pull-request-pr">open a PR</a> for
-it.</p>
-<section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
-<p>To begin contributing, clone the repository and make sure you are on
-<code class="docutils literal notranslate"><span class="pre">main</span></code> branch. Then create your own branch.</p>
+<p>Thank you for contributing to Wordview! We and the users of this repo
+appreciate your efforts! Please follow the guidelines below to start contributing to Wordview.</p>
+<section id="start-with-a-github-issue">
+<h2>Start with a GitHub Issue<a class="headerlink" href="#start-with-a-github-issue" title="Permalink to this heading"></a></h2>
+<p>If you are developing a feature, or you spot a problem, or you want to suggest an improvement,
+please first search the issues to see whether a related issue already exists.
+You can search for the existing issues <a class="reference external" href="https://github.com/meghdadFar/wordview/issues">here</a>.
+If a related issue already exists, you can add comment and assign it to yourself,
+otherwise, you are welcome to create a new issue.</p>
+</section>
+<section id="get-the-up-to-date-code">
+<h2>Get the Up to Date Code<a class="headerlink" href="#get-the-up-to-date-code" title="Permalink to this heading"></a></h2>
+<p>To begin contributing, clone the repository and make sure you are on <code class="docutils literal notranslate"><span class="pre">main</span></code> branch,
+or if you have already cloned the repo, make sure you have the latest updates.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repo</span>
 git<span class="w"> </span>clone<span class="w"> </span>git@github.com:meghdadFar/wordview.git
 
 <span class="c1"># If it&#39;s been a while since you cloned, make sure you have the latest updates:</span>
 git<span class="w"> </span>pull
-
-<span class="c1"># Create a new branch</span>
+</pre></div>
+</div>
+<p>You can now start working on your issue by creating a new branch.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new branch</span>
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;branch_name&gt;
 </pre></div>
 </div>
-<p>Please try to name your branch such that the name clarifies the purpose
-of your branch, to some extent. We commonly use hyphenated branch names.
-For instance, if you are developing an anomaly detection functionality
-based on a normal distribution, a good branch name can be
-<code class="docutils literal notranslate"><span class="pre">normal-dist-anomaly-detection</span></code>.</p>
+<p>Please follow these guidelines for naming your branches:</p>
+<p><strong>Use Descriptive Names:</strong> Branch names should provide a clear indication of the purpose or content of the branch. A developer should be able to understand the purpose of the branch just from its name.</p>
+<p><strong>Use Hyphens:</strong> Stick to hyphens (“-”) to separate words in branch names. Avoid spaces or special characters that might cause issues on different systems or in URLs.</p>
+<p><strong>Use Lowercase:</strong> Use lowercase letters when naming your branch.</p>
+<p><strong>Include a Prefix</strong>: Use one of the following prefixes:</p>
+<ul class="simple">
+<li><p>feature/ for feature branches</p></li>
+<li><p>bugfix/ for bug fix branches</p></li>
+<li><p>hotfix/ for critical hotfix branches</p></li>
+<li><p>release/ for release branches</p></li>
+<li><p>chore/ for maintenance or housekeeping tasks</p></li>
+</ul>
+<p>Here aer some examples:</p>
+<ul class="simple">
+<li><p>feature/user-profile</p></li>
+<li><p>bugfix/payment-gateway</p></li>
+<li><p>hotfix/security-update</p></li>
+<li><p>release/2.1.0</p></li>
+<li><p>chore/update-dependencies</p></li>
+</ul>
 </section>
-<section id="environment-setup">
-<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h2>
+<section id="setup-your-dev-environment">
+<h2>Setup your Dev Environment<a class="headerlink" href="#setup-your-dev-environment" title="Permalink to this heading"></a></h2>
 <p>We use <a class="reference external" href="https://pypi.org/project/poetry/">Poetry</a> to manage
 dependencies and packaging. Follow these steps to set up your dev
 environment:</p>

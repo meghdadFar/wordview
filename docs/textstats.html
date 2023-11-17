@@ -146,12 +146,18 @@ of your dataset.</p>
 method. For instance, you can see the distribution of document lengths
 to decide on a sequence length in sequence models with a fixed input or
 when you carry out mini-batch training.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_distplot</span><span class="p">(</span><span class="n">plot</span><span class="o">=</span><span class="s1">&#39;doc_len&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_distplot</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="s1">&#39;doc_len&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><img alt="doclen" src="_images/doclen.png" /></p>
+<p>You can also see the distribution of sentence lengths to make better
+decisions about semantic composition functions and sentence embeddings.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_distplot</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="s1">&#39;sentence_len&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="sentencelen" src="_images/sentencelen.png" /></p>
 <p>Or, you can see the Zipf distribution of words:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_distplot</span><span class="p">(</span><span class="n">plot</span><span class="o">=</span><span class="s1">&#39;word_frequency_zipf&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_distplot</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="s1">&#39;word_frequency_zipf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><img alt="wordszipf" src="_images/wordszipf.png" /></p>
