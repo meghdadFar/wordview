@@ -5,7 +5,6 @@ from typing import Any, Dict, List, Tuple
 
 import nltk
 import numpy as np
-import pandas
 import pandas as pd
 import plotly
 import plotly.graph_objs as go
@@ -20,6 +19,29 @@ from bin.nltk_resources import check_nltk_resources
 from wordview import logger
 
 check_nltk_resources()
+
+
+def plotly_barplot(
+    token_count_dic: dict, plot_settings: Dict = {}
+) -> plotly.graph_objects.Bar:
+    """
+    Create a bar plot trace for plotly.
+
+    Args:
+        token_count_dic (Dict): Dictionary of token to its count
+        **kwargs:
+
+    Returns:
+        trace (plotly.graph_objects.Bar)
+    """
+    max_words = plot_settings.get("max_words", 100)
+    trace = go.Bar(
+        x=sorted(
+            list(token_count_dic.keys()), key=lambda x: token_count_dic[x], reverse=True
+        )[:max_words],
+        y=sorted(list(token_count_dic.values()), reverse=True)[:max_words],
+    )
+    return trace
 
 
 def plotly_wordcloud(
@@ -87,7 +109,7 @@ def plotly_wordcloud(
 
 
 def generate_label_plots(
-    df: pandas.DataFrame, label_cols: List[Tuple], layout_settings: Dict = {}
+    df: pd.DataFrame, label_cols: List[Tuple], layout_settings: Dict = {}
 ) -> plotly.graph_objects.Figure:
     """Generate histogram and bar plots for the labels in label_cols.
 
@@ -200,7 +222,7 @@ def generate_label_plots(
 
 
 def label_plot(
-    df: pandas.DataFrame, label_col: str, label_type: str
+    df: pd.DataFrame, label_col: str, label_type: str
 ) -> plotly.graph_objects.Histogram:
     """Create a plot for label_col in df, wrt to label_type.
 
@@ -249,7 +271,7 @@ def label_plot(
 
 
 def do_txt_analysis(
-    df: pandas.DataFrame,
+    df: pd.DataFrame,
     text_col: str,
     language: str = "english",
     skip_stopwords_punc: bool = True,
@@ -257,7 +279,7 @@ def do_txt_analysis(
     """Generate analysis report and eitherr renders the report via Plotly show api or saves it offline to html.
 
     Args:
-        df (pandas.DataFrame): DataFrame that contains text and labels.
+        df (pd.DataFrame): DataFrame that contains text and labels.
         text_col (str): Name of the column that contains a tokenized text content.
         language (str): Language of the text in df[text_col]
         skip_stopwords_punc (bool): Whether or not skip stopwords and punctuations in the analysis. Default: True
@@ -267,6 +289,45 @@ def do_txt_analysis(
     """
 
     global ftmodel
+
+    tags_list = [
+        "CC",
+        "CD",
+        "DT",
+        "EX",
+        "FW",
+        "IN",
+        "JJ",
+        "JJR",
+        "JJS",
+        "LS",
+        "MD",
+        "NN",
+        "NNS",
+        "NNP",
+        "NNPS",
+        "PDT",
+        "POS",
+        "PRP",
+        "PRP$",
+        "RB",
+        "RBR",
+        "RBS",
+        "RP",
+        "SYM",
+        "TO",
+        "UH",
+        "VB",
+        "VBD",
+        "VBG",
+        "VBN",
+        "VBP",
+        "VBZ",
+        "WDT",
+        "WP",
+        "WP$",
+        "WRB",
+    ]
 
     def update_count(items_dic: dict, items: List[str]) -> None:
         """Update the corresponding count for each key in  items_dic. w.r.t. terms in items.
@@ -307,9 +368,7 @@ def do_txt_analysis(
     doc_lengths = []
     sentence_lengths = []
     token_to_count_dict: Dict[str, int] = {}
-    NNs: Dict[str, int] = {}
-    JJs: Dict[str, int] = {}
-    Vs: Dict[str, int] = {}
+    pos_counts: Dict[str, dict] = {pos: {} for pos in tags_list}
     languages = set()
 
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
@@ -336,12 +395,10 @@ def do_txt_analysis(
             continue
 
         postag_tokens = nltk.pos_tag(tokens)
-        nouns = get_pos(postag_tokens, "NN")
-        update_count(NNs, nouns)
-        verbs = get_pos(postag_tokens, "VB")
-        update_count(Vs, verbs)
-        adjectives = get_pos(postag_tokens, "JJ")
-        update_count(JJs, adjectives)
+
+        for pos in tags_list:
+            pos_items = get_pos(postag_tokens, pos)
+            update_count(pos_counts[pos], pos_items)
 
     freq_df = pd.DataFrame(
         {"tokens": token_to_count_dict.keys(), "count": token_to_count_dict.values()}
@@ -381,9 +438,7 @@ def do_txt_analysis(
         token_count=n_tokens,
         doc_count=len(doc_lengths),
         median_doc_len=median(doc_lengths),
-        nns=NNs,
-        jjs=JJs,
-        vs=Vs,
+        pos_counts=pos_counts,
         token_to_count_dict=token_to_count_dict,
     )
 
@@ -401,9 +456,7 @@ class TxtAnalysisFields:
         token_count,
         doc_count,
         median_doc_len,
-        nns,
-        jjs,
-        vs,
+        pos_counts,
         token_to_count_dict,
     ):
         self.doc_lengths = doc_lengths
@@ -416,7 +469,5 @@ class TxtAnalysisFields:
         self.token_count = token_count
         self.doc_count = doc_count
         self.median_doc_len = median_doc_len
-        self.nns = nns
-        self.jjs = jjs
-        self.vs = vs
+        self.pos_counts = pos_counts
         self.token_to_count_dict = token_to_count_dict

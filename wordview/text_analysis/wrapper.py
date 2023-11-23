@@ -8,6 +8,7 @@ from tabulate import tabulate  # type: ignore
 from wordview.text_analysis.core import (
     do_txt_analysis,
     generate_label_plots,
+    plotly_barplot,
     plotly_wordcloud,
 )
 
@@ -22,7 +23,44 @@ class TextStatsPlots:
         df: pandas.DataFrame,
         text_column: str,
         distributions: set = {"doc_len", "word_frequency_zipf", "sentence_len"},
-        pos_tags: set = {"NN", "VB", "JJ"},
+        pos_tags: set = {
+            "CC",
+            "CD",
+            "DT",
+            "EX",
+            "FW",
+            "IN",
+            "JJ",
+            "JJR",
+            "JJS",
+            "LS",
+            "MD",
+            "NN",
+            "NNS",
+            "NNP",
+            "NNPS",
+            "PDT",
+            "POS",
+            "PRP",
+            "PRP$",
+            "RB",
+            "RBR",
+            "RBS",
+            "RP",
+            "SYM",
+            "TO",
+            "UH",
+            "VB",
+            "VBD",
+            "VBG",
+            "VBN",
+            "VBP",
+            "VBZ",
+            "WDT",
+            "WP",
+            "WP$",
+            "WRB",
+        },
     ) -> None:
         """Initialize a new TextStatsPlots object with the given arguments.
 
@@ -35,7 +73,10 @@ class TextStatsPlots:
                 `word_frequency_zipf`: Zipfian word frequency distribution. \n
                 Default = ``{'doc_len', 'word_frequency_zipf'}`` \n
             pos_tags: A set of target POS tags for downstream analysis. \n
-                Default = ``{'NN', 'VB', 'JJ'}``
+                Default = ``{'CC', 'CD', 'DT', 'EX', 'FW', 'IN', 'JJ', 'JJR', 'JJS', 'LS',
+                'MD', 'NN', 'NNS', 'NNP', 'NNPS', 'PDT', 'POS', 'PRP', 'PRP$',
+                'RB', 'RBR', 'RBS', 'RP', 'SYM', 'TO', 'UH', 'VB', 'VBD', 'VBG',
+                'VBN', 'VBP', 'VBZ', 'WDT', 'WP', 'WP$', 'WRB'}`` \n
 
         Returns:
             None
@@ -49,9 +90,7 @@ class TextStatsPlots:
         self.token_count = self.analysis.token_count
         self.num_docs = self.analysis.doc_count
         self.median_doc_len = self.analysis.median_doc_len
-        self.num_nns = len(self.analysis.nns)
-        self.num_jjs = len(self.analysis.jjs)
-        self.num_vbs = len(self.analysis.vs)
+        self.pos_counts = {k: len(v) for k, v in self.analysis.pos_counts.items()}
 
     def show_distplot(
         self,
@@ -166,6 +205,7 @@ class TextStatsPlots:
     def _create_pos_plots(
         self,
         pos: str,
+        option: str,
         layout_settings: dict[str, Any] = {},
         plot_settings: dict[str, Any] = {},
     ) -> go.Figure:
@@ -180,21 +220,24 @@ class TextStatsPlots:
             "xaxis_visible": False,
             "xaxis_showticklabels": False,
         }
-        layout_settings = layout_settings
-        layout_settings.update(word_cloud_layout_fixed_settings)
 
-        if pos == "NN" and "NN" in self.pos_tags:
-            return go.Figure(
-                plotly_wordcloud(self.analysis.nns, plot_settings)
-            ).update_layout(layout_settings)
-        elif pos == "JJ" and "JJ" in self.pos_tags:
-            return go.Figure(
-                plotly_wordcloud(self.analysis.jjs, plot_settings)
-            ).update_layout(layout_settings)
-        elif pos == "VB" and "VB" in self.pos_tags:
-            return go.Figure(
-                plotly_wordcloud(self.analysis.vs, plot_settings)
-            ).update_layout(layout_settings)
+        bar_plot_layout_fixed_settings = {
+            "xaxis_title": "Word",
+            "yaxis_title": "Count",
+            "xaxis_dtick": 1,
+        }
+
+        if pos in self.pos_tags and pos in self.pos_counts:
+            if option == "word_cloud":
+                layout_settings.update(word_cloud_layout_fixed_settings)
+                return go.Figure(
+                    plotly_wordcloud(self.analysis.pos_counts[pos], plot_settings)
+                ).update_layout(layout_settings)
+            elif option == "bar_plot":
+                layout_settings.update(bar_plot_layout_fixed_settings)
+                return go.Figure(
+                    plotly_barplot(self.analysis.pos_counts[pos], plot_settings)
+                ).update_layout(layout_settings)
         else:
             raise ValueError(
                 f"Invalid value for pos: {pos}. Valid values are: {self.pos_tags}"
@@ -209,7 +252,8 @@ class TextStatsPlots:
         """Shows POS word clouds.
 
         Args:
-            pos: Type of POS. Can be any of: [NN, JJ, VB].
+            pos: Type of POS. Can be any of the Penn POS tags
+            (https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html).
             layout_settings: To customize the plot layout. For example:
                 layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
                    'paper_bgcolor': 'rgba(255, 255, 255, 1)',
@@ -222,7 +266,31 @@ class TextStatsPlots:
         Returns:
             None
         """
-        self._create_pos_plots(pos, layout_settings, plot_settings).show()
+        self._create_pos_plots(pos, "word_cloud", layout_settings, plot_settings).show()
+
+    def show_bar_plots(
+        self,
+        pos: str,
+        layout_settings: dict[str, Any] = {},
+        plot_settings: dict[str, str] = {},
+    ) -> None:
+        """
+        Shows POS bar plots.
+
+        Args:
+            pos: Type of POS. Can be any of the Penn POS tags
+            (https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html).
+            layout_settings: To customize the plot layout. For example:
+                layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                   'hovermode': 'y'
+                    }
+            plot_settings = To customize the plot colors and other attributes. For example:
+                {'color': 'darkgreen',
+                    'max_words': 200}
+        """
+
+        self._create_pos_plots(pos, "bar_plot", layout_settings, plot_settings).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
@@ -242,9 +310,9 @@ class TextStatsPlots:
                 ["All Words", f"{self.token_count:,d}"],
                 ["Documents", f"{self.num_docs:,d}"],
                 ["Median Doc Length", self.median_doc_len],
-                ["Nouns", f"{self.num_nns:,d}"],
-                ["Adjectives", f"{self.num_jjs:,d}"],
-                ["Verbs", f"{self.num_vbs:,d}"],
+                ["Nouns", f"{self.pos_counts['NN']:,d}"],
+                ["Adjectives", f"{self.pos_counts['JJ']:,d}"],
+                ["Verbs", f"{self.pos_counts['VB']:,d}"],
             ],
             tablefmt="simple_grid",
         )
