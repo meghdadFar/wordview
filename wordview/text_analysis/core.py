@@ -287,9 +287,6 @@ def do_txt_analysis(
     Returns:
         TxtAnalysisFields
     """
-
-    global ftmodel
-
     tags_list = [
         "CC",
         "CD",
