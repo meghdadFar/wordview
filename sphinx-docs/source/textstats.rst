@@ -80,8 +80,10 @@ to learn how Zipf’s law can be used to improve some NLP models.
 
 Part of Speech Tags
 ~~~~~~~~~~~~~~~~~~~
-To see different Part of Speech tags in the form of word clouds, you can
-use the ``show_word_clouds`` method.
+The different Part of Speech tags can be viewed using two methods:
+``show_word_clouds()`` and ``show_bar_plots()``. Both methods take a
+``pos`` argument, which can be one of the tags in the `Penn Treebank
+Project <https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html>`.
 
 .. code:: python
 
@@ -93,9 +95,6 @@ use the ``show_word_clouds`` method.
    ta.show_word_clouds(pos="JJ")
 
 |verbs| |nouns| |adjs|
-
-Alternatively, you can use the ``show_bar_plots`` method to see the tags
-in the form of bar plots.
 
 .. code:: python
    

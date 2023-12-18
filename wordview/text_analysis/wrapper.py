@@ -82,7 +82,9 @@ class TextStatsPlots:
             None
         """
         self.df = df
-        self.analysis = do_txt_analysis(df=self.df, text_col=text_column)
+        self.analysis = do_txt_analysis(
+            df=self.df, text_col=text_column, pos_tags=pos_tags
+        )
         self.distributions = distributions
         self.pos_tags = pos_tags
         self.languages = self.analysis.languages
@@ -90,7 +92,9 @@ class TextStatsPlots:
         self.token_count = self.analysis.token_count
         self.num_docs = self.analysis.doc_count
         self.median_doc_len = self.analysis.median_doc_len
-        self.pos_counts = {k: len(v) for k, v in self.analysis.pos_counts.items()}
+        self.pos_counts = {
+            k: len(v) for k, v in self.analysis.word_count_by_pos.items()
+        }
 
     def show_distplot(
         self,
@@ -231,12 +235,14 @@ class TextStatsPlots:
             if option == "word_cloud":
                 layout_settings.update(word_cloud_layout_fixed_settings)
                 return go.Figure(
-                    plotly_wordcloud(self.analysis.pos_counts[pos], plot_settings)
+                    plotly_wordcloud(
+                        self.analysis.word_count_by_pos[pos], plot_settings
+                    )
                 ).update_layout(layout_settings)
             elif option == "bar_plot":
                 layout_settings.update(bar_plot_layout_fixed_settings)
                 return go.Figure(
-                    plotly_barplot(self.analysis.pos_counts[pos], plot_settings)
+                    plotly_barplot(self.analysis.word_count_by_pos[pos], plot_settings)
                 ).update_layout(layout_settings)
         else:
             raise ValueError(
@@ -313,6 +319,8 @@ class TextStatsPlots:
                 ["Nouns", f"{self.pos_counts['NN']:,d}"],
                 ["Adjectives", f"{self.pos_counts['JJ']:,d}"],
                 ["Verbs", f"{self.pos_counts['VB']:,d}"],
+                ["Proper Nouns", f"{self.pos_counts['NNP']:,d}"],
+                ["Adverbs", f"{self.pos_counts['RB']:,d}"],
             ],
             tablefmt="simple_grid",
         )

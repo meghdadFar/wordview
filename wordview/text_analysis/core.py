@@ -273,6 +273,7 @@ def label_plot(
 def do_txt_analysis(
     df: pd.DataFrame,
     text_col: str,
+    pos_tags: set,
     language: str = "english",
     skip_stopwords_punc: bool = True,
 ) -> Any:
@@ -280,6 +281,7 @@ def do_txt_analysis(
 
     Args:
         df (pd.DataFrame): DataFrame that contains text and labels.
+        pos_tags (set): Set of POS tags to look for in the text.
         text_col (str): Name of the column that contains a tokenized text content.
         language (str): Language of the text in df[text_col]
         skip_stopwords_punc (bool): Whether or not skip stopwords and punctuations in the analysis. Default: True
@@ -289,45 +291,6 @@ def do_txt_analysis(
     """
 
     global ftmodel
-
-    tags_list = [
-        "CC",
-        "CD",
-        "DT",
-        "EX",
-        "FW",
-        "IN",
-        "JJ",
-        "JJR",
-        "JJS",
-        "LS",
-        "MD",
-        "NN",
-        "NNS",
-        "NNP",
-        "NNPS",
-        "PDT",
-        "POS",
-        "PRP",
-        "PRP$",
-        "RB",
-        "RBR",
-        "RBS",
-        "RP",
-        "SYM",
-        "TO",
-        "UH",
-        "VB",
-        "VBD",
-        "VBG",
-        "VBN",
-        "VBP",
-        "VBZ",
-        "WDT",
-        "WP",
-        "WP$",
-        "WRB",
-    ]
 
     def update_count(items_dic: dict, items: List[str]) -> None:
         """Update the corresponding count for each key in  items_dic. w.r.t. terms in items.
@@ -368,7 +331,7 @@ def do_txt_analysis(
     doc_lengths = []
     sentence_lengths = []
     token_to_count_dict: Dict[str, int] = {}
-    pos_counts: Dict[str, dict] = {pos: {} for pos in tags_list}
+    word_count_by_pos: Dict[str, dict] = {pos: {} for pos in pos_tags}
     languages = set()
 
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
@@ -396,9 +359,9 @@ def do_txt_analysis(
 
         postag_tokens = nltk.pos_tag(tokens)
 
-        for pos in tags_list:
+        for pos in pos_tags:
             pos_items = get_pos(postag_tokens, pos)
-            update_count(pos_counts[pos], pos_items)
+            update_count(word_count_by_pos[pos], pos_items)
 
     freq_df = pd.DataFrame(
         {"tokens": token_to_count_dict.keys(), "count": token_to_count_dict.values()}
@@ -438,7 +401,7 @@ def do_txt_analysis(
         token_count=n_tokens,
         doc_count=len(doc_lengths),
         median_doc_len=median(doc_lengths),
-        pos_counts=pos_counts,
+        word_count_by_pos=word_count_by_pos,
         token_to_count_dict=token_to_count_dict,
     )
 
@@ -456,7 +419,7 @@ class TxtAnalysisFields:
         token_count,
         doc_count,
         median_doc_len,
-        pos_counts,
+        word_count_by_pos,
         token_to_count_dict,
     ):
         self.doc_lengths = doc_lengths
@@ -469,5 +432,5 @@ class TxtAnalysisFields:
         self.token_count = token_count
         self.doc_count = doc_count
         self.median_doc_len = median_doc_len
-        self.pos_counts = pos_counts
+        self.word_count_by_pos = word_count_by_pos
         self.token_to_count_dict = token_to_count_dict
