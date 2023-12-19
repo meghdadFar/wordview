@@ -1,9 +1,8 @@
 [tool.poetry]
 name = "wordview"
-version = "1.1.2"
-description = "Wordview is a Python package for text analysis."
+version = "1.2.0"
+description = """Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data."""
 authors = ["meghdadFar <meghdad.farahmand@gmail.com>"]
-readme = "README.rst"
 include = ["CHANGES.rst"]
 exclude = ["notebooks/", "tests/", "data/"]
 license = "MIT"
