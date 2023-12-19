@@ -1,3 +1,10 @@
+Version 1.2.0
+-------------
+- Support for all Penn POS tags
+- Bar plots for POS tags (in addition to wordclouds)
+- Remove deprecated fasttext model.
+
+
 Version 1.1.2
 -------------
 - Automatic check and download of NLTK missing resources. 
