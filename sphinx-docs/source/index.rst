@@ -7,13 +7,13 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Quick Start:
+   :caption: Quick Start
 
    start
 
 .. toctree::
    :maxdepth: 1
-   :caption: Exploratory Data Analysis (EDA):
+   :caption: Exploratory Data Analysis (EDA)
    
    textstats
    labels
@@ -24,14 +24,14 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Utilities:
+   :caption: Utilities
    
    utilities
 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contributing:
+   :caption: Contributing
    
    contributing
    codeofconduct
@@ -39,7 +39,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Reference:
+   :caption: API Reference
    
    api
 
