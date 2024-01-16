@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bias Analysis &mdash; wordview &#34;1.1.2&#34; documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analysis of Anomalies &amp; Outliers" href="anomalies.html" />
+    <link rel="prev" title="Analysis &amp; Extraction of Multiword Expressions (MWEs)" href="mwes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            wordview
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html#what-is-wordview">What is Wordview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html#tutorials">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwes.html">Analysis &amp; Extraction of Multiword Expressions (MWEs)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bias Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to wordview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codeofconduct.html">Contributor Code of Conduct</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">wordview</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Bias Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/bias.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bias-analysis">
+<h1>Bias Analysis<a class="headerlink" href="#bias-analysis" title="Permalink to this heading"></a></h1>
+<p>In the rapidly evolving realm of Natural Language Processing (NLP), downstream models are as unbiased and fair as the data on which they are trained.
+Wordview Bias Analysis module is designed to assist in the rigorous task of ensuring that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
+By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.</p>
+<p>While we are constantly developing Wordview’s Bias Analysis module, currently, it primarily flags explicit negative and positive sentiments tied to the mentioned categories.
+It might not catch subtler forms of biases and stereotypes.
+For instance, a sentence perpetuating a stereotype without conveying overt negativity or positivity may go undetected. Therefore, for optimal outcomes, it is recommended that users combine the insights from our tool with thorough manual reviews, ensuring the highest degree of fairness in their NLP applications.</p>
+<p>See the following worked examples for a quick overview of the Bias Analysis module.</p>
+<p><strong>Important Note:</strong> Please remember that the following examples with biases are constructed to illustrate the functionality of the bias detection system.
+They reflect negative stereotypes or biases and are not to be endorsed or perpetuated. Always ensure that such data is used responsibly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">biased_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="c1"># Gender</span>
+            <span class="s2">&quot;He is always so successful because men are naturally gifted.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;She is too emotional to lead; women cannot handle pressure.&quot;</span><span class="p">,</span>
+            <span class="c1"># Racial</span>
+            <span class="s2">&quot;Asians are brilliant at mathematics.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Black people are not fit for this kind of job.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Indian food is too spicy, and their traditions are too complex to understand.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Latinos are one of the many ethnic groups in the region.&quot;</span><span class="p">,</span>  <span class="c1"># neutral</span>
+            <span class="c1"># Religious</span>
+            <span class="s2">&quot;Christians are the only ones who know the true path to salvation.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Muslims cannot be trusted in our community.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Atheists often have a logical and evidence-based approach to understanding the world.&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">bias_detector</span> <span class="o">=</span> <span class="n">BiasDetector</span><span class="p">(</span><span class="n">biased_df</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="n">results_en</span> <span class="o">=</span> <span class="n">bias_detector</span><span class="o">.</span><span class="n">detect_bias</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can then access the results in a heatmap plot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bias_detector</span><span class="o">.</span><span class="n">show_plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which will result in the following output:</p>
+<a class="reference internal image-reference" href="_images/bias.png"><img alt="_images/bias.png" class="align-center" src="_images/bias.png" style="width: 600px;" /></a>
+<p>Or you can then access the results in tables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bias_detector</span><span class="o">.</span><span class="n">print_bias_table</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which will result in the following output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>╔═════════════╦═══════════════╗
+║ Gender      ║ Bias          ║
+╠═════════════╬═══════════════╣
+║ Male        ║ Very Positive ║
+║ Female      ║ Negative      ║
+║ Transgender ║ Unknown       ║
+║ Nonbinary   ║ Unknown       ║
+╚═════════════╩═══════════════╝
+
+╔════════════════╦═══════════════╗
+║ Racial         ║ Bias          ║
+╠════════════════╬═══════════════╣
+║ White          ║ Unknown       ║
+║ Black          ║ Very Negative ║
+║ Asian          ║ Very Positive ║
+║ Latino         ║ Neutral       ║
+║ Indian         ║ Negative      ║
+║ Middle_eastern ║ Unknown       ║
+╚════════════════╩═══════════════╝
+
+╔════════════╦═══════════════╗
+║ Religion   ║ Bias          ║
+╠════════════╬═══════════════╣
+║ Christian  ║ Very Positive ║
+║ Muslim     ║ Very Negative ║
+║ Jew        ║ Unknown       ║
+║ Hindu      ║ Unknown       ║
+║ Buddhist   ║ Unknown       ║
+║ Atheist    ║ Neutral       ║
+╚════════════╩═══════════════╝
+</pre></div>
+</div>
+<p>Alternatively, the data is returned in a json format that you can use as input to other applications.
+In the above example <cite>results_en</cite> which is a json in the following structure:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;gender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;male&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;female&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;transgender&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nonbinary&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;racial&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;white&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;black&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;asian&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;latino&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;indian&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;middle_eastern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;religion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;christian&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;muslim&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;jew&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hindu&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;buddhist&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-inf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;atheist&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span>
+<span class="p">}}</span>
+</pre></div>
+</div>
+<p>The values in the dictionary represent the bias score for each category.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mwes.html" class="btn btn-neutral float-left" title="Analysis &amp; Extraction of Multiword Expressions (MWEs)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="anomalies.html" class="btn btn-neutral float-right" title="Analysis of Anomalies &amp; Outliers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Meghdad Farahmand.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

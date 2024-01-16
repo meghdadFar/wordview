@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributing to wordview &mdash; wordview &#34;1.1.2&#34; documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributor Code of Conduct" href="codeofconduct.html" />
+    <link rel="prev" title="Utilities" href="utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            wordview
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html#what-is-wordview">What is Wordview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html#tutorials">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="textstats.html">Text Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labels.html">Label Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwes.html">Analysis &amp; Extraction of Multiword Expressions (MWEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to wordview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#start-with-a-github-issue">Start with a GitHub Issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-the-up-to-date-code">Get the Up to Date Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-your-dev-environment">Setup your Dev Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-quality">Code Quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pull-request-pr">Pull Request (PR)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="codeofconduct.html">Contributor Code of Conduct</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">wordview</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Contributing to wordview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/contributing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contributing-to-wordview">
+<h1>Contributing to wordview<a class="headerlink" href="#contributing-to-wordview" title="Permalink to this heading"></a></h1>
+<p>Thank you for contributing to Wordview! We and the users of this repo
+appreciate your efforts! Please follow the guidelines below to start contributing to Wordview.</p>
+<section id="start-with-a-github-issue">
+<h2>Start with a GitHub Issue<a class="headerlink" href="#start-with-a-github-issue" title="Permalink to this heading"></a></h2>
+<p>If you are developing a feature, or you spot a problem, or you want to suggest an improvement,
+please first search the issues to see whether a related issue already exists.
+You can search for the existing issues <a class="reference external" href="https://github.com/meghdadFar/wordview/issues">here</a>.
+If a related issue already exists, you can add comment and assign it to yourself,
+otherwise, you are welcome to create a new issue.</p>
+</section>
+<section id="get-the-up-to-date-code">
+<h2>Get the Up to Date Code<a class="headerlink" href="#get-the-up-to-date-code" title="Permalink to this heading"></a></h2>
+<p>To begin contributing, clone the repository and make sure you are on <code class="docutils literal notranslate"><span class="pre">main</span></code> branch,
+or if you have already cloned the repo, make sure you have the latest updates.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repo</span>
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:meghdadFar/wordview.git
+
+<span class="c1"># If it&#39;s been a while since you cloned, make sure you have the latest updates:</span>
+git<span class="w"> </span>pull
+</pre></div>
+</div>
+<p>You can now start working on your issue by creating a new branch.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;branch_name&gt;
+</pre></div>
+</div>
+<p>Please follow these guidelines for naming your branches:</p>
+<p><strong>Use Descriptive Names:</strong> Branch names should provide a clear indication of the purpose or content of the branch. A developer should be able to understand the purpose of the branch just from its name.</p>
+<p><strong>Use Hyphens:</strong> Stick to hyphens (“-”) to separate words in branch names. Avoid spaces or special characters that might cause issues on different systems or in URLs.</p>
+<p><strong>Use Lowercase:</strong> Use lowercase letters when naming your branch.</p>
+<p><strong>Include a Prefix</strong>: Use one of the following prefixes:</p>
+<ul class="simple">
+<li><p>feature/ for feature branches</p></li>
+<li><p>bugfix/ for bug fix branches</p></li>
+<li><p>hotfix/ for critical hotfix branches</p></li>
+<li><p>release/ for release branches</p></li>
+<li><p>chore/ for maintenance or housekeeping tasks</p></li>
+</ul>
+<p>Here aer some examples:</p>
+<ul class="simple">
+<li><p>feature/user-profile</p></li>
+<li><p>bugfix/payment-gateway</p></li>
+<li><p>hotfix/security-update</p></li>
+<li><p>release/2.1.0</p></li>
+<li><p>chore/update-dependencies</p></li>
+</ul>
+</section>
+<section id="setup-your-dev-environment">
+<h2>Setup your Dev Environment<a class="headerlink" href="#setup-your-dev-environment" title="Permalink to this heading"></a></h2>
+<p>We use <a class="reference external" href="https://pypi.org/project/poetry/">Poetry</a> to manage
+dependencies and packaging. Follow these steps to set up your dev
+environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+
+pip<span class="w"> </span>install<span class="w"> </span>poetry
+
+<span class="c1"># Disable Poetry&#39;s environment creation, since we already have created one</span>
+poetry<span class="w"> </span>config<span class="w"> </span>virtualenvs.create<span class="w"> </span><span class="nb">false</span>
+</pre></div>
+</div>
+<p>Use Poetry to install dev (and main) dependencies and download NLTK data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install
+poetry<span class="w"> </span>run<span class="w"> </span>nltk_download_script
+</pre></div>
+</div>
+<p>By default, dependencies across all non-optional groups are install. See
+<a class="reference external" href="https://python-poetry.org/docs/managing-dependencies/">Poetry
+documentation</a>
+for more details and for instructions on how to define optional
+dependency groups.</p>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading"></a></h2>
+<p>Testing of <code class="docutils literal notranslate"><span class="pre">wordview</span></code>’s is carried out via
+<a class="reference external" href="https://docs.pytest.org/">Pytest</a>. Please include tests for any
+piece of code that you create inside the <a class="reference external" href="./tests/">tests</a> directory.
+To see examples, you can consult the existing tests in this directory.
+Once you have provided the tests, simply run in the command line.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests
+</pre></div>
+</div>
+<p>If all tests pass, you can continue with the next steps.</p>
+</section>
+<section id="code-quality">
+<h2>Code Quality<a class="headerlink" href="#code-quality" title="Permalink to this heading"></a></h2>
+<p>To ensure a high quality in terms of readability, complying with PEP
+standards, and static type checking, we use <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> with
+<code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">flake8</span></code>, <code class="docutils literal notranslate"><span class="pre">mypy</span></code> and <code class="docutils literal notranslate"><span class="pre">isort</span></code>. The configurations are in
+<code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>. Once you have installed dev dependencies,
+following the above instructions, run <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code> so that the
+above tools are installed.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> install its dependencies successfully, it runs
+<code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">flake8</span></code>, <code class="docutils literal notranslate"><span class="pre">mypy</span></code> and <code class="docutils literal notranslate"><span class="pre">isort</span></code> each time you try to
+commit code. If one of these tools fail, fix the issue, run
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">&lt;changed_file&gt;</span></code> again, and then again
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&lt;commit_message&gt;</span></code>. Once you successfully committed your
+changes, you can push your branch to remote and create a PR. You can now merge your PR, following
+the instructions in <a class="reference external" href="#pull-request-pr">Pull Request (PR)</a>. Note that you can
+skip pre-commit checks by running your <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> with the <code class="docutils literal notranslate"><span class="pre">--no-verify</span></code> flag (e.g. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">'dirty</span> <span class="pre">fix'</span> <span class="pre">--no-verify</span></code>), however,
+this is discouraged unless you really have to.</p>
+</section>
+<section id="pull-request-pr">
+<h2>Pull Request (PR)<a class="headerlink" href="#pull-request-pr" title="Permalink to this heading"></a></h2>
+<p>Once your work is complete, you can make a pull request. Remember to
+link your pull request to an issue by using a supported keyword in the
+pull request’s description or in a commit message. E.g. “closes
+#issue_number”, “resolves &lt;#issue_number&gt;”, or “fixes &lt;#issue_number&gt;”. See
+<a class="reference external" href="https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue">this
+page</a>
+for more details.</p>
+<p>A good PR should have the following qualities:</p>
+<ul class="simple">
+<li><p>The title of the PR should be self-explanatory. For instance: “Add knn to clustering algorithms”.</p></li>
+<li><p>The description of the PR should describe why this PR was created and what was changed.</p></li>
+<li><p>An ideal PR is as small as possible. Small PRs can be reviewed and merged quickly, and reduce the risk of bugs. Ideally, a PR should be between 200 to 400 lines of code.</p></li>
+</ul>
+<p>Once your PR is submitted, a maintainer will review your PR. They may
+ask questions or suggest changes either using <a class="reference external" href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/incorporating-feedback-in-your-pull-request">suggested
+changes</a>
+or pull request comments.</p>
+<p>Once all the comments and changes are resolved, your PR will be merged.
+🥳🥳</p>
+<p>Thank you for your contribution! We are really excited to have your work
+integrated in <cite>wordview</cite>!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utilities.html" class="btn btn-neutral float-left" title="Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="codeofconduct.html" class="btn btn-neutral float-right" title="Contributor Code of Conduct" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Meghdad Farahmand.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
