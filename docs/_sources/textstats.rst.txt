@@ -80,23 +80,39 @@ to learn how Zipf’s law can be used to improve some NLP models.
 
 Part of Speech Tags
 ~~~~~~~~~~~~~~~~~~~
-To see different Part of Speech tags in the form of word clouds, you can
-use the ``show_word_clouds`` method.
+The different Part of Speech tags can be viewed using two methods:
+``show_word_clouds()`` and ``show_bar_plots()``. Both methods take a
+``pos`` argument, which can be one of the tags in the `Penn Treebank
+Project <https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html>`.
 
 .. code:: python
 
    # To see verbs
-   ta.show_word_clouds(type="VB")
+   ta.show_word_clouds(pos="VB")
    # To see nouns
-   ta.show_word_clouds(type="NN")
+   ta.show_word_clouds(pos="NN")
    # To see adjectives
-   ta.show_word_clouds(type="JJ")
+   ta.show_word_clouds(pos="JJ")
 
 |verbs| |nouns| |adjs|
+
+.. code:: python
+   
+   # To see verbs
+   ta.show_bar_plots(pos="VB")
+   # To see nouns
+   ta.show_bar_plots(pos="NN")
+   # To see adjectives
+   ta.show_bar_plots(pos="JJ")
+
+|verbsbar| |nounsbar| |adjsbar|
 
 .. |verbs| image:: ../figs/verbs.png
 .. |nouns| image:: ../figs/nouns.png
 .. |adjs| image:: ../figs/adjectives.png
+.. |verbsbar| image:: ../figs/verbsbar.png
+.. |nounsbar| image:: ../figs/nounsbar.png
+.. |adjsbar| image:: ../figs/adjsbar.png
 .. |doclen| image:: ../figs/doclen.png
 .. |wordszipf| image:: ../figs/wordszipf.png
 .. |sentencelen| image:: ../figs/sentencelen.png

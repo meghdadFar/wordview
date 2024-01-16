@@ -44,13 +44,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Quick Start:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="start.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="start.html#what-is-wordview">What is Wordview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="start.html#tutorials">Tutorials</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA):</span></p>
+<p class="caption" role="heading"><span class="caption-text">Exploratory Data Analysis (EDA)</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Text Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -64,16 +64,16 @@
 <li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Utilities:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to wordview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="codeofconduct.html">Contributor Code of Conduct</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 </ul>
@@ -167,17 +167,28 @@ to learn how Zipf’s law can be used to improve some NLP models.</p>
 </section>
 <section id="part-of-speech-tags">
 <h2>Part of Speech Tags<a class="headerlink" href="#part-of-speech-tags" title="Permalink to this heading"></a></h2>
-<p>To see different Part of Speech tags in the form of word clouds, you can
-use the <code class="docutils literal notranslate"><span class="pre">show_word_clouds</span></code> method.</p>
+<p>The different Part of Speech tags can be viewed using two methods:
+<code class="docutils literal notranslate"><span class="pre">show_word_clouds()</span></code> and <code class="docutils literal notranslate"><span class="pre">show_bar_plots()</span></code>. Both methods take a
+<code class="docutils literal notranslate"><span class="pre">pos</span></code> argument, which can be one of the tags in the <cite>Penn Treebank
+Project &lt;https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html&gt;</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># To see verbs</span>
-<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;VB&quot;</span><span class="p">)</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;VB&quot;</span><span class="p">)</span>
 <span class="c1"># To see nouns</span>
-<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;NN&quot;</span><span class="p">)</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;NN&quot;</span><span class="p">)</span>
 <span class="c1"># To see adjectives</span>
-<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;JJ&quot;</span><span class="p">)</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_word_clouds</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;JJ&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><img alt="verbs" src="_images/verbs.png" /> <img alt="nouns" src="_images/nouns.png" /> <img alt="adjs" src="_images/adjectives.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># To see verbs</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_bar_plots</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;VB&quot;</span><span class="p">)</span>
+<span class="c1"># To see nouns</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_bar_plots</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;NN&quot;</span><span class="p">)</span>
+<span class="c1"># To see adjectives</span>
+<span class="n">ta</span><span class="o">.</span><span class="n">show_bar_plots</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="s2">&quot;JJ&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="verbsbar" src="_images/verbsbar.png" /> <img alt="nounsbar" src="_images/nounsbar.png" /> <img alt="adjsbar" src="_images/adjsbar.png" /></p>
 </section>
 </section>
 
