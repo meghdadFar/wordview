@@ -3,8 +3,7 @@ API
 
 .. module:: wordview
 
-Lists the API reference of public
-classes and functions.
+API reference for public classes and methods.
 
 
 Text Analysis
