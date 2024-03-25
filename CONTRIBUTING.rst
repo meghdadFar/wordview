@@ -122,6 +122,23 @@ the instructions in `Pull Request (PR) <#pull-request-pr>`__. Note that you can
 skip pre-commit checks by running your ``git commit`` with the ``--no-verify`` flag (e.g. ``git commit -m 'dirty fix' --no-verify``), however,
 this is discouraged unless you really have to. 
 
+
+Building the Documentation
+----------------------------
+We use `Sphinx <https://www.sphinx-doc.org/>`__ to build the documentation.
+
+When you create new functions, write new docstring, or change the existing one, or in general change the documentation, you need to build the documentation again. To do so, run the following command:
+
+
+.. code:: bash
+
+   sphinx-build -b html sphinx-docs/source docs/
+
+Also, ensure that the file `.nojekyll` always  exists in the docs directory otherwise, the docs will not render correctly on GitHub Pages.
+
+This will build the documentation in the `docs <docs/>`__ directory. You can now commit and push your changes to remote.
+
+
 Pull Request (PR)
 -----------------
 Once your work is complete, you can make a pull request. Remember to
