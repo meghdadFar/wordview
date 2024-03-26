@@ -40,6 +40,7 @@ class Datachat:
                 .text.strip()
             )
 
+            print(f"ChatGPT: {gpt_action_suggestion}")
             if gpt_action_suggestion == "unknown":
                 print(
                     "ChatGPT: I'm not sure what you're asking. Please provide more context or try a different prompt."
@@ -47,16 +48,22 @@ class Datachat:
                 continue
 
             if gpt_action_suggestion == "continuation":
-                gpt_response = (
-                    openai.Completion.create(
-                        engine="davinci", prompt=user_prompt, max_tokens=100
-                    )
-                    .choices[0]
-                    .text.strip()
-                )
-                history += f"\nUser: {user_prompt}\nChatGPT: {gpt_response}\n"
+                pass
+                # gpt_response = (
+                #     openai.Completion.create(
+                #         engine="davinci", prompt=user_prompt, max_tokens=100
+                #     )
+                #     .choices[0]
+                #     .text.strip()
+                # )
+                # history += f"\nUser: {user_prompt}\nChatGPT: {gpt_response}\n"
 
             if gpt_action_suggestion in self.wordview_functions.keys():
                 history += f"\nUser: {user_prompt}\nChatGPT: {gpt_action_suggestion}\n"
                 if gpt_action_suggestion == "multiword_expressions":
                     pass
+
+
+if __name__ == "__main__":
+    datachat = Datachat()
+    datachat.wordview_chat()
