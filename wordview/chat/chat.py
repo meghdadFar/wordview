@@ -29,7 +29,7 @@ class Datachat:
                 self.client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
+                        # {"role": "system", "content": "You are a helpful assistant."},
                         {"role": "user", "content": prompt_for_action},
                     ],
                 )
@@ -39,25 +39,31 @@ class Datachat:
 
             if gpt_action_suggestion == "unknown":
                 print(
-                    "ChatGPT: I'm not sure what you're asking. Please provide more context or try a different prompt."
+                    "Datachat: I'm not sure what you're asking. Please provide more context or try a different prompt."
                 )
                 continue
 
-            # if gpt_action_suggestion == "continuation":
-            #     pass
-            #     # gpt_response = (
-            #     #     openai.Completion.create(
-            #     #         engine="davinci", prompt=user_prompt, max_tokens=100
-            #     #     )
-            #     #     .choices[0]
-            #     #     .text.strip()
-            #     # )
-            #     # history += f"\nUser: {user_prompt}\nChatGPT: {gpt_response}\n"
+            if gpt_action_suggestion == "continuation":
+                print("Datachat: Let's continue")
+                continue
 
-            # if gpt_action_suggestion in self.wordview_functions.keys():
-            #     history += f"\nUser: {user_prompt}\nChatGPT: {gpt_action_suggestion}\n"
-            #     if gpt_action_suggestion == "multiword_expressions":
-            #         pass
+            # history += f"\nUser: {user_prompt}\nChatGPT: {gpt_response}\n"
+
+            if gpt_action_suggestion == "continuation":
+                print("Datachat: Let's continue")
+                continue
+
+            if gpt_action_suggestion in "multiword_expressions":
+                print("Datachat: I think you're asking about multiword expressions.")
+                continue
+
+            if gpt_action_suggestion in "bias_detection":
+                print("Datachat: I think you're asking about bias detection.")
+                continue
+
+            if gpt_action_suggestion in "text_analysis":
+                print("Datachat: I think you're asking about text analysis.")
+                continue
 
 
 if __name__ == "__main__":
