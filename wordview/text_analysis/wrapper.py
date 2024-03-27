@@ -326,6 +326,30 @@ class TextStatsPlots:
         )
         print(table)
 
+    def return_stats(self) -> dict[str, Any]:
+        """Returns dataset statistics, including:
+        Language/s
+        Number of unique words
+        Number of all words
+        Number of documents
+        Median document length
+        Number of nouns
+        Number of adjectives
+        Number of verbs.
+        """
+        return {
+            "Language/s": ", ".join(self.languages),
+            "Unique Words": f"{self.type_count:,d}",
+            "All Words": f"{self.token_count:,d}",
+            "Documents": f"{self.num_docs:,d}",
+            "Median Doc Length": self.median_doc_len,
+            "Nouns": f"{self.pos_counts['NN']:,d}",
+            "Adjectives": f"{self.pos_counts['JJ']:,d}",
+            "Verbs": f"{self.pos_counts['VB']:,d}",
+            "Proper Nouns": f"{self.pos_counts['NNP']:,d}",
+            "Adverbs": f"{self.pos_counts['RB']:,d}",
+        }
+
     def show_insights(self):
         """Prints insights about the dataset."""
         raise NotImplementedError
