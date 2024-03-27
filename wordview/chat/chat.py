@@ -20,7 +20,13 @@ class Datachat:
             user_prompt = input("You: ")
 
             prompt_for_action = f"""Classify "user prompt" below into one of the following categories:
-            [multiword_expressions, bias_detection, text_analysis].
+            [multiword_expressions, bias_detection, text_analysis, unknown, continuation].
+
+            Only return the class name without any extra explanation, words or tokens in your response.
+
+            Use the class label continuation if the user prompt is a follow up on a previous prompt.
+
+            Use the class label unknown if you cannot make a suggestion with high confidence, or the prompt is not a continuation.
 
             "user prompt":
             {user_prompt}
