@@ -1,20 +1,28 @@
 import pandas as pd
 from openai import OpenAI
 
+from wordview.text_analysis import TextStatsPlots
+
 
 class Datachat:
-    def __init__(self, api_key: str = "", dataframe: pd.DataFrame = None):
+    def __init__(
+        self,
+        api_key: str = "",
+        dataframe: pd.DataFrame = pd.DataFrame([]),
+        text_column: str = "",
+    ):
         self.api_key = api_key
         self.dataframe = dataframe
+        self.text_column = text_column
         self.classifier_client = OpenAI(api_key=credentials.get("openai_api_key"))
         self.chat_client = OpenAI(api_key=credentials.get("openai_api_key"))
 
     def wordview_chat(self):
-        messages = []
+        chat_history = []
         while True:
             response = ""
             user_prompt = input("You: ")
-            messages.append({"role": "user", "content": user_prompt})
+            chat_history.append({"role": "user", "content": user_prompt})
 
             prompt_for_action_classification = f"""Classify "user prompt" below into one of the following categories:
             [multiword_expressions, bias_detection, text_analysis, unknown, continuation].
@@ -49,12 +57,12 @@ class Datachat:
                 response = (
                     self.chat_client.chat.completions.create(
                         model="gpt-3.5-turbo",
-                        messages=messages,
+                        messages=chat_history,
                     )
                     .choices[0]
                     .message.content
                 )
-                messages.append({"role": "assistant", "content": response})
+                chat_history.append({"role": "assistant", "content": response})
                 print(f"Datachat: {response}")
                 continue
 
@@ -67,7 +75,11 @@ class Datachat:
                 continue
 
             if gpt_action_suggestion == "text_analysis":
-                print("Datachat: I think you're asking about text analysis.")
+                tsp = TextStatsPlots(df=self.dataframe, text_column=self.text_column)
+                corpus_stats = tsp.return_stats()
+                print(
+                    f"Datachat: I think you're asking about text analysis: {corpus_stats}"
+                )
                 continue
 
 
