@@ -53,15 +53,15 @@ class Datachat:
                 print("Datachat: Let's continue")
                 continue
 
-            if gpt_action_suggestion in "multiword_expressions":
+            if gpt_action_suggestion == "multiword_expressions":
                 print("Datachat: I think you're asking about multiword expressions.")
                 continue
 
-            if gpt_action_suggestion in "bias_detection":
+            if gpt_action_suggestion == "bias_detection":
                 print("Datachat: I think you're asking about bias detection.")
                 continue
 
-            if gpt_action_suggestion in "text_analysis":
+            if gpt_action_suggestion == "text_analysis":
                 print("Datachat: I think you're asking about text analysis.")
                 continue
 
