@@ -137,3 +137,6 @@ dmypy.json
 IMDB_Dataset.csv
 IMDB_Dataset_tiny.csv
 IMDB_Dataset_sample_5k.csv
+
+# Secretes
+secrets/
