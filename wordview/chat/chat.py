@@ -6,14 +6,17 @@ class Datachat:
     def __init__(self, api_key: str = "", dataframe: pd.DataFrame = None):
         self.api_key = api_key
         self.dataframe = dataframe
-        self.client = OpenAI(api_key=credentials.get("openai_api_key"))
+        self.classifier_client = OpenAI(api_key=credentials.get("openai_api_key"))
+        self.chat_client = OpenAI(api_key=credentials.get("openai_api_key"))
 
     def wordview_chat(self):
-        # history = ""
+        messages = []
         while True:
+            response = ""
             user_prompt = input("You: ")
+            messages.append({"role": "user", "content": user_prompt})
 
-            prompt_for_action = f"""Classify "user prompt" below into one of the following categories:
+            prompt_for_action_classification = f"""Classify "user prompt" below into one of the following categories:
             [multiword_expressions, bias_detection, text_analysis, unknown, continuation].
 
             Only return the class name without any extra explanation, words or tokens in your response.
@@ -26,11 +29,10 @@ class Datachat:
             {user_prompt}
             """
             gpt_action_suggestion = (
-                self.client.chat.completions.create(
+                self.classifier_client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        # {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": prompt_for_action},
+                        {"role": "user", "content": prompt_for_action_classification},
                     ],
                 )
                 .choices[0]
@@ -44,13 +46,16 @@ class Datachat:
                 continue
 
             if gpt_action_suggestion == "continuation":
-                print("Datachat: Let's continue")
-                continue
-
-            # history += f"\nUser: {user_prompt}\nChatGPT: {gpt_response}\n"
-
-            if gpt_action_suggestion == "continuation":
-                print("Datachat: Let's continue")
+                response = (
+                    self.chat_client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=messages,
+                    )
+                    .choices[0]
+                    .message.content
+                )
+                messages.append({"role": "assistant", "content": response})
+                print(f"Datachat: {response}")
                 continue
 
             if gpt_action_suggestion == "multiword_expressions":
