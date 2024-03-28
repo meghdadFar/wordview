@@ -77,16 +77,33 @@ class Datachat:
             if gpt_action_suggestion == "text_analysis":
                 tsp = TextStatsPlots(df=self.dataframe, text_column=self.text_column)
                 corpus_stats = tsp.return_stats()
-                print(
-                    f"Datachat: I think you're asking about text analysis: {corpus_stats}"
+                prompt = f"""Explain the following dictionary of text analysis statistics extracted from corpus in Natural Language:
+
+                ---------------------------------------
+                dictionary of text analysis statistics:
+                {corpus_stats}
+                """
+                response = (
+                    self.chat_client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                            {"role": "user", "content": prompt},
+                        ],
+                    )
+                    .choices[0]
+                    .message.content
                 )
+                print(response)
                 continue
 
 
 if __name__ == "__main__":
     import json
 
+    imdb_df = pd.read_csv("data/IMDB_Dataset_sample_5k.csv")
     with open("wordview/chat/secrets/openai_api_key.json", "r") as f:
         credentials = json.load(f)
-    datachat = Datachat(api_key=credentials["openai_api_key"])
+    datachat = Datachat(
+        api_key=credentials["openai_api_key"], dataframe=imdb_df, text_column="review"
+    )
     datachat.wordview_chat()
