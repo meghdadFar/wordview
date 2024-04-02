@@ -17,6 +17,9 @@ class Datachat:
         self.classifier_client = OpenAI(api_key=credentials.get("openai_api_key"))
         self.chat_client = OpenAI(api_key=credentials.get("openai_api_key"))
 
+        tsp = TextStatsPlots(df=self.dataframe, text_column=self.text_column)
+        self.corpus_stats = tsp.return_stats()
+
     def wordview_chat(self):
         chat_history = []
         while True:
@@ -75,13 +78,11 @@ class Datachat:
                 continue
 
             if gpt_action_suggestion == "text_analysis":
-                tsp = TextStatsPlots(df=self.dataframe, text_column=self.text_column)
-                corpus_stats = tsp.return_stats()
                 prompt = f"""Explain the following dictionary of text analysis statistics extracted from corpus in Natural Language:
 
                 ---------------------------------------
                 dictionary of text analysis statistics:
-                {corpus_stats}
+                {self.corpus_stats}
                 """
                 response = (
                     self.chat_client.chat.completions.create(
