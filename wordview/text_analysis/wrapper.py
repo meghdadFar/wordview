@@ -3,6 +3,7 @@ from typing import Any, Tuple
 import pandas
 import plotly.figure_factory as ff
 import plotly.graph_objs as go
+from openai import OpenAI
 from tabulate import tabulate  # type: ignore
 
 from wordview.text_analysis.core import (
@@ -95,6 +96,18 @@ class TextStatsPlots:
         self.pos_counts = {
             k: len(v) for k, v in self.analysis.word_count_by_pos.items()
         }
+
+    def chat(self, api_key: str = ""):
+        """Chat with OpenAI's latest model about the results of Wordview's text analysis.
+
+        Args:
+            api_key: OpenAI API key.
+
+        Returns:
+            None
+        """
+        self.api_key = api_key
+        self.chat_client = OpenAI(api_key=api_key)
 
     def show_distplot(
         self,
