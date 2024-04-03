@@ -108,6 +108,29 @@ class TextStatsPlots:
         """
         self.api_key = api_key
         self.chat_client = OpenAI(api_key=api_key)
+        base_content = f"""Answer any questions about text analysis based on the following Dictionary of Text Statistics.
+        \n\n
+        ------------------------------
+        Dictionary of Text Statistics:
+        ------------------------------
+        {self.analysis.to_dict()}
+        """
+        chat_history = [
+            {"role": "system", "content": base_content},
+        ]
+        while True:
+            user_prompt = input("You: ")
+            chat_history.append({"role": "user", "content": user_prompt})
+            response = (
+                self.chat_client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=chat_history,
+                )
+                .choices[0]
+                .message.content
+            )
+            print(f"Wordview: {response}")
+            chat_history.append({"role": "assistant", "content": response})
 
     def show_distplot(
         self,
