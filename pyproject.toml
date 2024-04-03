@@ -20,6 +20,7 @@ wordcloud = "1.9.1.1"
 plotly = "5.5.0"
 tabulate = "0.9.0"
 sentence-transformers = "2.2.2"
+openai = "1.14.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = ">=3.0.0"

@@ -3,6 +3,7 @@ from typing import Any, Tuple
 import pandas
 import plotly.figure_factory as ff
 import plotly.graph_objs as go
+from openai import OpenAI
 from tabulate import tabulate  # type: ignore
 
 from wordview.text_analysis.core import (
@@ -95,6 +96,41 @@ class TextStatsPlots:
         self.pos_counts = {
             k: len(v) for k, v in self.analysis.word_count_by_pos.items()
         }
+
+    def chat(self, api_key: str = ""):
+        """Chat with OpenAI's latest model about the results of Wordview's text analysis.
+
+        Args:
+            api_key: OpenAI API key.
+
+        Returns:
+            None
+        """
+        self.api_key = api_key
+        self.chat_client = OpenAI(api_key=api_key)
+        base_content = f"""Answer any questions about text and corpus analysis based on the following dictionary of Wordview Analysis.
+        \n\n
+        ------------------------------
+        Wordview Analysis:
+        ------------------------------
+        {self.return_stats()}
+        """
+        chat_history = [
+            {"role": "system", "content": base_content},
+        ]
+        while True:
+            user_prompt = input("You: ")
+            chat_history.append({"role": "user", "content": user_prompt})
+            response = (
+                self.chat_client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=chat_history,
+                )
+                .choices[0]
+                .message.content
+            )
+            print(f"Wordview: {response}")
+            chat_history.append({"role": "assistant", "content": response})
 
     def show_distplot(
         self,
@@ -325,6 +361,30 @@ class TextStatsPlots:
             tablefmt="simple_grid",
         )
         print(table)
+
+    def return_stats(self) -> dict[str, Any]:
+        """Returns dataset statistics, including:
+        Language/s
+        Number of unique words
+        Number of all words
+        Number of documents
+        Median document length
+        Number of nouns
+        Number of adjectives
+        Number of verbs.
+        """
+        return {
+            "Language/s": ", ".join(self.languages),
+            "Unique Words": f"{self.type_count:,d}",
+            "All Words": f"{self.token_count:,d}",
+            "Documents": f"{self.num_docs:,d}",
+            "Median Doc Length": self.median_doc_len,
+            "Nouns": f"{self.pos_counts['NN']:,d}",
+            "Adjectives": f"{self.pos_counts['JJ']:,d}",
+            "Verbs": f"{self.pos_counts['VB']:,d}",
+            "Proper Nouns": f"{self.pos_counts['NNP']:,d}",
+            "Adverbs": f"{self.pos_counts['RB']:,d}",
+        }
 
     def show_insights(self):
         """Prints insights about the dataset."""

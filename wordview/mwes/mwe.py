@@ -51,7 +51,6 @@ class MWE:
                 NP: {<DT>?<JJ>*<NN>} # Noun phrase
                 You can use multiple and/or nested patterns, separated by a newline character e.g.:
                 custom_pattern = '''
-                NP: {<DT>?<JJ>*<NN>} # Noun phrase
                 VP: {<MD>?<VB.*><NP|PP|CLAUSE>+$} # Verb phrase
                 PROPN: {<NNP>+} # Proper noun
                 ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
