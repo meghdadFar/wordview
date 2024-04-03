@@ -113,7 +113,7 @@ class TextStatsPlots:
         ------------------------------
         Dictionary of Text Statistics:
         ------------------------------
-        {self.analysis.to_dict()}
+        {self.return_stats()}
         """
         chat_history = [
             {"role": "system", "content": base_content},
