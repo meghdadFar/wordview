@@ -108,10 +108,10 @@ class TextStatsPlots:
         """
         self.api_key = api_key
         self.chat_client = OpenAI(api_key=api_key)
-        base_content = f"""Answer any questions about text analysis based on the following Dictionary of Text Statistics.
+        base_content = f"""Answer any questions about text and corpus analysis based on the following dictionary of Wordview Analysis.
         \n\n
         ------------------------------
-        Dictionary of Text Statistics:
+        Wordview Analysis:
         ------------------------------
         {self.return_stats()}
         """
