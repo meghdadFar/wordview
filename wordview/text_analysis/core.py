@@ -432,6 +432,3 @@ class TxtAnalysisFields:
         self.median_doc_len = median_doc_len
         self.word_count_by_pos = word_count_by_pos
         self.token_to_count_dict = token_to_count_dict
-
-    def to_dict(self):
-        return self.__dict__
