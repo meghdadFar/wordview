@@ -6,6 +6,7 @@ from wordview.text_analysis import TextStatsPlots
 
 if __name__ == "__main__":
     imdb_df = pd.read_csv("data/IMDB_Dataset_sample_5k.csv")
+    imdb_df = imdb_df.sample(100)
 
     with open("wordview/chat/secrets/openai_api_key.json", "r") as f:
         credentials = json.load(f)
