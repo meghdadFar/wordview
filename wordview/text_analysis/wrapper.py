@@ -101,6 +101,7 @@ class TextStatsPlots:
 
     def chat(self, api_key: str = ""):
         """Chat with OpenAI's latest model about the results of Wordview's text analysis.
+        Access the chat UI in your localhost under http://127.0.0.1:5000/
 
         Args:
             api_key: OpenAI API key.
