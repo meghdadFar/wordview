@@ -117,8 +117,7 @@ class TextStatsPlots:
         ------------------------------
         {self.return_stats()}
         \n\n
-        In your answers, avoid using According to the Wordview Analysis dictionary.
-        In this integration, you are Wordview.
+        Answer the questions without adding According to or Based on to the Wordview Analysis dictionary.
         """
         chat_history = [
             {"role": "system", "content": base_content},
