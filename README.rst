@@ -101,7 +101,7 @@ Chat with Wordview
 Worldview integrates GPT-3.5-Turbo to enable the users to interact with their data and get insights from it via Natural Language.
 
 .. image:: sphinx-docs/figs/chat.png
-   :width: 100%
+   :width: 50%
    :align: center
 
 Utilities
