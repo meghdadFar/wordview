@@ -152,20 +152,6 @@ class TextStatsPlots:
         flask_thread = threading.Thread(target=run)
         flask_thread.start()
 
-        # while True:
-        #     user_prompt = input("You: ")
-        #     chat_history.append({"role": "user", "content": user_prompt})
-        #     response = (
-        #         self.chat_client.chat.completions.create(
-        #             model="gpt-3.5-turbo",
-        #             messages=chat_history,
-        #         )
-        #         .choices[0]
-        #         .message.content
-        #     )
-        #     print(f"Wordview: {response}")
-        #     chat_history.append({"role": "assistant", "content": response})
-
     def show_distplot(
         self,
         distribution: str,
