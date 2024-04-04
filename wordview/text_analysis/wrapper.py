@@ -1,8 +1,10 @@
+import threading
 from typing import Any, Tuple
 
 import pandas
 import plotly.figure_factory as ff
 import plotly.graph_objs as go
+from flask import Flask, jsonify, request, send_from_directory
 from openai import OpenAI
 from tabulate import tabulate  # type: ignore
 
@@ -114,13 +116,24 @@ class TextStatsPlots:
         Wordview Analysis:
         ------------------------------
         {self.return_stats()}
+        \n\n
+        In your answers, avoid using According to the Wordview Analysis dictionary.
+        In this integration, you are Wordview.
         """
         chat_history = [
             {"role": "system", "content": base_content},
         ]
-        while True:
-            user_prompt = input("You: ")
-            chat_history.append({"role": "user", "content": user_prompt})
+        app = Flask(__name__, static_folder="path_to_your_ui_folder")
+
+        @app.route("/")
+        def index():
+            return send_from_directory("chat", "chat.html")
+
+        @app.route("/chat", methods=["POST"])
+        def chat():
+            user_input = request.json["message"]
+            chat_history.append({"role": "user", "content": user_input})
+            print(f"User: {user_input}")
             response = (
                 self.chat_client.chat.completions.create(
                     model="gpt-3.5-turbo",
@@ -131,6 +144,27 @@ class TextStatsPlots:
             )
             print(f"Wordview: {response}")
             chat_history.append({"role": "assistant", "content": response})
+            return jsonify({"reply": response})
+
+        def run():
+            app.run(port=5000)
+
+        flask_thread = threading.Thread(target=run)
+        flask_thread.start()
+
+        # while True:
+        #     user_prompt = input("You: ")
+        #     chat_history.append({"role": "user", "content": user_prompt})
+        #     response = (
+        #         self.chat_client.chat.completions.create(
+        #             model="gpt-3.5-turbo",
+        #             messages=chat_history,
+        #         )
+        #         .choices[0]
+        #         .message.content
+        #     )
+        #     print(f"Wordview: {response}")
+        #     chat_history.append({"role": "assistant", "content": response})
 
     def show_distplot(
         self,
