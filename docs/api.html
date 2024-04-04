@@ -73,6 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#text-analysis">Text Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.__init__"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.chat"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.chat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.return_stats"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.return_stats()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_bar_plots"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_bar_plots()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_distplot"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_distplot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_insights"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_insights()</span></code></a></li>
@@ -189,6 +191,35 @@
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.chat">
+<span class="sig-name descname"><span class="pre">chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.chat" title="Permalink to this definition"></a></dt>
+<dd><p>Chat with OpenAI’s latest model about the results of Wordview’s text analysis.
+Access the chat UI in your localhost under <a class="reference external" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>api_key</strong> – OpenAI API key.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.return_stats">
+<span class="sig-name descname"><span class="pre">return_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.return_stats" title="Permalink to this definition"></a></dt>
+<dd><p>Returns dataset statistics, including:
+Language/s
+Number of unique words
+Number of all words
+Number of documents
+Median document length
+Number of nouns
+Number of adjectives
+Number of verbs.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -391,7 +422,6 @@ Examples of user-defined patterns:
 NP: {&lt;DT&gt;?&lt;JJ&gt;*&lt;NN&gt;} # Noun phrase
 You can use multiple and/or nested patterns, separated by a newline character e.g.:
 custom_pattern = ‘’’
-NP: {&lt;DT&gt;?&lt;JJ&gt;*&lt;NN&gt;} # Noun phrase
 VP: {&lt;MD&gt;?&lt;VB.*&gt;&lt;NP|PP|CLAUSE&gt;+$} # Verb phrase
 PROPN: {&lt;NNP&gt;+} # Proper noun
 ADJP: {&lt;RB|RBR|RBS&gt;*&lt;JJ&gt;} # Adjective phrase
