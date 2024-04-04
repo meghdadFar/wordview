@@ -71,6 +71,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#setup-your-dev-environment">Setup your Dev Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-quality">Code Quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-documentation">Building the Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pull-request-pr">Pull Request (PR)</a></li>
 </ul>
 </li>
@@ -209,6 +210,16 @@ changes, you can push your branch to remote and create a PR. You can now merge y
 the instructions in <a class="reference external" href="#pull-request-pr">Pull Request (PR)</a>. Note that you can
 skip pre-commit checks by running your <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> with the <code class="docutils literal notranslate"><span class="pre">--no-verify</span></code> flag (e.g. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">'dirty</span> <span class="pre">fix'</span> <span class="pre">--no-verify</span></code>), however,
 this is discouraged unless you really have to.</p>
+</section>
+<section id="building-the-documentation">
+<h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this heading"></a></h2>
+<p>We use <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> to build the documentation.</p>
+<p>When you create new functions, write new docstring, or change the existing one, or in general change the documentation, you need to build the documentation again. To do so, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>sphinx-docs/source<span class="w"> </span>docs/
+</pre></div>
+</div>
+<p>Also, ensure that the file <cite>.nojekyll</cite> always  exists in the docs directory otherwise, the docs will not render correctly on GitHub Pages.</p>
+<p>This will build the documentation in the <a class="reference external" href="docs/">docs</a> directory. You can now commit and push your changes to remote.</p>
 </section>
 <section id="pull-request-pr">
 <h2>Pull Request (PR)<a class="headerlink" href="#pull-request-pr" title="Permalink to this heading"></a></h2>

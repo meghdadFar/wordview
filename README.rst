@@ -89,15 +89,23 @@ of interest where we endeavor to find them in order to shed light into our data.
 Wordview offers several anomaly and outlier detection functions.
 
 
-
 Cluster Analysis
 ****************
 Clustering can be used to identify different groups of documents with similar information, in an unsupervised fashion.
 Despite it's ability to provide valuable insights into your data, you do not need labeled data for clustering.
 
 
+
+Chat with Wordview
+******************
+Worldview integrates GPT-3.5-Turbo to enable the users to interact with their data and get insights from it via Natural Language.
+
+.. image:: sphinx-docs/figs/chat.png
+   :width: 100%
+   :align: center
+
 Utilities
-#########
+*********
 Wordview offers a number of utility functions that you can use for common pre and post processing tasks in NLP.
 
 Contributing

@@ -1,3 +1,8 @@
+Version 1.3.0
+-------------
+- Chat feature for text analysis.
+
+
 Version 1.2.0
 -------------
 - Support for all Penn POS tags

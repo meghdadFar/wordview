@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>Chat Interface</title>
+    <style>
+        body { 
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .chat-container {
+            width: 66%;
+            max-width: 800px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .message-container {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            margin-bottom: 10px; /* Adjusted to add space at the bottom */
+        }
+        .message {
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+            width: fit-content; /* Makes messages not stretch full width */
+        }
+        /* Bot messages */
+        .bot {
+            background-color: #E7F3FF; /* Soft blue for AI responses */
+            align-self: flex-start;
+            margin: 0 0 12px 20px; /* Adjust if needed to fine-tune the spacing */
+            border-radius: 20px;
+            padding: 10px;
+            max-width: 80%;
+            border: 1px solid #BDDFFF; /* Slightly darker blue for border */
+        }
+        /* User messages */
+        .user {
+            background-color: #DCF8C6; /* Keep the light green for user messages */
+            align-self: flex-end;
+            margin: 0 20px 12px 0; /* Adjust if needed for spacing */
+            border-radius: 20px;
+            padding: 10px;
+            max-width: 80%;
+            border: 1px solid #C4E6B0; /* Slightly darker green for border */
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+            align-items: center; /* Ensures vertical alignment */
+        }
+        input[type="text"] {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px;
+            margin-right: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>    
+</head>
+<body>
+    <div class="chat-container">
+        <div class="message-container" id="chatContainer">
+            <!-- Messages will be dynamically added here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message here...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent the default action to stop it from submitting a form if any
+                sendMessage();
+            }
+        });
+
+        function addMessage(text, sender) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            const messageContent = document.createElement('span');
+            
+            messageDiv.classList.add('message', sender);
+            // Setting the label based on the sender
+            messageContent.innerHTML = (sender === 'user' ? '<strong>You:</strong> ' : '<strong>Wordview:</strong> ') + text;
+            
+            messageDiv.appendChild(messageContent);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to the latest message
+        }
+
+        async function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const userText = inputField.value.trim();
+            if (userText) {
+                addMessage(userText, 'user'); // Display user's message
+                inputField.value = ''; // Clear input field
+
+                // Make sure this fetch URL matches your Flask server's "/chat" route.
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userText }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    addMessage(data.reply, 'bot'); // Display bot's reply
+                } else {
+                    console.error('Failed to send message');
+                    // Optionally, display an error message in the UI as well
+                }
+            }
+        }
+    </script>
+</body>
+</html>
