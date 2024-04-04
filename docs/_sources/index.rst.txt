@@ -21,6 +21,7 @@ license <https://en.wikipedia.org/wiki/MIT_License>`__.
    bias
    anomalies
    clustering
+   chat
 
 .. toctree::
    :maxdepth: 1
