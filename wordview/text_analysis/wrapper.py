@@ -133,7 +133,6 @@ class TextStatsPlots:
         def chat():
             user_input = request.json["message"]
             chat_history.append({"role": "user", "content": user_input})
-            print(f"User: {user_input}")
             response = (
                 self.chat_client.chat.completions.create(
                     model="gpt-3.5-turbo",
@@ -142,7 +141,6 @@ class TextStatsPlots:
                 .choices[0]
                 .message.content
             )
-            print(f"Wordview: {response}")
             chat_history.append({"role": "assistant", "content": response})
             return jsonify({"reply": response})
 
