@@ -10,8 +10,12 @@
 
 Wordview
 ########
-Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data.
-It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Full documentation is available at `Wordview’s documentation page <https://meghdadfar.github.io/wordview/>`__.
+Wordview is a Python package for Exploratory Data Analysis of text and provides
+many statistics about your data in the form of plots, tables, and descriptions
+allowing you to have both a high-level and detailed overview of your data.
+It has functions to analyze explicit text elements such as words, n-grams, POS tags,
+and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
+Full documentation is available at `Wordview’s documentation page <https://meghdadfar.github.io/wordview/>`__.
 
 .. image:: sphinx-docs/figs/cover.png
    :alt: Wordview Cover
@@ -25,16 +29,19 @@ Install the package via ``pip``:
 
 ``pip install wordview``
 
-To explore various features and functionalities, consult the documentation pages. The following sections
-present a high-level description of Wordview's features and functionalities. For details, tutorials and worked examples, corresponding 
-documentation pages are linked in each section.
+The following sections present a high-level description of Wordview's features and functionalities.
+For details, usage, tutorials, and worked examples see
+the `documentation page <https://meghdadfar.github.io/wordview/>`__.
 
 Text Analysis
 *************
-Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics, plots, and distributions.
-It enables a rapid understanding of the underlying patterns present in your dataset.
-By visually representing the data's nuances, this feature can aid in making informed decisions for downstream applications.
-It's a step forward in ensuring that you have a grasp on the intricacies of your data before delving deeper into more complex tasks.
+Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics,
+plots, and distributions. It enables a rapid understanding of the underlying patterns present in your dataset. 
+You can see, for instance, what languages were used in your corpus, the average document lengths
+(in terms of tokens), how many documents and words are in your corpus, various part-of-speech tags, and more.
+You can also look at different distributions, plots, and word clouds to gain valuable insights into your corpus.
+Worldview uses Plotly interactive plots, with many intriguing features such as zooming,
+panning, selection, hovering, and screenshots.
 
 .. image:: sphinx-docs/figs/textanalysiscover.png
    :alt: Text Analysis Cover
