@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Chat Interface</title>
     <style>
         body { 
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto Mono', monospace;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f7f7f7;
+            background-color: #b6b6b6;
         }
         .chat-container {
             width: 66%;
             max-width: 800px;
-            background: #fff;
+            background: #374852;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -32,6 +32,8 @@
             flex-grow: 1;
             margin-bottom: 10px; /* Adjusted to add space at the bottom */
         }
+        /* Standard Oval Style of Message Bubbles */
+        /*
         .message {
             margin-bottom: 12px;
             padding: 10px;
@@ -39,33 +41,31 @@
             color: #333;
             font-size: 14px;
             line-height: 1.4;
-            width: fit-content; /* Makes messages not stretch full width */
+            width: fit-content;
         }
-        /* Bot messages */
         .bot {
-            background-color: #E7F3FF; /* Soft blue for AI responses */
+            background-color: #E7F3FF;
             align-self: flex-start;
-            margin: 0 0 12px 20px; /* Adjust if needed to fine-tune the spacing */
+            margin: 0 0 12px 20px;
             border-radius: 20px;
             padding: 10px;
             max-width: 80%;
-            border: 1px solid #BDDFFF; /* Slightly darker blue for border */
+            border: 1px solid #BDDFFF;
         }
-        /* User messages */
         .user {
-            background-color: #DCF8C6; /* Keep the light green for user messages */
+            background-color: #DCF8C6;
             align-self: flex-end;
-            margin: 0 20px 12px 0; /* Adjust if needed for spacing */
+            margin: 0 20px 12px 0;
             border-radius: 20px;
             padding: 10px;
             max-width: 80%;
-            border: 1px solid #C4E6B0; /* Slightly darker green for border */
+            border: 1px solid #C4E6B0;
         }
         .input-container {
             display: flex;
             padding: 10px;
             border-top: 1px solid #eee;
-            align-items: center; /* Ensures vertical alignment */
+            align-items: center;
         }
         input[type="text"] {
             flex-grow: 1;
@@ -76,7 +76,53 @@
             outline: none;
             font-size: 14px;
         }
-        button {
+        */
+
+        .message {
+            font-size: 16px; /* Adjusted to match your style preference */
+            line-height: 1.4;
+            border-radius: 8px; /* Rounded corners for the chat bubbles */
+            padding: 10px 15px;
+            margin: 8px 20px;
+            max-width: 80%;
+            width: fit-content;
+            background-color: transparent; /* Making bubble background transparent */
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Optional: subtle border for definition */
+        }
+
+        .user {
+            color: #25d4c8; /* Teal color for user messages */
+            border: 1px solid #25d4c8;
+            align-self: flex-end;
+        }
+
+        .bot {
+            color: #05c729; /* Soft Coral color for bot messages */
+            border: 1px solid #05c729;
+            align-self: flex-start;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            border: 1px solid #b9b8b8; /* Subtle border for definition */
+            border-radius: 8px; /* Matches the message bubbles */
+            padding: 10px; /* Adequate padding for text */
+            margin-right: 8px; /* Space between the input field and the send button */
+            outline: none; /* Removes the default focus outline */
+            font-size: 14px; /* Matching the text size of messages */
+            background-color: #f1eeee; /* Ensures the input background is white or matches the chat UI */
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px; /* Padding inside the container holding the input */
+            border-top: 1px solid #eee; /* A subtle border at the top separating messages from input */
+            background-color: #f1eeee; /* A slight off-white background for the input area */
+            align-items: center; /* Centers the input and button vertically */
+        }
+
+        /* Oval Button */
+        /* button {
             background-color: #007bff;
             color: white;
             border: none;
@@ -85,9 +131,21 @@
             font-size: 14px;
             cursor: pointer;
             outline: none;
+        } */
+        /* Arrow Button */
+        button {
+            background-color: transparent; /* Remove background color for a cleaner look */
+            color: #007bff; /* Color of the arrow */
+            border: none;
+            border-radius: 50%; /* Make it round */
+            padding: 10px 12px;
+            font-size: 24px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #f0f0f0;
         }
         ::-webkit-scrollbar {
             width: 5px;
@@ -110,7 +168,7 @@
         </div>
         <div class="input-container">
             <input type="text" id="userInput" placeholder="Type your message here...">
-            <button onclick="sendMessage()">Send</button>
+            <button onclick="sendMessage()">➜</button>
         </div>
     </div>
     
