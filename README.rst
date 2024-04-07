@@ -73,9 +73,9 @@ Wordview's MWE features is one of the most powerful, comprehensive, and easy-to-
 
 Bias Analysis
 **************
-In the rapidly evolving realm of Natural Language Processing (NLP), downstream models are as unbiased and fair as the data on which they are trained.
-Wordview Bias Analysis module is designed to assist in the rigorous task of ensuring that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
-By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.
+In the rapidly evolving realm of Natural Language Processing (NLP), downstream models can be as fair and unbiased as the data on which they are trained. Wordview's bias analysis module is designed to help ensure that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
+By identifying and rectifying these biases, Wordview attempts to help with the creation of more inclusive, fair, and unbiased NLP applications.
+Bias analysis is currently based on sentiment-analysis and a predefined set of categories, but we are working hard to extend it and make it better in many ways.
 
 .. raw:: html
 
