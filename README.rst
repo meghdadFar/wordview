@@ -61,10 +61,9 @@ the frequency of each label, and the distribution of labels across different cat
 
 Extraction & Analysis of Multiword Expressions
 **********************************************
-Multiword Expressions (MWEs) are phrases that can be treated as a single
-semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
-application in different areas including: parsing, language models,
-language generation, terminology extraction, and topic models. Wordview can extract different types of MWEs from text.
+Multiword Expressions (MWEs) are phrases that can be treated as a single semantic unit, e.g., *swimming pool* and *climate change*. They can offer great insights into natural language data and have many practical applications, including machine translation, topic modeling, named entity recognition, terminology extraction, profanity detection, and more.
+At the high level, we define MWEs as phrases whose components co-occur more than expected by chance and identify MWEs using precisely this property, which is modeled by statistical association measures such as PMI, and NPMI.
+Wordview's MWE features is one of the most powerful, comprehensive, and easy-to-use tools that are available for the extraction of MWEs.
 
 .. raw:: html
 
