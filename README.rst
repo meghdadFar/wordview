@@ -39,7 +39,7 @@ Using this feature, you can gain a comprehensive overview of your text data in t
 plots, and distributions. It enables a rapid understanding of the underlying patterns present in your dataset. 
 You can see, for instance, what languages were used in your corpus, the average document lengths
 (in terms of tokens), how many documents and words are in your corpus, various part-of-speech tags, and more.
-You can also look at different distributions, plots, and word clouds to gain valuable insights into your corpus.
+You can also look at different distributions, plots, and word clouds to gain valuable insights into your text corpus.
 Worldview uses Plotly interactive plots, with many intriguing features such as zooming,
 panning, selection, hovering, and screenshots.
 
@@ -50,12 +50,10 @@ panning, selection, hovering, and screenshots.
 
 Analysis of Labels
 ******************
-In the realm of Natural Language Processing (NLP), the proper analysis and understanding of labels within datasets can provide valuable insights, ensuring that models are trained on balanced and representative data.
-Recognizing this, Wordview is engineered to compute an array of statistics tailored for labeled datasets.
-These statistics cater to both document and sequence levels, providing a holistic view of the dataset's structure.
-By diving deep into the intricacies of the labels, Wordview offers an enriched perspective, helping researchers and practitioners identify
-potential biases, discrepancies, or areas of interest,
-which are essential for creating robust and effective models.
+In NLP, the proper analysis and understanding of labels within datasets can provide valuable insights for some of downstream tasks,
+ensuring that models are trained on balanced and representative set of labels.
+Wordview calculates an array of statistics tailored for labeled datasets. It provides a comprehensive overview of the distribution of labels,
+the frequency of each label, and the distribution of labels across different categories.
 
 .. image:: sphinx-docs/figs/labels_peach.png
    :width: 100%
