@@ -116,6 +116,6 @@ Wordview offers a number of utility functions that you can use for common pre an
 
 Contributing
 ############
-Thank you for contributing to wordview! We and the users of this repo
-appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
+We are just getting started with Wordview and are looking to make Wordview a go-to solution for anyone who loves NLP and knows and appreciates the actual value of data and data analysis. But that requires help from the community. So, we are looking forward to seeing you join Wordview as a collaborator.
+You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
