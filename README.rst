@@ -10,8 +10,12 @@
 
 Wordview
 ########
-Wordview is a Python package for Exploratory Data Analysis of text and provides many statistics about your data in the form of plots, tables, and descriptions allowing you to have both a high-level and detailed overview of your data.
-It has functions to analyze explicit text elements such as words, n-grams, POS tags, and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases. Full documentation is available at `Wordview’s documentation page <https://meghdadfar.github.io/wordview/>`__.
+Wordview is a Python package for Exploratory Data Analysis of text and provides
+many statistics about your data in the form of plots, tables, and descriptions
+allowing you to have both a high-level and detailed overview of your data.
+It has functions to analyze explicit text elements such as words, n-grams, POS tags,
+and multi-word expressions, as well as implicit elements such as clusters, anomalies, and biases.
+Full documentation is available at `Wordview’s documentation page <https://meghdadfar.github.io/wordview/>`__.
 
 .. image:: sphinx-docs/figs/cover.png
    :alt: Wordview Cover
@@ -25,16 +29,19 @@ Install the package via ``pip``:
 
 ``pip install wordview``
 
-To explore various features and functionalities, consult the documentation pages. The following sections
-present a high-level description of Wordview's features and functionalities. For details, tutorials and worked examples, corresponding 
-documentation pages are linked in each section.
+The following sections present a high-level description of Wordview's features and functionalities.
+For details, usage, tutorials, and worked examples see
+the `documentation page <https://meghdadfar.github.io/wordview/>`__.
 
 Text Analysis
 *************
-Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics, plots, and distributions.
-It enables a rapid understanding of the underlying patterns present in your dataset.
-By visually representing the data's nuances, this feature can aid in making informed decisions for downstream applications.
-It's a step forward in ensuring that you have a grasp on the intricacies of your data before delving deeper into more complex tasks.
+Using this feature, you can gain a comprehensive overview of your text data in terms of various statistics,
+plots, and distributions. It enables a rapid understanding of the underlying patterns present in your dataset. 
+You can see, for instance, what languages were used in your corpus, the average document lengths
+(in terms of tokens), how many documents and words are in your corpus, various part-of-speech tags, and more.
+You can also look at different distributions, plots, and word clouds to gain valuable insights into your text corpus.
+Worldview uses Plotly interactive plots, with many intriguing features such as zooming,
+panning, selection, hovering, and screenshots.
 
 .. image:: sphinx-docs/figs/textanalysiscover.png
    :alt: Text Analysis Cover
@@ -43,12 +50,10 @@ It's a step forward in ensuring that you have a grasp on the intricacies of your
 
 Analysis of Labels
 ******************
-In the realm of Natural Language Processing (NLP), the proper analysis and understanding of labels within datasets can provide valuable insights, ensuring that models are trained on balanced and representative data.
-Recognizing this, Wordview is engineered to compute an array of statistics tailored for labeled datasets.
-These statistics cater to both document and sequence levels, providing a holistic view of the dataset's structure.
-By diving deep into the intricacies of the labels, Wordview offers an enriched perspective, helping researchers and practitioners identify
-potential biases, discrepancies, or areas of interest,
-which are essential for creating robust and effective models.
+In NLP, the proper analysis and understanding of labels within datasets can provide valuable insights for some of downstream tasks,
+ensuring that models are trained on balanced and representative set of labels.
+Wordview calculates an array of statistics tailored for labeled datasets. It provides a comprehensive overview of the distribution of labels,
+the frequency of each label, and the distribution of labels across different categories.
 
 .. image:: sphinx-docs/figs/labels_peach.png
    :width: 100%
@@ -56,10 +61,9 @@ which are essential for creating robust and effective models.
 
 Extraction & Analysis of Multiword Expressions
 **********************************************
-Multiword Expressions (MWEs) are phrases that can be treated as a single
-semantic unit. E.g. *swimming pool* and *climate change*. MWEs have
-application in different areas including: parsing, language models,
-language generation, terminology extraction, and topic models. Wordview can extract different types of MWEs from text.
+Multiword Expressions (MWEs) are phrases that can be treated as a single semantic unit, e.g., *swimming pool* and *climate change*. They can offer great insights into natural language data and have many practical applications, including machine translation, topic modeling, named entity recognition, terminology extraction, profanity detection, and more.
+At the high level, we define MWEs as phrases whose components co-occur more than expected by chance and identify MWEs using precisely this property, which is modeled by statistical association measures such as PMI, and NPMI.
+Wordview's MWE features is one of the most powerful, comprehensive, and easy-to-use tools that are available for the extraction of MWEs.
 
 .. raw:: html
 
@@ -69,9 +73,9 @@ language generation, terminology extraction, and topic models. Wordview can extr
 
 Bias Analysis
 **************
-In the rapidly evolving realm of Natural Language Processing (NLP), downstream models are as unbiased and fair as the data on which they are trained.
-Wordview Bias Analysis module is designed to assist in the rigorous task of ensuring that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
-By identifying and rectifying these biases, Wordview attempts to pave the way for the creation of more inclusive, fair, and unbiased NLP applications, leading to better user experiences and more equitable technology.
+In the rapidly evolving realm of Natural Language Processing (NLP), downstream models can be as fair and unbiased as the data on which they are trained. Wordview's bias analysis module is designed to help ensure that underlying training datasets are devoid of explicit negative biases related to categories such as gender, race, and religion.
+By identifying and rectifying these biases, Wordview attempts to help with the creation of more inclusive, fair, and unbiased NLP applications.
+Bias analysis is currently based on sentiment-analysis and a predefined set of categories, but we are working hard to extend it and make it better in many ways.
 
 .. raw:: html
 
@@ -112,6 +116,6 @@ Wordview offers a number of utility functions that you can use for common pre an
 
 Contributing
 ############
-Thank you for contributing to wordview! We and the users of this repo
-appreciate your efforts! You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
+We are just getting started with Wordview and are looking to make Wordview a go-to solution for anyone who loves NLP and knows and appreciates the actual value of data and data analysis. But that requires help from the community. So, we are looking forward to seeing you join Wordview as a collaborator.
+You can visit the `contributing page <CONTRIBUTING.rst>`__ for detailed instructions about how you can contribute to Wordview.
 
