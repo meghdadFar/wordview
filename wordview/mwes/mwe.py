@@ -43,7 +43,7 @@ class MWE:
         language: str = "EN",
         custom_patterns: Optional[str] = None,
         only_custom_patterns: bool = False,
-        mwe_frequency_threshold: int = 3,
+        mwe_frequency_threshold: int = 10,
         association_threshold: float = 1.0,
     ) -> None:
         """Initializes a new instance of MWE class.
@@ -64,7 +64,7 @@ class MWE:
                 ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
                 ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase'''
             only_custom_pattern: If True, only the custom pattern will be used to extract MWEs, otherwise, the default patterns will be used as well.
-            mwe_frequency_threshold: The minimum frequency of an MWE to be considered for extraction. Defaults to 3.
+            mwe_frequency_threshold: The minimum frequency of an MWE to be considered for extraction. Defaults to 10.
             association_threshold: A threshold value for the association measure. Only MWEs with an association measure above this threshold will be returned.
 
             Returns:
@@ -151,6 +151,7 @@ class MWE:
             "MWE Type": "MWE instance 1": "Association measure", "MWE instance 2": "Association measure", ...\n
         - There could be other custom types in which case you should just mention the dictionary key.\n
         - Depending on a parameter N set by the user, each MWE type contains at most N instances. But it can contain less or even 0.
+        - Return the association measures that you read from the dictionary with only two decimal places.
         """
         chat_history = [
             {"role": "system", "content": base_content},
