@@ -27,7 +27,6 @@ call the `chat` method to interact with the data and get insights from it via Na
 
 The chat UI is available under http://127.0.0.1:5000/
 
-|chat_stats|
 
 Chat with MWEs
 ~~~~~~~~~~~~~~
@@ -62,8 +61,7 @@ After allowing Wordview to extract MWEs, you can call the `chat` method to get i
 
 The chat UI for MWEs is available under http://127.0.0.1:5001/
 
-|chat_mwe|
 
-.. |chat_stats| image:: ../figs/chat_stats.png
+|chat|
 
-.. |chat_mwe| image:: ../figs/chat_mwe.png
+.. |chat| image:: ../figs/chat.png
