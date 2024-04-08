@@ -26,12 +26,45 @@
             display: flex;
             flex-direction: column;
         }
-        .message-container {
+        /* .message-container {
             padding: 20px;
             overflow-y: auto;
             flex-grow: 1;
-            margin-bottom: 10px; /* Adjusted to add space at the bottom */
+            margin-bottom: 10px;
+        } */
+        .message-container {
+            overflow-y: auto; /* Enables vertical scrolling */
+            max-height: 500px; /* Set a max-height that fits your design */
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%; /* Ensure it fills the container */
+            box-sizing: border-box; /* Include padding and border in the width and height */
+            position: relative;
         }
+        /* Styling the scrollbar itself */
+        .message-container::-webkit-scrollbar {
+            width: 10px; /* Adjust the width of the scrollbar */
+        }
+        /* Styling the track (part the thumb slides within) */
+        .message-container::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light grey background on the track */
+            border-radius: 10px; /* Rounded corners on the track */
+        }
+
+        /* Styling the thumb (the part that you drag) */
+        .message-container::-webkit-scrollbar-thumb {
+            background: #888; /* Dark grey thumb */
+            border-radius: 10px; /* Rounded corners on the thumb */
+        }
+
+        /* Handle on hover */
+        .message-container::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Darker grey on hover */
+        }
+
+
+
+
         /* Standard Oval Style of Message Bubbles */
         /*
         .message {
@@ -147,7 +180,7 @@
         button:hover {
             background-color: #f0f0f0;
         }
-        ::-webkit-scrollbar {
+        /* ::-webkit-scrollbar {
             width: 5px;
         }
         ::-webkit-scrollbar-track {
@@ -155,10 +188,10 @@
         }
         ::-webkit-scrollbar-thumb {
             background: #888;
-        }
-        ::-webkit-scrollbar-thumb:hover {
+        } */
+        /* ::-webkit-scrollbar-thumb:hover {
             background: #555;
-        }
+        } */
     </style>    
 </head>
 <body>
