@@ -10,7 +10,7 @@ import plotly
 import plotly.graph_objs as go
 from langdetect import detect
 from nltk.corpus import stopwords
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 from plotly.subplots import make_subplots
 from tqdm import tqdm
 from wordcloud import WordCloud, get_single_color_func
@@ -337,17 +337,22 @@ def do_txt_analysis(
         ls = detect(text).upper()
         languages.update([ls])
         try:
-            tokens = text.lower().split(" ")
-            doc_lengths.append(len(tokens))
+            doc_len = 0
+            doc_tokens = []
             sentences = sent_tokenize(text.lower())
             for sentence in sentences:
-                sentence_tokens = sentence.split(" ")
+                sentence_tokens = word_tokenize(sentence)
                 sentence_lengths.append(len(sentence_tokens))
+                doc_len += len(sentence_tokens)
+                doc_tokens.extend(sentence_tokens)
+            doc_lengths.append(doc_len)
             if skip_stopwords_punc:
-                tokens = [
-                    t for t in tokens if t not in stop_words and t not in punctuations
+                doc_tokens = [
+                    t
+                    for t in doc_tokens
+                    if t not in stop_words and t not in punctuations
                 ]
-                update_count(token_to_count_dict, tokens)
+                update_count(token_to_count_dict, doc_tokens)
 
         except Exception as e:
             logger.warning(
@@ -355,7 +360,7 @@ def do_txt_analysis(
             )
             continue
 
-        postag_tokens = nltk.pos_tag(tokens)
+        postag_tokens = nltk.pos_tag(doc_tokens)
 
         for pos in pos_tags:
             pos_items = get_pos(postag_tokens, pos)
