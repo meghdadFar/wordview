@@ -1,3 +1,10 @@
+Version 1.4.0
+-------------
+- Chat feature for MWE.
+- Improve chat UI.
+- MWE and text analysis improvements.
+
+
 Version 1.3.0
 -------------
 - Chat feature for text analysis.
