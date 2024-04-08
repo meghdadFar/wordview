@@ -1,3 +1,4 @@
+import json
 import re
 import string
 import threading
@@ -42,6 +43,8 @@ class MWE:
         language: str = "EN",
         custom_patterns: Optional[str] = None,
         only_custom_patterns: bool = False,
+        mwe_frequency_threshold: int = 3,
+        association_threshold: float = 1.0,
     ) -> None:
         """Initializes a new instance of MWE class.
 
@@ -61,6 +64,8 @@ class MWE:
                 ADJP: {<RB|RBR|RBS>*<JJ>} # Adjective phrase
                 ADVP: {<RB.*>+<VB.*><RB.*>*} # Adverb phrase'''
             only_custom_pattern: If True, only the custom pattern will be used to extract MWEs, otherwise, the default patterns will be used as well.
+            mwe_frequency_threshold: The minimum frequency of an MWE to be considered for extraction. Defaults to 3.
+            association_threshold: A threshold value for the association measure. Only MWEs with an association measure above this threshold will be returned.
 
             Returns:
                 None
@@ -69,6 +74,21 @@ class MWE:
         self.mwes: dict[str, dict[str, float]] = {}
         self.reader = DataFrameReader(df, text_column)
         self.mwe_extractor = None
+        self.counts = {}
+        self.association_threshold = association_threshold
+        self.mwe_frequency_threshold = mwe_frequency_threshold
+
+        if ngram_count_source:
+            self.counts = ngram_count_source
+        elif ngram_count_file_path:
+            try:
+                self.counts = self._load_ngram_counts(ngram_count_file_path)
+            except ValueError as e:
+                raise ValueError(
+                    "Failed to load n-gram counts. Ensure the file path is correct."
+                ) from e
+            except Exception as e:
+                raise Exception(f"An unexpected error occurred: {str(e)}") from e
 
         mwe_patterns: str = ""
         if language == "EN":
@@ -96,12 +116,14 @@ class MWE:
                 mwe_patterns += "\n" + custom_patterns
 
         # Create an MWEPatternAssociation extractor object
-        self.mwe_extractor = MWEPatternAssociation(
+        self.mwe_extractor = MWEPatternCountAssociation(
             association_measure=PMICalculator(
-                ngram_count_source=ngram_count_source,
-                ngram_count_file_path=ngram_count_file_path,
+                ngram_count_source=self.counts,
             ),
             custom_pattern=mwe_patterns,
+            count_source=self.counts,
+            mwe_frequency_threshold=self.mwe_frequency_threshold,
+            association_threshold=self.association_threshold,
         )
 
     def chat(self, api_key: str = ""):
@@ -159,6 +181,11 @@ class MWE:
 
         flask_thread = threading.Thread(target=run)
         flask_thread.start()
+
+    def _load_ngram_counts(self, count_file_path) -> dict[str, int]:
+        with open(count_file_path, "r") as file:
+            counts = json.load(file)
+        return counts
 
     def extract_mwes(
         self,
@@ -229,16 +256,26 @@ class MWE:
         print(final_table)
 
 
-class MWEPatternAssociation:
+class MWEPatternCountAssociation:
     """Extract MWE candidates from a list of tokens based on a given pattern."""
 
-    def __init__(self, association_measure: PMICalculator, custom_pattern: str) -> None:
+    def __init__(
+        self,
+        association_measure: PMICalculator,
+        custom_pattern: str,
+        count_source: dict,
+        mwe_frequency_threshold: int,
+        association_threshold: float,
+    ) -> None:
         """Initializes a new instance of MWEExtractor class.
 
         Args:
             association_measure: An instance of an association measure class.
             custom_pattern: A string pattern to match against the tokens.
                      See the examples of the user-defined patterns below.
+            count_source: A dictionary containing ngram counts.
+            mwe_frequency_threshold: The minimum frequency of an MWE to be considered for extraction.
+            association_threshold: A threshold value for the association measure. Only MWEs with an association measure above this threshold will be returned.
 
             Examples of user-defined patterns:
             - NP: {<DT>?<JJ>*<NN>} # Noun phrase
@@ -257,6 +294,9 @@ class MWEPatternAssociation:
         """
         self.pattern = custom_pattern
         self.association_measure = association_measure
+        self.counts = count_source
+        self.mwe_frequency_threshold = mwe_frequency_threshold
+        self.association_threshold = association_threshold
 
     def _extract_mwe_candidates(self, tokens: list[str]) -> dict:
         """
@@ -266,8 +306,7 @@ class MWEPatternAssociation:
             tokens (list[str]): A list of tokens from which mwe candidates are to be extracted.
 
         Returns:
-            match_counter (dict[str, dict[str, int]]): A counter dictionary with count of matched strings, grouped by pattern label.
-                                                    An empty list if none were found.
+            matches
         """
 
         def get_pos_tags(tokens: list[str]) -> list[tuple[str, str]]:
@@ -317,7 +356,6 @@ class MWEPatternAssociation:
 
         Args:
             tokens: A list of tokens from which mwe candidates are to be extracted.
-            threshold: A threshold value for the association measure. Only MWEs with an association measure above this threshold will be returned.
 
         Returns:
             A dictionary containing the MWEs and their association measures.
@@ -329,9 +367,10 @@ class MWEPatternAssociation:
             if mwe_type not in mwes:
                 mwes[mwe_type] = {}
             for mwe_candidate in candidate_set:
-                association = self.association_measure.compute_association(
-                    mwe_candidate
-                )
-                if association > threshold:
-                    mwes[mwe_type][mwe_candidate] = association
+                if self.counts.get(mwe_candidate, 0) >= self.mwe_frequency_threshold:  # type: ignore
+                    association = self.association_measure.compute_association(
+                        mwe_candidate
+                    )
+                    if association > self.association_threshold:
+                        mwes[mwe_type][mwe_candidate] = association
         return mwes
