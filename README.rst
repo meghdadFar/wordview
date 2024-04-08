@@ -107,12 +107,12 @@ Worldview integrates GPT-3.5-Turbo to enable the users to interact with their da
 .. raw:: html
 
    <div style="text-align: center;">
-       <img src="sphinx-docs/figs/chat.png" alt="ChatImage" style="width: 70%; height: auto;">
+       <img src="sphinx-docs/figs/chat_stats.png" alt="ChatImage" style="width: 65%; height: auto;">
    </div>
 
 Utilities
 *********
-Wordview offers a number of utility functions that you can use for common pre and post processing tasks in NLP.
+Wordview offers a number of utility functions that you can use for common pre and post-processing tasks in NLP.
 
 Contributing
 ############
