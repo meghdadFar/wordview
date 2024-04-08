@@ -1,11 +1,14 @@
 import re
 import string
+import threading
 from re import Match
 from typing import Optional
 
 import nltk
 import pandas
+from flask import Flask, jsonify, request, send_from_directory
 from nltk import RegexpParser, word_tokenize
+from openai import OpenAI
 from tabulate import tabulate  # type: ignore
 from tqdm import tqdm
 
@@ -26,7 +29,9 @@ check_nltk_resources()
 
 
 class MWE:
-    """Extract MWEs of type LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus."""
+    """Extract MWEs of typeS:
+    LVC, VPC, Noun Compounds, Adjective Compounds, and custom patterns from a text corpus.
+    """
 
     def __init__(
         self,
@@ -99,19 +104,75 @@ class MWE:
             custom_pattern=mwe_patterns,
         )
 
+    def chat(self, api_key: str = ""):
+        """Chat with OpenAI's latest model about MWEs .
+        Access the chat UI in your localhost under http://127.0.0.1:5001/
+
+        Args:
+            api_key: OpenAI API key.
+
+        Returns:
+            None
+        """
+        self.api_key = api_key
+        self.chat_client = OpenAI(api_key=api_key)
+        base_content = f"""Answer any questions about the Multiword Expressions (MWEs) that extracted from the uploaded text corpus by Wordview and are presented in the following MWEs dictionary.
+        \n\n
+        ------------------------------
+        MWEs dictionary:
+        ------------------------------
+        {self.mwes}
+        \n\n
+        Important Points:\n
+        - Answer the questions without including "According/based on to MWEs dictionary".\n
+        - The format of the above dictionary is as follows:\n
+            "MWE Type": "MWE instance 1": "Association measure", "MWE instance 2": "Association measure", ...\n
+        - There could be other custom types in which case you should just mention the dictionary key.\n
+        - Depending on a parameter N set by the user, each MWE type contains at most N instances. But it can contain less or even 0.
+        """
+        chat_history = [
+            {"role": "system", "content": base_content},
+        ]
+        app = Flask(__name__, static_folder="path_to_your_ui_folder")
+
+        @app.route("/")
+        def index():
+            return send_from_directory("../chat_ui", "chat.html")
+
+        @app.route("/chat", methods=["POST"])
+        def chat():
+            user_input = request.json["message"]
+            chat_history.append({"role": "user", "content": user_input})
+            response = (
+                self.chat_client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=chat_history,
+                )
+                .choices[0]
+                .message.content
+            )
+            chat_history.append({"role": "assistant", "content": response})
+            return jsonify({"reply": response})
+
+        def run():
+            app.run(port=5001)
+
+        flask_thread = threading.Thread(target=run)
+        flask_thread.start()
+
     def extract_mwes(
         self,
         sort: bool = True,
         top_n: Optional[int] = None,
     ) -> dict[str, dict[str, float]]:
-        """Extract MWEs from the text corpus.
+        """Extract MWEs from the text corpus and add them to self.mwes.
 
         Args:
             sort: If True, the MWEs will be sorted in descending order of association measure.
             top_n: If provided, only the top n MWEs will be returned.
 
         Returns:
-            A dictionary containing the MWEs and their association measures.
+            None.
         """
         for sentence in tqdm(self.reader.get_sentences()):
             try:

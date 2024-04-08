@@ -127,7 +127,7 @@ class TextStatsPlots:
 
         @app.route("/")
         def index():
-            return send_from_directory("chat", "chat.html")
+            return send_from_directory("../chat_ui", "chat.html")
 
         @app.route("/chat", methods=["POST"])
         def chat():
