@@ -58,7 +58,6 @@
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat.html">Chat with Wordview</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
 <ul>
@@ -127,17 +126,14 @@ the documentation.</p>
                <span class="n">custom_patterns</span><span class="o">=</span><span class="s2">&quot;NP: {&lt;DT&gt;?&lt;JJ&gt;*&lt;NN&gt;}&quot;</span><span class="p">,</span>
                <span class="n">only_custom_patterns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                <span class="p">)</span>
- <span class="n">mwe_obj</span><span class="o">.</span><span class="n">extract_mwes</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
- <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">mwe_obj</span><span class="o">.</span><span class="n">mwes</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/mwes.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+ <span class="n">mwes</span> <span class="o">=</span> <span class="n">mwe_obj</span><span class="o">.</span><span class="n">extract_mwes</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+ <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">mwes</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/mwes.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The above returns the results in a dictionary, that in this example we stored in a json file called <cite>data/mwes.json</cite>.
+<p>The above returns the results in a dictionary, that in this example we stored in <cite>mwes.json</cite> file.
 You can also return the result in a table:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mwe_obj</span><span class="o">.</span><span class="n">print_mwe_table</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Which will return a table like this:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>╔═════════════════════════╦═══════════════╗
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>mwe_obj.print_mwe_table()
+╔═════════════════════════╦═══════════════╗
 ║ LVC                     ║   Association ║
 ╠═════════════════════════╬═══════════════╣
 ║ SHOOT the binding       ║         26.02 ║

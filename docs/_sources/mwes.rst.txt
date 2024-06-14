@@ -32,20 +32,16 @@ the documentation.
                   custom_patterns="NP: {<DT>?<JJ>*<NN>}",
                   only_custom_patterns=False,
                   )
-    mwe_obj.extract_mwes(sort=True, top_n=10)
-    json.dump(mwe_obj.mwes, open('data/mwes.json', 'w'), indent=4)
+    mwes = mwe_obj.extract_mwes(sort=True, top_n=10)
+    json.dump(mwes, open('data/mwes.json', 'w'), indent=4)
+    
 
-The above returns the results in a dictionary, that in this example we stored in a json file called `data/mwes.json`.
+The above returns the results in a dictionary, that in this example we stored in `mwes.json` file.
 You can also return the result in a table:
 
 .. code-block:: python
 
     mwe_obj.print_mwe_table()
-
-Which will return a table like this:
-
-.. code-block:: text
-
     ╔═════════════════════════╦═══════════════╗
     ║ LVC                     ║   Association ║
     ╠═════════════════════════╬═══════════════╣

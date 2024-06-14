@@ -118,7 +118,7 @@ class TextStatsPlots:
         ------------------------------
         {self.return_stats()}
         \n\n
-        Do NOT say according to Wordview Analysis dictionary.
+        Answer the questions without adding According to or Based on to the Wordview Analysis dictionary.
         """
         chat_history = [
             {"role": "system", "content": base_content},
