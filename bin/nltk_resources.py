@@ -9,7 +9,8 @@ def check_nltk_resources():
     resources = {
         'tokenizers/punkt': 'punkt',
         'corpora/stopwords': 'stopwords',
-        'taggers/averaged_perceptron_tagger': 'averaged_perceptron_tagger'
+        'taggers/averaged_perceptron_tagger': 'averaged_perceptron_tagger',
+        'chunkers/maxent_ne_chunker': 'maxent_ne_chunker'
     }
 
     for path, package in resources.items():

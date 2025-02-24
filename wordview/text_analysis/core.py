@@ -332,6 +332,9 @@ def do_txt_analysis(
     word_count_by_pos: Dict[str, dict] = {pos: {} for pos in pos_tags}
     languages = set()
 
+    ne_tag_counts: Dict[str, int] = {}
+    named_entity_counts: Dict[str, int] = {}
+
     logger.info("Processing text in %s column of the input DataFrame..." % text_col)
     for text in tqdm(df[text_col]):
         ls = detect(text).upper()
@@ -339,6 +342,10 @@ def do_txt_analysis(
         try:
             doc_len = 0
             doc_tokens = []
+
+            # keep the original case for named entity recognition
+            doc_tokens_ne = word_tokenize(text)
+
             sentences = sent_tokenize(text.lower())
             for sentence in sentences:
                 sentence_tokens = word_tokenize(sentence)
@@ -365,6 +372,16 @@ def do_txt_analysis(
         for pos in pos_tags:
             pos_items = get_pos(postag_tokens, pos)
             update_count(word_count_by_pos[pos], pos_items)
+
+        postag_tokens_ne = nltk.pos_tag(doc_tokens_ne)
+        named_entities = nltk.ne_chunk(postag_tokens_ne)
+
+        for entity in named_entities:
+            if isinstance(entity, nltk.Tree):
+                label = entity.label()
+                word = " ".join(word for word, tag in entity.leaves())
+                ne_tag_counts[label] = ne_tag_counts.get(label, 0) + 1
+                named_entity_counts[word] = named_entity_counts.get(word, 0) + 1
 
     freq_df = pd.DataFrame(
         {"tokens": token_to_count_dict.keys(), "count": token_to_count_dict.values()}
@@ -406,6 +423,8 @@ def do_txt_analysis(
         median_doc_len=median(doc_lengths),
         word_count_by_pos=word_count_by_pos,
         token_to_count_dict=token_to_count_dict,
+        ne_tag_counts=ne_tag_counts,
+        named_entity_counts=named_entity_counts,
     )
 
 
@@ -424,6 +443,8 @@ class TxtAnalysisFields:
         median_doc_len,
         word_count_by_pos,
         token_to_count_dict,
+        ne_tag_counts,
+        named_entity_counts,
     ):
         self.doc_lengths = doc_lengths
         self.sentence_lengths = sentence_lengths
@@ -437,3 +458,5 @@ class TxtAnalysisFields:
         self.median_doc_len = median_doc_len
         self.word_count_by_pos = word_count_by_pos
         self.token_to_count_dict = token_to_count_dict
+        self.ne_tag_counts = ne_tag_counts
+        self.named_entity_counts = named_entity_counts

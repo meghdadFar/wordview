@@ -40,4 +40,14 @@ labels (e.g. Named Entity tags such as PER, LOC). Wordview offers
 functions to see the overall and document-level distribution of sequence
 labels.
 
+Once you have instantiated your ``TextStatsPlots`` object, you can use
+the following function to see the distribution of sequence-level labels:
+
+.. code:: python
+
+   ta.show_sequence_label_plots()
+
+|sequence_labels|
+
 .. |labels| image:: ../figs/labels_peach.png
+.. |sequence_labels| image:: ../figs/sequence_labels.png
