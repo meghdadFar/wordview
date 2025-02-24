@@ -62,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="anomalies.html">Analysis of Anomalies &amp; Outliers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat.html">Chat with Wordview</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
 <ul>
@@ -136,6 +137,12 @@ labels are provided in a <code class="docutils literal notranslate"><span class=
 labels (e.g. Named Entity tags such as PER, LOC). Wordview offers
 functions to see the overall and document-level distribution of sequence
 labels.</p>
+<p>Once you have instantiated your <code class="docutils literal notranslate"><span class="pre">TextStatsPlots</span></code> object, you can use
+the following function to see the distribution of sequence-level labels:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ta</span><span class="o">.</span><span class="n">show_sequence_label_plots</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="sequence_labels" src="_images/sequence_labels.png" /></p>
 </section>
 </section>
 

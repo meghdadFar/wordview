@@ -79,6 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_bar_plots"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_bar_plots()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_distplot"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_distplot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_insights"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_insights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_sequence_label_plots"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_sequence_label_plots()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_stats"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_stats()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wordview.text_analysis.TextStatsPlots.show_word_clouds"><code class="docutils literal notranslate"><span class="pre">TextStatsPlots.show_word_clouds()</span></code></a></li>
 </ul>
@@ -297,6 +298,33 @@ For example, for <cite>word_frequency_zipf</cite> and <cite>doc_len</cite> plots
 <dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.show_insights">
 <span class="sig-name descname"><span class="pre">show_insights</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_insights" title="Permalink to this definition"></a></dt>
 <dd><p>Prints insights about the dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wordview.text_analysis.TextStatsPlots.show_sequence_label_plots">
+<span class="sig-name descname"><span class="pre">show_sequence_label_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#wordview.text_analysis.TextStatsPlots.show_sequence_label_plots" title="Permalink to this definition"></a></dt>
+<dd><p>Shows Named Entity Recognition (NER) plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layout_settings</strong> – <p>To customize the plot layout. For example:
+layout_settings = {‘plot_bgcolor’:’rgba(245, 245, 245, 1)’,</p>
+<blockquote>
+<div><p>’paper_bgcolor’: ‘rgba(255, 255, 255, 1)’,
+‘hovermode’: ‘y’</p>
+<blockquote>
+<div><p>}</p>
+</div></blockquote>
+</div></blockquote>
+</p></li>
+<li><p><strong>example</strong> (<em>plot_settings = To customize the plot colors and other attributes. For</em>) – <dl class="simple">
+<dt>{‘color’: ‘darkgreen’,</dt><dd><p>’max_words’: 200}</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

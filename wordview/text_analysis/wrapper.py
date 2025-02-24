@@ -4,6 +4,7 @@ from typing import Any, Tuple
 import pandas
 import plotly.figure_factory as ff
 import plotly.graph_objs as go
+import plotly.subplots as sp
 from flask import Flask, jsonify, request, send_from_directory
 from openai import OpenAI
 from tabulate import tabulate  # type: ignore
@@ -98,6 +99,8 @@ class TextStatsPlots:
         self.pos_counts = {
             k: len(v) for k, v in self.analysis.word_count_by_pos.items()
         }
+        self.ne_tag_counts = self.analysis.ne_tag_counts
+        self.named_entity_counts = self.analysis.named_entity_counts
 
     def chat(self, api_key: str = ""):
         """Chat with OpenAI's latest model about the results of Wordview's text analysis.
@@ -351,6 +354,53 @@ class TextStatsPlots:
         """
 
         self._create_pos_plots(pos, "bar_plot", layout_settings, plot_settings).show()
+
+    def _create_sequence_label_plots(
+        self,
+        layout_settings: dict[str, Any] = {},
+        plot_settings: dict[str, str] = {},
+    ) -> go.Figure:
+        """Creates Named Entity Recognition (NER) plots."""
+        res = sp.make_subplots(
+            rows=2,
+            cols=1,
+            subplot_titles=("Named Entity Tags", "Named Entities"),
+            shared_yaxes=True,
+        )
+        res.add_trace(
+            plotly_barplot(self.ne_tag_counts, plot_settings),
+            row=1,
+            col=1,
+        )
+        res.add_trace(
+            plotly_barplot(self.named_entity_counts, plot_settings),
+            row=2,
+            col=1,
+        )
+        res.update_layout(
+            layout_settings
+            or {"showlegend": False, "yaxis_title": "Count", "height": 600}
+        )
+        return res
+
+    def show_sequence_label_plots(
+        self,
+        layout_settings: dict[str, Any] = {},
+        plot_settings: dict[str, str] = {},
+    ) -> None:
+        """Shows Named Entity Recognition (NER) plots.
+
+        Args:
+            layout_settings: To customize the plot layout. For example:
+                layout_settings = {'plot_bgcolor':'rgba(245, 245, 245, 1)',
+                   'paper_bgcolor': 'rgba(255, 255, 255, 1)',
+                   'hovermode': 'y'
+                    }
+            plot_settings = To customize the plot colors and other attributes. For example:
+                {'color': 'darkgreen',
+                    'max_words': 200}
+        """
+        self._create_sequence_label_plots(layout_settings, plot_settings).show()
 
     def show_stats(self) -> None:
         """Print dataset statistics, including:
