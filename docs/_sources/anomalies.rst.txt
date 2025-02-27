@@ -11,9 +11,13 @@ classifier. On the other hand, sometimes anomalies the most interesting
 part of our data and those are the ones that we are looking for.
 You can use ``wordview`` to identify anomalies in your data. For instance,
 you can use ``NormalDistAnomalies`` to identify anomalies based on (the normalized)
-distribution of your data. See a worked example below. 
+distribution of your data. In case you want to use more than one feature
+or your feature cannot be gaussianized, you can use ``SVMAnomalies``.
+See a worked example below.
 
 .. code:: python
+
+   import pandas as pd
 
    from wordview.anomaly import NormalDistAnomalies
    from sklearn.feature_extraction.text import TfidfVectorizer
@@ -21,13 +25,22 @@ distribution of your data. See a worked example below.
    # Create a score for words.
    # It can be e.g. word frequency 
    tsp = TextStatsPlots(df=imdb_train, text_column='text')
-   token_score_dict = tsp.analysis.token_to_count_dict
+   count_dict = tsp.analysis.token_to_count_dict
    # or it can be the inverse document frequency (IDF)
    vectorizer = TfidfVectorizer(min_df=1)
    X = vectorizer.fit_transform(imdb_train["text"])
    idf = vectorizer.idf_
-   token_score_dict = dict(zip(vectorizer.get_feature_names(), idf))
+   idf_dict = dict(zip(vectorizer.get_feature_names(), idf))
+
+   # Create a dataframe with the scores.
+   df = pd.DataFrame([count_dict, idf_dict]).T.dropna()
+   df.columns = ['count', 'idf']
+   df.reset_index().rename(columns={'index': 'item'})
    
    # Use NormalDistAnomalies to identify anomalies.
-   nda = NormalDistAnomalies(items=token_score_dict)
+   nda = NormalDistAnomalies(items=df, val_name='idf')
    nda.anomalous_items()
+
+   # Use SVMAnomalies for multiple features or non-gaussian features.
+   svma = SVMAnomalies(items=df, val_names=['count', 'idf'])
+   svma.anomalous_items()

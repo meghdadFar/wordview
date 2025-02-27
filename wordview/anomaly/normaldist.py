@@ -13,39 +13,38 @@ from wordview.anomaly import gaussianize
 class NormalDistAnomalies(object):
     def __init__(
         self,
-        items: Dict,
+        items: pd.DataFrame,
         val_name: str = "representative_value",
         gaussianization_strategy: str = "brute",
     ):
         """Identify anomalies on a normal distribution.
 
         Args:
-            items: A dictionary of items and their representative value, such as word_count, idf, etc.
-            val_name: Name of the value in the above dictionary. i.e. word_count, idf, etc. Defaults to `representative_value`.
+            items: A data frame with items and their representative value, such as word_count, idf, etc.
+            val_name: Name of the value in the above data frame. i.e. word_count, idf, etc. Defaults to `representative_value`.
             gaussianization_strategy: Strategy for gaussianization. Can be any of lambert, brute, or boxcox. Defaults = `brute`.
 
         Returns:
             None
         """
+        self.items = items
         self.val_name = val_name
         self.gaussianization_strategy = gaussianization_strategy
-        self.item_value_df = pd.DataFrame(
-            items.items(), columns=["item", self.val_name]
-        )
+
         # Gaussianize values
-        g_ersults = self._gaussianize_values(
-            self.item_value_df[self.val_name], strategy=self.gaussianization_strategy
+        g_results = self._gaussianize_values(
+            self.items[self.val_name], strategy=self.gaussianization_strategy
         )
-        if shapiro(g_ersults).pvalue > 0.05:
-            self.item_value_df["guassian_values"] = g_ersults
+        if shapiro(g_results).pvalue > 0.05:
+            self.items["gaussian_values"] = g_results
             # Calculate normal prob of gaussianized values
             dist = norm(
-                loc=np.mean(self.item_value_df["guassian_values"]),
-                scale=np.std(self.item_value_df["guassian_values"]),
+                loc=np.mean(self.items["gaussian_values"]),
+                scale=np.std(self.items["gaussian_values"]),
             )
-            self.item_value_df["normal_prob"] = self.item_value_df[
-                "guassian_values"
-            ].apply(lambda x: dist.pdf(x))
+            self.items["normal_prob"] = self.items["gaussian_values"].apply(
+                lambda x: dist.pdf(x)
+            )
         else:
             logger.error(
                 "The provided values cannot be gaussianized. Please consider using another anomaly detection method."
@@ -86,9 +85,7 @@ class NormalDistAnomalies(object):
 
         """
         anomalous_items = set(
-            self.item_value_df[self.item_value_df["normal_prob"] < prob][
-                "item"
-            ].to_list()
+            self.items[self.items["normal_prob"] < prob]["item"].to_list()
         )
         return anomalous_items
 
@@ -102,15 +99,15 @@ class NormalDistAnomalies(object):
         Returns:
             Set of anomalous items.
         """
-        z = zscore(self.item_value_df["guassian_values"])
-        self.item_value_df["zscore"] = z
+        z = zscore(self.items["gaussian_values"])
+        self.items["zscore"] = z
         anomalies_set = set()
-        for i in range(len(self.item_value_df)):
+        for i in range(len(self.items)):
             if (
-                self.item_value_df.iloc[i]["zscore"] <= -z_value
-                or self.item_value_df.iloc[i]["zscore"] >= z_value
+                self.items.iloc[i]["zscore"] <= -z_value
+                or self.items.iloc[i]["zscore"] >= z_value
             ):
-                anomalies_set.add(self.item_value_df.iloc[i]["item"])
+                anomalies_set.add(self.items.iloc[i]["item"])
         return anomalies_set
 
     def _gaussianize_values(
