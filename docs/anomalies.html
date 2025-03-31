@@ -58,6 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bias.html">Bias Analysis</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis of Anomalies &amp; Outliers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Cluster Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat.html">Chat with Wordview</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utilities</span></p>
 <ul>
@@ -109,23 +110,36 @@ classifier. On the other hand, sometimes anomalies the most interesting
 part of our data and those are the ones that we are looking for.
 You can use <code class="docutils literal notranslate"><span class="pre">wordview</span></code> to identify anomalies in your data. For instance,
 you can use <code class="docutils literal notranslate"><span class="pre">NormalDistAnomalies</span></code> to identify anomalies based on (the normalized)
-distribution of your data. See a worked example below.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wordview.anomaly</span> <span class="kn">import</span> <span class="n">NormalDistAnomalies</span>
+distribution of your data. In case you want to use more than one feature
+or your feature cannot be gaussianized, you can use <code class="docutils literal notranslate"><span class="pre">SVMAnomalies</span></code>.
+See a worked example below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">wordview.anomaly</span> <span class="kn">import</span> <span class="n">NormalDistAnomalies</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
 
 <span class="c1"># Create a score for words.</span>
 <span class="c1"># It can be e.g. word frequency</span>
 <span class="n">tsp</span> <span class="o">=</span> <span class="n">TextStatsPlots</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">imdb_train</span><span class="p">,</span> <span class="n">text_column</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
-<span class="n">token_score_dict</span> <span class="o">=</span> <span class="n">tsp</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">token_to_count_dict</span>
+<span class="n">count_dict</span> <span class="o">=</span> <span class="n">tsp</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">token_to_count_dict</span>
 <span class="c1"># or it can be the inverse document frequency (IDF)</span>
 <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">imdb_train</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
 <span class="n">idf</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">idf_</span>
-<span class="n">token_score_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="n">idf</span><span class="p">))</span>
+<span class="n">idf_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="n">idf</span><span class="p">))</span>
+
+<span class="c1"># Create a dataframe with the scores.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">count_dict</span><span class="p">,</span> <span class="n">idf_dict</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;idf&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;item&#39;</span><span class="p">})</span>
 
 <span class="c1"># Use NormalDistAnomalies to identify anomalies.</span>
-<span class="n">nda</span> <span class="o">=</span> <span class="n">NormalDistAnomalies</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">token_score_dict</span><span class="p">)</span>
+<span class="n">nda</span> <span class="o">=</span> <span class="n">NormalDistAnomalies</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">val_name</span><span class="o">=</span><span class="s1">&#39;idf&#39;</span><span class="p">)</span>
 <span class="n">nda</span><span class="o">.</span><span class="n">anomalous_items</span><span class="p">()</span>
+
+<span class="c1"># Use SVMAnomalies for multiple features or non-gaussian features.</span>
+<span class="n">svma</span> <span class="o">=</span> <span class="n">SVMAnomalies</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">val_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;idf&#39;</span><span class="p">])</span>
+<span class="n">svma</span><span class="o">.</span><span class="n">anomalous_items</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
