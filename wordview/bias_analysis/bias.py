@@ -73,11 +73,9 @@ class BiasDetector:
                         if word not in string.punctuation
                     ]
                 except Exception as E:
-                    logger.warning(
-                        f"Could not word tokenize sentence: {sentence}.\
+                    logger.warning(f"Could not word tokenize sentence: {sentence}.\
                                 \n{E}.\
-                                \nSkipping this sentence."
-                    )
+                                \nSkipping this sentence.")
                     continue
                 if tokens:
                     intersection = set(tokens).intersection(
@@ -169,10 +167,8 @@ class BiasDetector:
         elif isinstance(colorscale, str) or isinstance(colorscale, list):
             scopecolorscale = colorscale  # type: ignore
         else:
-            raise ValueError(
-                f"Invalid colorscale value: {colorscale}.\
-                    \nMust be a string or list of lists."
-            )
+            raise ValueError(f"Invalid colorscale value: {colorscale}.\
+                    \nMust be a string or list of lists.")
 
         for index, (category, sub_data) in enumerate(self.biases.items()):
             labels = list(sub_data.keys())

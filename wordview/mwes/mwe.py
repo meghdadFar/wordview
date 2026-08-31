@@ -210,11 +210,9 @@ class MWE:
                     if word not in string.punctuation
                 ]
             except Exception as E:
-                logger.warning(
-                    f"Could not word tokenize sentence: {sentence}.\
+                logger.warning(f"Could not word tokenize sentence: {sentence}.\
                             \n{E}.\
-                            \nSkipping this sentence."
-                )
+                            \nSkipping this sentence.")
                 continue
             if tokens:
                 returned_dict = self.mwe_extractor._measure_candidate_association(  # type: ignore

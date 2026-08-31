@@ -1,13 +1,13 @@
 repos:
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 9.0.1
     hooks:
       - id: isort
         files: ^wordview/
         name: isort (python)
         args: ["--profile", "black"]
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.5.1
     hooks:
       - id: black
         files: ^wordview/
@@ -17,14 +17,14 @@ repos:
         # https://pre-commit.com/#top_level-default_language_version
         # language_version: python3.10
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         files: ^wordview/
         # For error codes see: https://flake8.pycqa.org/en/latest/user/error-codes.html
         args: ["--max-line-length=88", "--ignore=E203,E266,E501,W503,W504,F403,F401,E402"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v2.3.1
     hooks:
       - id: mypy
         files: ^wordview/
