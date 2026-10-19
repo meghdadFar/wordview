@@ -63,11 +63,9 @@ class NgramExtractor:
                     if word not in string.punctuation
                 ]
             except Exception as E:
-                logger.warning(
-                    f"Could not word tokenize sentence: {sentence}.\
+                logger.warning(f"Could not word tokenize sentence: {sentence}.\
                                \n{E}.\
-                               \nSkipping this sentence."
-                )
+                               \nSkipping this sentence.")
                 continue
 
             for i in range(1, n + 1):
